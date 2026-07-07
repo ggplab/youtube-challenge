@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>유튜브 챌린지 제안서 — 2주에 1개, 3개월에 6개</title>
+<title>유튜브 챌린지 제안서: 2주에 1개, 3개월에 6개</title>
 <style>
   :root {
     --paper: #ffffff;
@@ -29,7 +29,7 @@
   }
   .doc { padding: 56px 52px 40px; }
 
-  /* ---------- 커버 ---------- */
+  /* 커버 */
   .eyebrow {
     display: inline-block;
     font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
@@ -44,7 +44,7 @@
   .lede { font-size: 16.5px; color: var(--ink-soft); max-width: 38em; margin-bottom: 10px; }
   .meta { font-size: 13.5px; color: var(--ink-faint); }
 
-  /* ---------- 섹션 공통 ---------- */
+  /* 섹션 공통 */
   section { margin-top: 50px; }
   h2 {
     font-size: 21px; font-weight: 800; letter-spacing: -0.01em;
@@ -56,16 +56,14 @@
   .soft { color: var(--ink-soft); }
   .caption { font-size: 13px; color: var(--ink-faint); }
 
-  /* ---------- 대상 카드 ---------- */
+  /* 대상 카드 */
   .whos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; margin: 18px 0 6px; }
-  .who {
-    border: 1.5px solid var(--line); border-radius: 14px; padding: 18px 18px 16px;
-  }
+  .who { border: 1.5px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; }
   .who .icon { font-size: 22px; margin-bottom: 8px; }
   .who b { display: block; font-size: 15.5px; margin-bottom: 5px; }
   .who p { font-size: 13.5px; color: var(--ink-soft); margin: 0; }
 
-  /* ---------- 인용 카드 ---------- */
+  /* 인용 카드 */
   .quotes { display: grid; gap: 11px; margin: 18px 0 12px; }
   .quote {
     border-left: 4px solid var(--accent);
@@ -76,7 +74,7 @@
   .quote b { display: block; font-size: 15.5px; margin-bottom: 3px; }
   .quote p { font-size: 14px; color: var(--ink-soft); margin: 0; }
 
-  /* ---------- 원칙 배너 ---------- */
+  /* 원칙 배너 */
   .principle {
     background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
     color: #fff; border-radius: 14px;
@@ -85,7 +83,7 @@
   .principle b { font-size: 20px; letter-spacing: -0.01em; }
   .principle span { opacity: 0.88; font-size: 14.5px; display: block; margin-top: 8px; }
 
-  /* ---------- 다이어그램 ---------- */
+  /* 다이어그램 */
   .diagram {
     background: var(--paper-warm);
     border: 1px solid var(--line);
@@ -139,7 +137,7 @@
   }
   .diagram .caption { text-align: center; margin-top: 14px; }
 
-  /* ---------- 규칙 ---------- */
+  /* 규칙 */
   .rules { display: grid; gap: 11px; margin: 18px 0 6px; }
   .rule {
     display: flex; gap: 15px; align-items: flex-start;
@@ -154,7 +152,7 @@
   }
   .rule p { margin: 0; font-size: 15px; }
 
-  /* ---------- 표 ---------- */
+  /* 표 */
   table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 16px 0 6px; }
   th, td { text-align: left; padding: 11px 14px; border: 1px solid var(--line); vertical-align: top; }
   th { background: var(--paper-warm); font-weight: 700; white-space: nowrap; }
@@ -164,25 +162,17 @@
     border-radius: 6px; padding: 2px 8px; margin-right: 6px; white-space: nowrap;
   }
 
-  /* ---------- 스탯 ---------- */
+  /* 스탯 */
   .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 18px 0 8px; }
   .stat { background: var(--accent-bg); border-radius: 12px; padding: 17px 8px; text-align: center; }
   .stat .v { font-size: 25px; font-weight: 800; color: var(--accent-dark); font-feature-settings: "tnum"; }
   .stat .k { font-size: 12.5px; color: var(--ink-soft); margin-top: 3px; }
 
-  /* ---------- 대시보드 이미지 슬롯 ---------- */
-  .shot { margin: 16px 0 6px; }
+  /* 대시보드 이미지 */
+  .shot { margin: 16px 0 6px; display: grid; gap: 10px; }
   .shot img { width: 100%; border: 1px solid var(--line); border-radius: 12px; display: block; }
-  .shot .ph {
-    display: none;
-    border: 2px dashed var(--accent-light); border-radius: 12px;
-    background: #fbfcff; color: var(--ink-faint);
-    text-align: center; padding: 60px 20px; font-size: 14px;
-  }
-  .shot.empty img { display: none; }
-  .shot.empty .ph { display: block; }
 
-  /* ---------- 선택지 ---------- */
+  /* 선택지 */
   .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0 6px; }
   .option { border: 1.5px solid var(--line); border-radius: 14px; padding: 20px 22px; }
   .option h3 { font-size: 16px; margin-bottom: 8px; }
@@ -190,9 +180,9 @@
   .option ul { list-style: none; }
   .option li { font-size: 13.5px; padding: 4px 0 4px 20px; position: relative; color: var(--ink-soft); }
   .option li::before { content: "·"; position: absolute; left: 6px; color: var(--accent); font-weight: 700; }
-  .option li.con::before { content: "–"; color: var(--ink-faint); }
+  .option li.con::before { content: "△"; font-size: 10px; color: var(--ink-faint); }
 
-  /* ---------- 액션 ---------- */
+  /* 액션 */
   .steps { counter-reset: step; margin: 18px 0 6px; display: grid; gap: 8px; }
   .step {
     display: flex; gap: 14px; align-items: baseline;
@@ -219,7 +209,7 @@
   <!-- 커버 -->
   <div class="eyebrow">CHALLENGE PROPOSAL · 2026-07</div>
   <h1>유튜브 챌린지<br><span class="hl">2주에 1개, 3개월에 6개.</span></h1>
-  <p class="lede">기획 1주 + 제작 1주의 2주 사이클을 6번. AI 워크숍으로 채널의 뼈대를 잡고, 매 사이클 기획안 검토와 영상 피드백을 받으며, 3개월 뒤 <b>검토받은 기획안 6개와 롱폼 영상 6개</b>를 손에 남기는 챌린지입니다.</p>
+  <p class="lede">기획 1주 + 제작 1주의 2주 사이클을 6번 돕니다. AI 워크숍으로 채널의 뼈대를 잡고, 매 사이클 기획안 검토와 영상 피드백을 받으며, 3개월 뒤 <b>검토받은 기획안 6개와 롱폼 영상 6개</b>를 손에 남기는 챌린지입니다.</p>
   <p class="meta">제안 · 임정 × 슬기 · 2026-07-07</p>
 
   <!-- 1. 누구를 위한 -->
@@ -237,19 +227,19 @@
     <h2><span class="no">02</span>왜 지금, 유튜브인가</h2>
     <p>『스토리 설계자』를 공부하며 정리한 세 가지가 이 챌린지의 출발점입니다.</p>
     <div class="quotes">
-      <div class="quote"><b>"사람의 주의(attention)가 가장 비싼 시대"</b><p>지식과 콘텐츠로 일하는 사람에게 가장 희소한 자원은 고객의 주의 — 지금 주의가 가장 오래 머무는 곳이 영상입니다.</p></div>
+      <div class="quote"><b>"사람의 주의(attention)가 가장 비싼 시대"</b><p>지식과 콘텐츠로 일하는 사람에게 가장 희소한 자원은 고객의 주의입니다. 지금 주의가 가장 오래 머무는 곳이 영상입니다.</p></div>
       <div class="quote"><b>콜드 트래픽을 데우는 건 짧은 노출이 아니라 긴 신뢰</b><p>유튜브 롱폼은 나를 모르는 사람을 팬으로 데우는 가장 밀도 높은 매체입니다. 글 1편이 스치는 동안 영상은 몇 분의 체류를 만듭니다.</p></div>
-      <div class="quote"><b>무료 콘텐츠가 판매의 앞단이 된다</b><p>잘 쌓인 무료 콘텐츠 라이브러리는 그 자체로 지식 비즈니스의 영업 자산 — 영상 6개는 그 라이브러리의 초석입니다.</p></div>
+      <div class="quote"><b>무료 콘텐츠가 판매의 앞단이 된다</b><p>잘 쌓인 무료 콘텐츠 라이브러리는 그 자체로 지식 비즈니스의 영업 자산입니다. 영상 6개는 그 라이브러리의 초석입니다.</p></div>
     </div>
     <p class="caption">출처: 『스토리 설계자』 스터디 노트 (2026-06)</p>
   </section>
 
   <!-- 3. 진행 구조 -->
   <section>
-    <h2><span class="no">03</span>어떻게 진행되나 — 한 장 구조</h2>
+    <h2><span class="no">03</span>어떻게 진행되나: 한 장 구조</h2>
     <div class="diagram">
       <div class="flow">
-        <div class="node"><b>온보딩</b><span>모집 확정<br>서버 합류</span></div>
+        <div class="node"><b>온보딩</b><span>모집 마감<br>07-19(일)</span></div>
         <div class="arrow">→</div>
         <div class="node dark"><b>오프라인 OT</b><span>AI 워크숍<br>청중·목표·레퍼런스</span></div>
         <div class="arrow">→</div>
@@ -260,30 +250,30 @@
             <div class="arrow">→</div>
             <div class="node video"><b>영상 1주</b><span>편집·업로드 인증<br>봇이 간단 피드백</span></div>
           </div>
-          <div class="loop">↺ 일요일 자정 마감 → 다음 사이클</div>
+          <div class="loop">↺ 일요일 자정 마감, 다음 사이클로</div>
         </div>
         <div class="arrow">→</div>
         <div class="node"><b>마무리 모임</b><span>12주 회고<br>다음 시즌 결정</span></div>
       </div>
-      <p class="caption">사이클 1의 기획 주에는 유튜브 채널 개설이 포함됩니다.</p>
+      <p class="caption">OT 워크숍과 유튜브 채널 개설은 사이클 1의 기획 주(07-20 주)에 함께 진행합니다.</p>
     </div>
     <div class="rules">
-      <div class="rule"><div class="n">1</div><p><b>기획 주</b> — 소재를 정하고 기획안(타깃·주제·구성)을 일요일 자정까지 Discord에 제출. <b>봇이 AI 검토 회신</b>을 줍니다 (후킹·타깃 적합성·구성 관점).</p></div>
-      <div class="rule"><div class="n">2</div><p><b>제작 주</b> — 촬영·편집 후 업로드하고 일요일 자정까지 <b>/인증</b>. 봇이 간단한 피드백 회신과 함께 갤러리에 기록합니다. 롱폼만 인정(쇼츠 제외).</p></div>
-      <div class="rule"><div class="n">3</div><p><b>미제출은 그대로 기록</b> — 사이클 정산 카드에 ✅/❌와 🔥연속 사이클이 자동 게시됩니다. 서로 다 보입니다.</p></div>
+      <div class="rule"><div class="n">1</div><p><b>기획 주</b>: 소재를 정하고 기획안(타깃·주제·구성)을 일요일 자정까지 Discord에 제출합니다. <b>봇이 AI 검토 회신</b>을 줍니다 (후킹·타깃 적합성·구성 관점).</p></div>
+      <div class="rule"><div class="n">2</div><p><b>제작 주</b>: 촬영·편집 후 업로드하고 일요일 자정까지 <b>/인증</b>. 봇이 간단한 피드백 회신과 함께 갤러리에 기록합니다. 롱폼만 인정하고 쇼츠는 제외합니다.</p></div>
+      <div class="rule"><div class="n">3</div><p><b>미제출은 그대로 기록</b>: 사이클 정산 카드에 ✅/❌와 🔥연속 사이클이 자동 게시됩니다. 서로 다 보입니다.</p></div>
     </div>
   </section>
 
   <!-- 4. OT 워크숍 -->
   <section>
-    <h2><span class="no">04</span>시작 전 딱 하루 — AI와 함께하는 오프라인 워크숍</h2>
-    <p>챌린지 시작 전, 오프라인으로 모여 AI와 함께 채널의 뼈대를 만듭니다 (평일 저녁 또는 토요일).</p>
+    <h2><span class="no">04</span>시작 주간의 하이라이트: AI와 함께하는 오프라인 워크숍</h2>
+    <p>사이클 1이 시작되는 주에 오프라인으로 모여 AI와 함께 채널의 뼈대를 만듭니다 (평일 저녁 또는 토요일).</p>
     <table>
       <tr><th style="width:34%">① 대상 청중 정의</th><td>누구의 어떤 문제를 다루는 채널인지 한 문장으로</td></tr>
-      <tr><th>② 채널 목표</th><td>12주 뒤 정량 목표 — 영상 6개 + 각자 추가 지표</td></tr>
+      <tr><th>② 채널 목표</th><td>12주 뒤 정량 목표: 영상 6개 + 각자 추가 지표</td></tr>
       <tr><th>③ 레퍼런스 채널 3개</th><td>AI 리서치로 벤치마크 채널을 찾고, 무엇을 배울지 분석</td></tr>
     </table>
-    <p class="soft" style="font-size:14px;">산출물: <b>채널 한 장 기획서</b> — 12주 내내 모든 기획안의 기준점이 됩니다.</p>
+    <p class="soft" style="font-size:14px;">산출물: <b>채널 한 장 기획서</b>. 12주 내내 모든 기획안의 기준점이 됩니다.</p>
     <div class="principle">
       <b>혼자 시작하면 채널 개설에서 멈춥니다.</b>
       <span>워크숍에서 방향을 잡고, 사이클 1에서 채널 개설까지 함께 끝냅니다. 이후는 시스템이 2주마다 끌고 갑니다.</span>
@@ -292,38 +282,36 @@
 
   <!-- 5. 일정 -->
   <section>
-    <h2><span class="no">05</span>일정 — 7월 21일 주 시작</h2>
+    <h2><span class="no">05</span>일정: 7월 21일 주 시작</h2>
     <table>
-      <tr><th style="width:30%">온보딩</th><td>~ 07-12 · 모집 확정, Discord 합류</td></tr>
-      <tr><th>오프라인 OT</th><td>07-13 주 · 평일 저녁 또는 토(07-18) — AI 워크숍</td></tr>
-      <tr><th>사이클 1~6</th><td>07-20(월) ~ 10-11(일) · 2주 × 6 = 12주, 영상 6개<br><span class="caption">C1 07-20~08-02 · C2 ~08-16 · C3 ~08-30 · C4 ~09-13 · C5 ~09-27 · C6 ~10-11</span></td></tr>
+      <tr><th style="width:30%">온보딩 · 모집</th><td><b>마감 07-19(일)</b> · 모집 확정, Discord 합류</td></tr>
+      <tr><th>오프라인 OT</th><td>07-20 주 · 평일 저녁 또는 토(07-25) · AI 워크숍</td></tr>
+      <tr><th>사이클 1~6</th><td>07-20(월) ~ 10-11(일) · 2주 × 6 = 12주, 영상 6개<br><span class="caption">C1 07-20~08-02 (채널 개설 포함) · C2 ~08-16 · C3 ~08-30 · C4 ~09-13 · C5 ~09-27 · C6 ~10-11</span></td></tr>
       <tr><th>마무리 모임</th><td>10월 중순 (오프라인) · 12주 데이터 회고 + 다음 시즌 결정</td></tr>
     </table>
-    <p class="caption">공개 모집으로 진행할 경우 모집 기간만큼 시작일이 순연될 수 있습니다.</p>
   </section>
 
   <!-- 6. 근거 -->
   <section>
-    <h2><span class="no">06</span>이미 한 번 검증된 판입니다 — 시즌1 실측</h2>
+    <h2><span class="no">06</span>이미 한 번 검증된 판입니다: 시즌1 실측</h2>
     <p>이 챌린지는 아이디어가 아니라 재가동입니다. 2026년 봄, 같은 시스템으로 12주 콘텐츠 챌린지를 운영했습니다.</p>
     <div class="stats">
       <div class="stat"><div class="v">20명</div><div class="k">시즌1 참가자</div></div>
       <div class="stat"><div class="v">12주</div><div class="k">중단 없이 완주 운영</div></div>
-      <div class="stat"><div class="v">153건</div><div class="k">누적 콘텐츠 인증</div></div>
-      <div class="stat"><div class="v">7종</div><div class="k">플랫폼 (유튜브 22건)</div></div>
+      <div class="stat"><div class="v">142건</div><div class="k">누적 콘텐츠 인증</div></div>
+      <div class="stat"><div class="v">7종</div><div class="k">플랫폼 (유튜브 포함)</div></div>
     </div>
-    <div class="shot" id="dash-shot">
-      <img src="season1-dashboard.png" alt="시즌1 챌린지 대시보드 실황"
-           onerror="this.parentElement.classList.add('empty')">
-      <div class="ph">📸 시즌1 대시보드 스크린샷 자리<br><span style="font-size:12px;">(같은 폴더에 season1-dashboard.png 저장 시 자동 표시)</span></div>
+    <div class="shot">
+      <img src="season1-dashboard.png" alt="시즌1 대시보드: 통계와 리더보드">
+      <img src="season1-recent.png" alt="시즌1 대시보드: 최근 인증 피드">
     </div>
-    <p class="caption">시즌1 공개 대시보드 — 인증 자동 집계·주간 정산·갤러리가 12주 동안 사람 손 없이 돌았습니다.</p>
+    <p class="caption">시즌1 공개 대시보드 실황. 인증 자동 집계와 리더보드(위), 실시간 인증 피드(아래)가 12주 동안 사람 손 없이 돌았습니다.</p>
     <table>
       <tr><th style="width:44%">시즌1에서 겪은 것</th><th>이번 시즌에 반영한 것</th></tr>
-      <tr><td>"2주 1회, 플랫폼 자유" — 유연했지만 리듬이 무너지기 쉬웠음</td><td><span class="tag">구조</span>기획 주·제작 주가 분리된 2주 사이클 — 뭘 해야 할 주인지 항상 명확</td></tr>
-      <tr><td>제출만 받고 끝 — 콘텐츠의 질은 각자 몫이었음</td><td><span class="tag">피드백</span>기획안 AI 검토 + 영상 회신 (검증된 AI 피드백 봇 패턴 차용)</td></tr>
-      <tr><td>7개 플랫폼 링크 수집 — 일부 인증이 종종 불안정</td><td><span class="tag">안정성</span>유튜브 단일화로 인증 실패 요인 제거</td></tr>
-      <tr><td>온라인으로만 — 시작과 끝의 결속력 아쉬움</td><td><span class="tag">결속</span>오프라인 OT 워크숍 + 마무리 모임</td></tr>
+      <tr><td>"2주 1회, 플랫폼 자유" 규칙은 유연했지만 리듬이 무너지기 쉬웠음</td><td><span class="tag">구조</span>기획 주·제작 주가 분리된 2주 사이클. 뭘 해야 할 주인지 항상 명확</td></tr>
+      <tr><td>제출만 받고 끝, 콘텐츠의 질은 각자 몫이었음</td><td><span class="tag">피드백</span>기획안 AI 검토 + 영상 회신 (검증된 AI 피드백 봇 패턴 차용)</td></tr>
+      <tr><td>7개 플랫폼 링크 수집 과정에서 일부 인증이 종종 불안정</td><td><span class="tag">안정성</span>유튜브 단일화로 인증 실패 요인 제거</td></tr>
+      <tr><td>온라인으로만 진행되어 시작과 끝의 결속력 아쉬움</td><td><span class="tag">결속</span>오프라인 OT 워크숍 + 마무리 모임</td></tr>
     </table>
   </section>
 
@@ -341,13 +329,13 @@
 
   <!-- 8. 선택지 -->
   <section>
-    <h2><span class="no">08</span>함께 정할 것 — 어떻게 모을까</h2>
+    <h2><span class="no">08</span>함께 정할 것: 어떻게 모을까</h2>
     <div class="options">
       <div class="option">
         <h3><span class="ab">A안</span>인맥 기반 소수 정예</h3>
         <ul>
           <li>지인 추천으로 4~6인 구성</li>
-          <li>신뢰 기반 — 완주율·결속력 높음</li>
+          <li>신뢰 기반이라 완주율·결속력 높음</li>
           <li>오프라인 OT·마무리 모임 잡기 수월</li>
           <li class="con">도달 범위가 좁고 외부 노출 효과 제한</li>
         </ul>
@@ -355,14 +343,14 @@
       <div class="option">
         <h3><span class="ab">B안</span>스레드·링크드인 공개 모집</h3>
         <ul>
-          <li>모집 글 자체가 콘텐츠 — 도달 확대</li>
+          <li>모집 글 자체가 콘텐츠가 되어 도달 확대</li>
           <li>다양한 직군 참가자 유입</li>
           <li>시즌1 실측 데이터가 모집 근거</li>
-          <li class="con">선별·온보딩 공수 증가, 시작 순연 가능</li>
+          <li class="con">선별·온보딩 공수 증가</li>
         </ul>
       </div>
     </div>
-    <p class="soft" style="font-size:14px;">절충안 — 코어 멤버는 인맥으로 확정하고, 남는 자리만 공개 모집.</p>
+    <p class="soft" style="font-size:14px;">절충안도 가능합니다. 코어 멤버는 인맥으로 확정하고, 남는 자리만 공개 모집으로 채우는 방식입니다.</p>
   </section>
 
   <!-- 9. 이후 액션 -->
@@ -370,10 +358,10 @@
     <h2><span class="no">09</span>이후 액션</h2>
     <div class="steps">
       <div class="step"><p>이 제안 검토 → 모집 방식(A/B/절충)과 OT 날짜 결정</p><span class="who2">임정 × 슬기</span></div>
-      <div class="step"><p>모집: 지인 초대 또는 스레드·링크드인 모집 글 (~07-12)</p><span class="who2">공동</span></div>
+      <div class="step"><p>모집: 지인 초대 또는 스레드·링크드인 모집 글, 마감 07-19(일)</p><span class="who2">공동</span></div>
       <div class="step"><p>Discord 서버 개설 + 기획 검토·인증 봇 셋업 (차용원 준비 완료)</p><span class="who2">임정</span></div>
-      <div class="step"><p>오프라인 OT 워크숍 — 채널 한 장 기획서 완성 (07-13 주)</p><span class="who2">전원</span></div>
-      <div class="step"><p>사이클 1 시작 — 채널 개설 + 첫 기획안 제출 (07-20 주)</p><span class="who2">전원</span></div>
+      <div class="step"><p>오프라인 OT 워크숍: 채널 한 장 기획서 완성 (07-20 주)</p><span class="who2">전원</span></div>
+      <div class="step"><p>사이클 1: 채널 개설 + 첫 기획안 제출 (마감 07-26)</p><span class="who2">전원</span></div>
     </div>
   </section>
 
