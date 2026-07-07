@@ -135,7 +135,7 @@ flowchart LR
 
 ## 문서
 
-- [제안서 HTML](docs/proposal.html) · [전체 PNG](docs/proposal.png) · [카톡 공유용 카드 4장](docs/kakao/)
+- [제안서 HTML](docs/index.html) (배포: https://challenge.buildnwrite.com) · [전체 PNG](docs/proposal.png) · [카톡 공유용 카드 4장](docs/kakao/)
 - 시즌1 운영 기록: content-designer-challenge `changelog/` · `docs/season1-pause.md`
 
 ## 운영 체크리스트 (진행 확정 시)

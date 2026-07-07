@@ -6,7 +6,7 @@
 
 - 진행 가이드 SSOT: `README.md`
 - 시스템 아키텍처(placeholder): `system/README.md` — **진행 확정 전 코드 작성 금지**
-- 공유용 제안서: `docs/proposal.html` → PNG로 내보내 카톡 전달
+- 공유용 제안서: `docs/index.html` (challenge.buildnwrite.com 배포) → PNG로 내보내 카톡 전달
 
 ## 관계 프로젝트
 - `content-designer-challenge` — 시즌1(너만알맡). 인증·정산·갤러리 차용원. 시즌2 준비 커밋(롱폼 검증·스트릭)이 로컬에 있음
