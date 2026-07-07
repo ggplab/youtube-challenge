@@ -196,6 +196,22 @@
   .step p { margin: 0; }
   .step .who2 { color: var(--ink-faint); font-size: 12.5px; margin-left: auto; padding-left: 12px; white-space: nowrap; }
 
+  /* 참여자 */
+  .people { display: grid; gap: 11px; margin: 18px 0 6px; }
+  .person { border: 1.5px solid var(--line); border-radius: 14px; padding: 17px 20px 15px; }
+  .person .phead { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .person .pname { font-size: 16.5px; font-weight: 800; letter-spacing: -0.01em; }
+  .person .phandle { font-size: 12.5px; color: var(--ink-faint); }
+  .person .pbio { font-size: 13.6px; color: var(--ink-soft); line-height: 1.56; margin: 5px 0 12px; }
+  .person .plinks { display: flex; flex-wrap: wrap; gap: 8px; }
+  .person .plink {
+    display: inline-flex; align-items: baseline; gap: 6px;
+    font-size: 12.5px; font-weight: 700; text-decoration: none;
+    color: var(--accent-dark); background: var(--accent-bg);
+    border-radius: 8px; padding: 5px 12px;
+  }
+  .person .plink .pf { color: var(--ink-faint); font-weight: 700; font-feature-settings: "tnum"; }
+
   footer {
     margin-top: 54px; padding-top: 20px; border-top: 1.5px solid var(--line);
     font-size: 12.5px; color: var(--ink-faint);
@@ -211,6 +227,37 @@
   <h1>유튜브 챌린지<br><span class="hl">2주에 1개, 3개월에 6개.</span></h1>
   <p class="lede">기획 1주 + 제작 1주의 2주 사이클을 6번 돕니다. AI 워크숍으로 채널의 뼈대를 잡고, 매 사이클 기획안 검토와 영상 피드백을 받으며, 3개월 뒤 <b>검토받은 기획안 6개와 롱폼 영상 6개</b>를 손에 남기는 챌린지입니다.</p>
   <p class="meta">제안 · 임정 × 슬기 · 2026-07-07</p>
+
+  <!-- 참여자 -->
+  <section>
+    <h2>함께하는 사람들</h2>
+    <p class="soft" style="font-size:14.5px;">첫 시즌을 함께 여는 참여자입니다. 소개는 각자의 스레드 프로필 대문 그대로입니다.</p>
+    <div class="people">
+      <div class="person">
+        <div class="phead"><span class="pname">강슬기</span><span class="phandle">Seulki Kang · @marketer.ai.seulki</span></div>
+        <p class="pbio">AI, 데이터 하는 16년차 마케터 &amp; 프리랜서<br>🙆‍♀️ 퇴근후AI•마케팅데이터커넥트 커뮤니티 운영<br>📮 일잘러의성장노트 뉴스레터 발행<br>🇿🇦 이태원 브라이리퍼블릭 사모님(?)<br>🏄‍♀️ 나와 AI, 링크드인 배우고 싶다면 프로필링크↘</p>
+        <div class="plinks">
+          <a class="plink" href="https://www.threads.com/@marketer.ai.seulki">Threads <span class="pf">팔로워 5,445</span></a>
+          <a class="plink" href="https://www.linkedin.com/in/seulki-kang/">LinkedIn <span class="pf">팔로워 15,061</span></a>
+        </div>
+      </div>
+      <div class="person">
+        <div class="phead"><span class="pname">오준엽</span><span class="phandle">커리어제이｜J커브취업코칭 · @career.jay</span></div>
+        <p class="pbio">핀테크 AI Product Manager 커리어코치, 상향이직전문<br>네이버·토스·카카오·당근·컬리 합격자 배출 | 500명+ 컨설팅<br>국내 최대 규모 취업 플랫폼 만족도 1위 컨설턴트<br>⬇️⬇️ 1:1 취업 전략 상담 ⬇️⬇️</p>
+        <div class="plinks">
+          <a class="plink" href="https://www.threads.com/@career.jay">Threads <span class="pf">팔로워 637</span></a>
+        </div>
+      </div>
+      <div class="person">
+        <div class="phead"><span class="pname">임정</span><span class="phandle">빌드앤라이트 · @buildnwrite</span></div>
+        <p class="pbio">- 8년차 Data Scientist<br>- 상상력이 기술이 되는 시대, 만들고 공유합니다.<br>- 한빛미디어 📚『n8n이 다 해줌』 저자</p>
+        <div class="plinks">
+          <a class="plink" href="https://www.threads.com/@buildnwrite">Threads <span class="pf">팔로워 286</span></a>
+          <a class="plink" href="https://www.linkedin.com/in/jayjunglim/">LinkedIn <span class="pf">팔로워 1,339</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- 1. 누구를 위한 -->
   <section>
