@@ -521,8 +521,8 @@
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
   // === Supabase 연결 (백엔드 셋업 후 채움) ===
-  const SUPABASE_URL = '__SUPABASE_URL__';
-  const SUPABASE_ANON_KEY = '__SUPABASE_ANON_KEY__';
+  const SUPABASE_URL = 'https://tcxtcacibgoancvoiybx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjeHRjYWNpYmdvYW5jdm9peWJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTM4NjksImV4cCI6MjA4NjIyOTg2OX0.XTAgQ_zniNLn09scbCAEW3CfzJfEAJOVv7_mlpcptQE';
   const configured = !SUPABASE_URL.startsWith('__');
   const sb = configured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
@@ -561,7 +561,7 @@
     if(!configured || !sb) return;
     const { data, error } = await sb.from('participants').select('*').order('created_at', { ascending: true });
     if(error){ console.warn('load error', error); return; }
-    (data||[]).forEach(renderCard);
+    (data||[]).filter(p => !/^__/.test((p.name||'').trim())).forEach(renderCard);
   }
 
   // 모달 열기/닫기
