@@ -37,7 +37,8 @@
     color: var(--ink);
     line-height: 1.62;
     -webkit-font-smoothing: antialiased;
-    width: 800px;
+    width: 100%;
+    max-width: 800px;
     margin: 0 auto;
   }
   .doc { padding: 56px 52px 40px; }
@@ -288,6 +289,45 @@
     font-size: 12.5px; color: var(--ink-faint);
     display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
   }
+
+  /* ── 모바일 (≤640px). PNG 내보내기는 데스크톱 폭이라 영향 없음 ── */
+  @media (max-width: 640px) {
+    .doc { padding: 32px 20px 30px; }
+
+    h1 { font-size: 27px; }
+    .lede { font-size: 15px; }
+    section { margin-top: 38px; }
+    h2 { font-size: 18px; padding-top: 24px; }
+    p { font-size: 15px; }
+
+    /* 그리드 재배치 */
+    .whos { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .options { grid-template-columns: 1fr; }
+
+    /* 한 장 구조 흐름도 → 세로 스택 */
+    .diagram { padding: 22px 15px 18px; }
+    .flow { flex-direction: column; gap: 6px; }
+    .flow > .arrow { width: 100%; height: 20px; transform: rotate(90deg); }
+    .cycle-box { flex: none; width: 100%; }
+
+    /* 표 가로 넘침 방지 */
+    table { font-size: 13.5px; }
+    th, td { padding: 9px 11px; }
+    th { white-space: normal; }
+
+    /* 액션 스텝 줄바꿈 허용 */
+    .step { flex-wrap: wrap; }
+    .step .who2 { margin-left: 0; padding-left: 0; }
+
+    /* 인물 카드 여백 축소 */
+    .person { padding: 15px 16px 14px; gap: 12px; }
+
+    /* 배너 여백 축소 */
+    .principle { padding: 20px 22px; }
+    .closing { padding: 28px 22px; margin-top: 40px; }
+    .closing b { font-size: 21px; }
+  }
 </style>
 </head>
 <body>
@@ -527,6 +567,12 @@
       <button type="submit" class="cta-btn full">신청 제출</button>
       <p class="form-msg" id="formMsg"></p>
     </form>
+    <div id="joinDone" style="display:none; text-align:center;">
+      <div style="font-size:38px; margin-bottom:8px;">🎉</div>
+      <h3 style="margin-bottom:6px;">신청 완료!</h3>
+      <p class="modal-sub" style="margin-bottom:20px;">아래 버튼으로 오픈카톡방에 입장하면 온보딩 안내를 받을 수 있어요.</p>
+      <a class="cta-btn full" href="https://open.kakao.com/o/g1zAa3Ci" target="_blank" rel="noopener" style="text-decoration:none; background:linear-gradient(135deg,#FEE500 0%,#FADA00 100%); color:#3C1E1E; box-shadow:0 4px 14px rgba(250,218,0,0.4);">💬 오픈카톡방 입장하기</a>
+    </div>
   </div>
 </div>
 
@@ -544,6 +590,8 @@
   const modal = $('#signupModal');
   const form = $('#signupForm');
   const msg = $('#formMsg');
+  const joinDone = $('#joinDone');
+  function showJoined(){ form.style.display='none'; joinDone.style.display='block'; }
 
   const PALETTE = ['#2563EB','#7C3AED','#DB2777','#059669','#D97706','#0891B2'];
   function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -578,7 +626,7 @@
   }
 
   // 모달 열기/닫기
-  function openModal(){ modal.classList.add('open'); document.body.style.overflow='hidden'; setTimeout(()=>form.name.focus(),50); }
+  function openModal(){ form.style.display=''; joinDone.style.display='none'; msg.textContent=''; modal.classList.add('open'); document.body.style.overflow='hidden'; setTimeout(()=>form.name.focus(),50); }
   function closeModal(){ modal.classList.remove('open'); document.body.style.overflow=''; }
   document.querySelectorAll('[data-signup]').forEach(b=>b.addEventListener('click', openModal));
   document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', closeModal));
@@ -601,18 +649,15 @@
     if(!configured || !sb){
       // 백엔드 미연결 상태: 화면에만 임시 반영
       renderCard(row);
-      msg.textContent='(백엔드 연결 전) 화면에만 임시 표시됨';
-      msg.className='form-msg err';
       form.reset();
-      setTimeout(closeModal, 1200);
+      showJoined();
       return;
     }
     const { error } = await sb.from('participants').insert(row);
     if(error){ msg.textContent='제출 실패: '+error.message; msg.className='form-msg err'; return; }
     renderCard(row);
-    msg.textContent='신청 완료! 목록에 반영됐어요 🎉'; msg.className='form-msg ok';
     form.reset();
-    setTimeout(closeModal, 1400);
+    showJoined();
   });
 
   loadParticipants();
