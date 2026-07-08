@@ -10,6 +10,12 @@
 
 라이브: https://challenge.buildnwrite.com (HTTPS 정상, 참여 신청→자동 반영 E2E 검증 완료)
 
+### 후속 세션 산출물 (2026-07-08 오후)
+- `335bd1b` 제안서 모바일 반응형 + 제출 성공 시 오픈카톡방 입장 버튼
+  - body 고정폭(800px)→max-width, `@media(max-width:640px)` 추가 (그리드 재배치·흐름도 세로 스택·표 넘침 방지). PNG 내보내기는 데스크톱 폭 유지
+  - 신청 제출 성공 시 폼→카톡 입장 화면 전환. 방 링크(`open.kakao.com/o/g1zAa3Ci`)는 **제출 성공 화면에서만 노출** = 제출자만 입장. README·운영정보엔 링크 미기재 (의도된 게이트)
+  - 실측: 390px iframe에서 미디어쿼리 발동·가로 스크롤 0 확인, 라이브 배포 반영 확인(HTTP 200)
+
 ## 열려 있는 결정 (다음 세션 우선)
 1. **"Always Use HTTPS" 미적용** — http:// 접속 시 크롬 "주의 요함" 뜸 (https는 정상, http→https 리다이렉트 없음).
    - 첫 단계: Cloudflare → buildnwrite.com → SSL/TLS → Edge Certificates → **Always Use HTTPS** 토글 On
