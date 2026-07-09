@@ -283,6 +283,22 @@
   .closing span { opacity: 0.9; font-size: 15px; display: block; margin: 10px 0 20px; }
   .closing .cta-btn { color: var(--accent-dark); background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
 
+  /* 공유(고스트) 버튼 */
+  .cta-wrap { gap: 10px; flex-wrap: wrap; }
+  .cta-btn.ghost { color: var(--accent-dark); background: var(--accent-bg); box-shadow: none; }
+  .cta-btn.ghost:hover { background: #e0e9fd; box-shadow: none; }
+  .closing .cta-btn.ghost { color: #fff; background: rgba(255,255,255,0.14); border: 1.5px solid rgba(255,255,255,0.55); box-shadow: none; }
+  .closing .cta-btn.ghost:hover { background: rgba(255,255,255,0.24); }
+
+  /* 링크 복사 토스트 */
+  .toast {
+    position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: #fff; font-size: 14px; font-weight: 700;
+    padding: 12px 22px; border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+    opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 200; max-width: 90vw;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
   /* 모달 */
   .modal-overlay {
     display: none; position: fixed; inset: 0; z-index: 100;
@@ -503,38 +519,23 @@
     <p class="soft" style="font-size:14.5px;">여기에 채널 한 장 기획서, 공개 아카이브 갤러리, 그리고 마무리 모임에서 12주 데이터를 놓고 하는 회고까지. 혼자서는 2~3주차에 무너지는 루틴을 시스템과 동료가 끝까지 끌고 갑니다.</p>
   </section>
 
-  <!-- 8. 선택지 -->
+  <!-- 8. 모집 -->
   <section>
-    <h2><span class="no">08</span>함께 정할 것: 어떻게 모을까</h2>
-    <div class="options">
-      <div class="option">
-        <h3><span class="ab">A안</span>인맥 기반 소수 정예</h3>
-        <ul>
-          <li>지인 추천으로 4~6인 구성</li>
-          <li>신뢰 기반이라 완주율·결속력 높음</li>
-          <li>오프라인 OT·마무리 모임 잡기 수월</li>
-          <li class="con">도달 범위가 좁고 외부 노출 효과 제한</li>
-        </ul>
-      </div>
-      <div class="option">
-        <h3><span class="ab">B안</span>스레드·링크드인 공개 모집</h3>
-        <ul>
-          <li>모집 글 자체가 콘텐츠가 되어 도달 확대</li>
-          <li>다양한 직군 참가자 유입</li>
-          <li>시즌1 실측 데이터가 모집 근거</li>
-          <li class="con">선별·온보딩 공수 증가</li>
-        </ul>
-      </div>
+    <h2><span class="no">08</span>어떻게 모으나: 지인 공유로</h2>
+    <p>이번 시즌은 <b>신뢰 기반의 지인 중심</b>으로 모읍니다. 완주율과 결속력이 높고, 오프라인 OT·마무리 모임을 잡기 수월하기 때문입니다.</p>
+    <p class="soft" style="font-size:14.5px;">모집 채널은 하나로 단일화합니다 — <b>참여자가 이 제안서를 지인에게 공유</b> → 지인이 제안서를 보고 → <b>참여 신청</b>으로 바로 합류. 아래 버튼으로 공유하세요.</p>
+    <div class="cta-wrap">
+      <button type="button" class="cta-btn" data-share>🔗 제안서 공유하기</button>
+      <button type="button" class="cta-btn ghost" data-signup>✋ 참여 신청하기</button>
     </div>
-    <p class="soft" style="font-size:14px;">절충안도 가능합니다. 코어 멤버는 인맥으로 확정하고, 남는 자리만 공개 모집으로 채우는 방식입니다.</p>
   </section>
 
   <!-- 9. 이후 액션 -->
   <section>
     <h2><span class="no">09</span>이후 액션</h2>
     <div class="steps">
-      <div class="step"><p>이 제안 검토 → 모집 방식(A/B/절충)과 OT 날짜 결정</p><span class="who2">임정 × 슬기</span></div>
-      <div class="step"><p>모집: 지인 초대 또는 스레드·링크드인 모집 글, 마감 07-19(일)</p><span class="who2">공동</span></div>
+      <div class="step"><p>이 제안 검토 → 오프라인 OT 날짜 확정</p><span class="who2">임정 × 슬기</span></div>
+      <div class="step"><p>지인에게 제안서 공유 → 참여 신청 접수, 마감 07-19(일)</p><span class="who2">공동</span></div>
       <div class="step"><p>Discord 서버 개설 + 기획 검토·인증 봇 셋업 (차용원 준비 완료)</p><span class="who2">임정</span></div>
       <div class="step"><p>오프라인 OT 워크숍: 채널 한 장 기획서 완성 (07-20 주)</p><span class="who2">전원</span></div>
       <div class="step"><p>사이클 1: 채널 개설 + 첫 기획안 제출 (마감 07-26)</p><span class="who2">전원</span></div>
@@ -608,7 +609,10 @@
   <div class="closing">
     <b>2주에 1개, 3개월에 6개.</b>
     <span>혼자서는 2~3주차에 무너지는 루틴, 시스템과 동료가 끝까지 끌고 갑니다. 지금 합류하세요.</span>
-    <button type="button" class="cta-btn" data-signup>✋ 참여 신청하기</button>
+    <div class="cta-wrap">
+      <button type="button" class="cta-btn" data-signup>✋ 참여 신청하기</button>
+      <button type="button" class="cta-btn ghost" data-share>🔗 공유하기</button>
+    </div>
   </div>
 
   <footer>
@@ -705,6 +709,32 @@
   function closeModal(){ modal.classList.remove('open'); document.body.style.overflow=''; }
   document.querySelectorAll('[data-signup]').forEach(b=>b.addEventListener('click', openModal));
   document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', closeModal));
+
+  // 공유하기 (모바일: 네이티브 공유시트 → 카톡 등 / 데스크톱: 링크 복사)
+  const SHARE = {
+    title: '유튜브 챌린지 · 2주에 1개, 3개월에 6개',
+    text: '유튜브, 더는 미룰 수 없다. 2주 사이클로 3개월에 롱폼 6개 만드는 챌린지 — 같이 할래요?',
+    url: 'https://challenge.buildnwrite.com/'
+  };
+  let toastEl;
+  function toast(msg){
+    if(!toastEl){ toastEl=document.createElement('div'); toastEl.className='toast'; document.body.appendChild(toastEl); }
+    toastEl.textContent=msg; toastEl.classList.add('show');
+    clearTimeout(toastEl._t); toastEl._t=setTimeout(()=>toastEl.classList.remove('show'), 2400);
+  }
+  async function doShare(){
+    if(navigator.share){
+      try { await navigator.share(SHARE); return; }
+      catch(e){ if(e && e.name==='AbortError') return; }  // 사용자가 취소하면 조용히 종료
+    }
+    try {
+      await navigator.clipboard.writeText(SHARE.url);
+      toast('🔗 링크가 복사됐어요 — 지인에게 붙여넣어 공유하세요');
+    } catch(e){
+      toast('공유 링크: ' + SHARE.url);
+    }
+  }
+  document.querySelectorAll('[data-share]').forEach(b=>b.addEventListener('click', doShare));
   modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
   document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('open')) closeModal(); });
 
