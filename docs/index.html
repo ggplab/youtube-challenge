@@ -41,7 +41,22 @@
     max-width: 800px;
     margin: 0 auto;
   }
-  .doc { padding: 56px 52px 40px; }
+  .doc { padding: 34px 52px 40px; }
+
+  /* 상단 탭 네비 */
+  .topnav {
+    display: flex; gap: 8px;
+    border-bottom: 1.5px solid var(--line);
+    margin-bottom: 30px;
+  }
+  .topnav a {
+    font-size: 14.5px; font-weight: 700; text-decoration: none;
+    color: var(--ink-faint); padding: 12px 4px; margin-bottom: -1.5px;
+    border-bottom: 2.5px solid transparent;
+  }
+  .topnav a + a { margin-left: 18px; }
+  .topnav a:hover { color: var(--ink-soft); }
+  .topnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
 
   /* 커버 */
   .eyebrow {
@@ -332,6 +347,12 @@
 </head>
 <body>
 <div class="doc">
+
+  <!-- 상단 탭 -->
+  <nav class="topnav">
+    <a href="./" class="active">제안서</a>
+    <a href="plan/">채널 한 장 기획서</a>
+  </nav>
 
   <!-- 커버 -->
   <div class="eyebrow">CHALLENGE PROPOSAL · 2026-07</div>

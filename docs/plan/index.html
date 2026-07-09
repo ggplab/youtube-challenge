@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>채널 한 장 기획서 · 유튜브 챌린지</title>
+<meta name="description" content="오프라인 워크숍에서 작성하는 채널 한 장 기획서. 작성하면 레퍼런스 유튜브 채널 3개를 찾아 이메일로 보내드립니다.">
+<meta name="robots" content="noindex">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://challenge.buildnwrite.com/plan/">
+<meta property="og:title" content="채널 한 장 기획서">
+<meta property="og:description" content="유튜브 채널의 뼈대를 한 장에. 작성하면 레퍼런스 채널 3개를 회신합니다.">
+<style>
+  :root {
+    --paper: #ffffff;
+    --paper-warm: #f6f5f4;
+    --ink: #31302e;
+    --ink-soft: #615d59;
+    --ink-faint: #a39e98;
+    --line: #dddddd;
+    --accent: #2563EB;
+    --accent-dark: #1D4ED8;
+    --accent-light: #60A5FA;
+    --accent-bg: #eff4fe;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Pretendard", "Pretendard Variable", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .doc { padding: 34px 52px 40px; }
+
+  /* 상단 탭 네비 */
+  .topnav {
+    display: flex; gap: 8px;
+    border-bottom: 1.5px solid var(--line);
+    margin-bottom: 30px;
+  }
+  .topnav a {
+    font-size: 14.5px; font-weight: 700; text-decoration: none;
+    color: var(--ink-faint); padding: 12px 4px; margin-bottom: -1.5px;
+    border-bottom: 2.5px solid transparent;
+  }
+  .topnav a + a { margin-left: 18px; }
+  .topnav a:hover { color: var(--ink-soft); }
+  .topnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* 커버 */
+  .eyebrow {
+    display: inline-block;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--accent);
+    border: 1.5px solid var(--accent-light);
+    border-radius: 999px;
+    padding: 5px 16px;
+    margin-bottom: 20px;
+  }
+  h1 { font-size: 34px; font-weight: 800; line-height: 1.24; letter-spacing: -0.02em; margin-bottom: 14px; }
+  h1 .hl { color: var(--accent); }
+  .lede { font-size: 16px; color: var(--ink-soft); max-width: 40em; margin-bottom: 14px; }
+
+  /* 사용 안내 배너 */
+  .howto {
+    background: var(--paper-warm); border: 1px solid var(--line);
+    border-radius: 14px; padding: 18px 22px; margin: 18px 0 6px;
+  }
+  .howto b { font-size: 14.5px; }
+  .howto ol { margin: 10px 0 0; padding-left: 20px; }
+  .howto li { font-size: 14px; color: var(--ink-soft); margin: 4px 0; }
+  .howto li b { color: var(--accent-dark); font-size: 14px; }
+
+  /* 폼 */
+  form { margin-top: 34px; }
+  .field { margin-bottom: 26px; }
+  .field > label {
+    display: block; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 3px;
+  }
+  .field > label .no { color: var(--accent); margin-right: 9px; font-feature-settings: "tnum"; }
+  .field > label .req { color: var(--accent); margin-left: 3px; }
+  .field .hint { font-size: 13px; color: var(--ink-faint); margin-bottom: 9px; line-height: 1.5; }
+  .field .hint .eg { color: var(--ink-soft); }
+
+  input, textarea {
+    width: 100%; font-family: inherit; color: var(--ink);
+    border: 1.5px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; background: var(--paper-warm);
+    transition: border-color .12s, background .12s;
+  }
+  input { font-size: 15px; }
+  textarea { font-size: 15px; line-height: 1.6; resize: vertical; min-height: 108px; }
+  input:focus, textarea:focus { outline: none; border-color: var(--accent-light); background: #fff; }
+  .counter { font-size: 11.5px; color: var(--ink-faint); text-align: right; margin-top: 4px; font-feature-settings: "tnum"; }
+
+  /* 기본정보: 2열 */
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .divider { border: none; border-top: 1.5px solid var(--line); margin: 30px 0 28px; }
+  .section-label {
+    font-size: 12px; font-weight: 800; letter-spacing: 0.06em; color: var(--ink-faint);
+    text-transform: uppercase; margin-bottom: 18px;
+  }
+
+  /* 저장 상태 + 제출 */
+  .savebar {
+    display: flex; align-items: center; justify-content: flex-end;
+    gap: 8px; font-size: 12.5px; color: var(--ink-faint); margin-bottom: 10px; min-height: 18px;
+  }
+  .savebar .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-light); }
+  .submit-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+    width: 100%; font-family: inherit; font-size: 16px; font-weight: 800; letter-spacing: -0.01em;
+    color: #fff; background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    border: none; border-radius: 999px; padding: 15px 30px;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.28); transition: transform .12s, box-shadow .12s;
+  }
+  .submit-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.36); }
+  .submit-btn:disabled { opacity: .6; cursor: default; transform: none; box-shadow: none; }
+  .form-msg { font-size: 13.5px; margin-top: 12px; text-align: center; min-height: 18px; }
+  .form-msg.err { color: #c0392b; font-weight: 700; }
+
+  /* 완료 화면 */
+  .done { display: none; text-align: center; padding: 40px 10px; }
+  .done.show { display: block; }
+  .done .big { font-size: 46px; margin-bottom: 12px; }
+  .done h2 { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+  .done p { font-size: 15px; color: var(--ink-soft); max-width: 30em; margin: 0 auto 8px; }
+
+  footer {
+    margin-top: 48px; padding-top: 20px; border-top: 1.5px solid var(--line);
+    font-size: 12.5px; color: var(--ink-faint);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .doc { padding: 24px 20px 30px; }
+    h1 { font-size: 26px; }
+    .lede { font-size: 15px; }
+    .row2 { grid-template-columns: 1fr; gap: 0; }
+    .row2 .field { margin-bottom: 22px; }
+    form { margin-top: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <!-- 상단 탭 -->
+  <nav class="topnav">
+    <a href="../">제안서</a>
+    <a href="./" class="active">채널 한 장 기획서</a>
+  </nav>
+
+  <!-- 커버 -->
+  <div class="eyebrow">CHANNEL ONE-PAGER · WORKSHOP</div>
+  <h1>채널 한 장 기획서<br><span class="hl">뼈대를 한 장에 눕힙니다.</span></h1>
+  <p class="lede">오프라인 워크숍에서 채우는 채널의 한 장짜리 뼈대입니다. 이 한 장이 12주 내내 모든 기획안의 기준점이 됩니다. 천천히, 솔직하게 적어주세요.</p>
+
+  <div class="howto">
+    <b>이렇게 쓰입니다</b>
+    <ol>
+      <li><b>오늘 2시간</b> 동안 아래 항목을 채우고, <b>1시간</b> 동안 서로 발표합니다.</li>
+      <li>작성해 제출하면 내용이 저장됩니다. (공개되지 않아요 — 운영자만 봅니다)</li>
+      <li>세션 이후 이 기획서를 바탕으로 <b>참고할 레퍼런스 유튜브 채널 3개</b>를 찾아 <b>이메일로 회신</b>해 드립니다.</li>
+    </ol>
+  </div>
+
+  <!-- 폼 -->
+  <form id="planForm" autocomplete="off">
+
+    <div class="section-label">기본 정보</div>
+    <div class="row2">
+      <div class="field">
+        <label for="f-name">이름 <span class="req">*</span></label>
+        <div class="hint">이름 또는 활동명</div>
+        <input id="f-name" name="name" maxlength="40" required placeholder="예: 임정">
+      </div>
+      <div class="field">
+        <label for="f-email">이메일 <span class="req">*</span></label>
+        <div class="hint">여기로 레퍼런스 채널 3개를 회신합니다</div>
+        <input id="f-email" name="email" type="email" maxlength="120" required placeholder="you@example.com">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="f-channel">채널명 (가안)</label>
+      <div class="hint">아직 안 정했으면 비워둬도 됩니다</div>
+      <input id="f-channel" name="channel_name" maxlength="60" placeholder="예: 데이터로 먹고사는 법">
+    </div>
+
+    <div class="field">
+      <label for="f-concept">채널 콘셉트 한 문장</label>
+      <div class="hint"><span class="eg">"누구를 위한 무슨 채널인가"를 한 문장으로. 예: 이직 준비하는 주니어 개발자에게 실전 커리어 전략을 주는 채널</span></div>
+      <input id="f-concept" name="concept" maxlength="140" placeholder="한 문장으로">
+    </div>
+
+    <hr class="divider">
+    <div class="section-label">채널의 뼈대 · 다섯 가지</div>
+
+    <div class="field">
+      <label for="f-reason"><span class="no">①</span>유튜브를 하는 이유</label>
+      <div class="hint"><span class="eg">왜 지금 유튜브인가. 이걸로 무엇을 얻고 싶은가. 개인적인 동기여도 좋습니다.</span></div>
+      <textarea id="f-reason" name="reason" maxlength="1500" placeholder="예: 글로는 한계를 느꼈다. 나를 모르는 사람을 팬으로 만들고, 강의·컨설팅으로 이어지는 신뢰 자산을 쌓고 싶다."></textarea>
+      <div class="counter"><span data-count>0</span> / 1500</div>
+    </div>
+
+    <div class="field">
+      <label for="f-pipeline"><span class="no">②</span>본인의 사업 파이프라인 간단 소개</label>
+      <div class="hint"><span class="eg">지금 무엇으로 먹고사는지 / 앞으로 무엇을 팔 건지. 상품·서비스·수익 경로를 아는 대로.</span></div>
+      <textarea id="f-pipeline" name="pipeline" maxlength="1500" placeholder="예: 현재는 프리랜서 데이터 컨설팅이 주 수입. 온라인 강의(인프런)와 전자책이 부수입. 궁극적으로는 멤버십 커뮤니티를 만들고 싶다."></textarea>
+      <div class="counter"><span data-count>0</span> / 1500</div>
+    </div>
+
+    <div class="field">
+      <label for="f-audience"><span class="no">③</span>유튜브의 주 목적 시청층</label>
+      <div class="hint"><span class="eg">누가 이 채널을 보길 바라나. 나이·직업·상황·고민을 구체적으로. 한 사람을 떠올리면 좋습니다.</span></div>
+      <textarea id="f-audience" name="audience" maxlength="1500" placeholder="예: 3~5년차 직장인 중 데이터 직무로 커리어 전환을 고민하는 사람. 독학하다 막혔고, 뭘 먼저 해야 할지 모르는 상태."></textarea>
+      <div class="counter"><span data-count>0</span> / 1500</div>
+    </div>
+
+    <div class="field">
+      <label for="f-cta"><span class="no">④</span>유튜브 이후 유입될 첫 단계 (CTA · 랜딩)</label>
+      <div class="hint"><span class="eg">영상을 본 사람이 다음으로 가는 곳. 뉴스레터·오픈채팅·강의페이지·상담신청 등. 있으면 링크도 함께.</span></div>
+      <textarea id="f-cta" name="cta" maxlength="1500" placeholder="예: 영상 설명란 → 무료 뉴스레터 구독(랜딩: ...) → 3주 후 유료 강의 안내. 우선은 뉴스레터로 이메일을 모으는 게 첫 단계."></textarea>
+      <div class="counter"><span data-count>0</span> / 1500</div>
+    </div>
+
+    <div class="field">
+      <label for="f-message"><span class="no">⑤</span>채널이 전달하려는 메시지</label>
+      <div class="hint"><span class="eg">이 채널을 관통하는 하나의 메시지·관점. 시청자가 "이 채널은 ___를 말하는 곳"이라고 기억하길 바라는 그것.</span></div>
+      <textarea id="f-message" name="message" maxlength="1500" placeholder="예: 데이터는 특별한 재능이 아니라 누구나 익힐 수 있는 사고방식이다 — 겁먹지 말고 시작하자."></textarea>
+      <div class="counter"><span data-count>0</span> / 1500</div>
+    </div>
+
+    <div class="savebar" id="saveBar"></div>
+    <button type="submit" class="submit-btn" id="submitBtn">기획서 제출하기</button>
+    <p class="form-msg" id="formMsg"></p>
+  </form>
+
+  <!-- 완료 -->
+  <div class="done" id="done">
+    <div class="big">📮</div>
+    <h2>기획서가 접수됐습니다</h2>
+    <p>세션 이후 이 기획서를 바탕으로 참고할 <b>레퍼런스 유튜브 채널 3개</b>를 찾아 입력하신 이메일로 보내드릴게요.</p>
+    <p style="color:var(--ink-faint); font-size:13.5px; margin-top:14px;">발표 준비를 이어가세요. 수고했습니다 👏</p>
+  </div>
+
+  <footer>
+    <span>YouTube Challenge · Channel One-Pager</span>
+    <span>© 2026 BuildnWrite. All rights reserved.</span>
+  </footer>
+
+</div>
+
+<script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+  // === Supabase (ggplab_homepage 재사용, anon 키는 공개용) ===
+  const SUPABASE_URL = 'https://tcxtcacibgoancvoiybx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjeHRjYWNpYmdvYW5jdm9peWJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTM4NjksImV4cCI6MjA4NjIyOTg2OX0.XTAgQ_zniNLn09scbCAEW3CfzJfEAJOVv7_mlpcptQE';
+  const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const DRAFT_KEY = 'ytc_plan_draft_v1';
+  const form = document.getElementById('planForm');
+  const saveBar = document.getElementById('saveBar');
+  const msg = document.getElementById('formMsg');
+  const submitBtn = document.getElementById('submitBtn');
+  const done = document.getElementById('done');
+  const fields = ['name','email','channel_name','concept','reason','pipeline','audience','cta','message'];
+
+  // 글자수 카운터
+  document.querySelectorAll('textarea[maxlength]').forEach(ta => {
+    const c = ta.parentElement.querySelector('[data-count]');
+    const upd = () => { if(c) c.textContent = ta.value.length; };
+    ta.addEventListener('input', upd); upd();
+  });
+
+  // ── 오토세이브 (localStorage) ──
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function saveDraft(){
+    const data = {};
+    fields.forEach(f => { data[f] = (form.elements[f]?.value || ''); });
+    try {
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+      const d = new Date();
+      saveBar.innerHTML = `<span class="dot"></span> 자동 저장됨 · ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    } catch(e) {
+      saveBar.textContent = '⚠️ 브라우저 저장 실패 — 새로고침 주의';
+    }
+  }
+  function restoreDraft(){
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if(!raw) return;
+      const data = JSON.parse(raw);
+      fields.forEach(f => { if(form.elements[f] && data[f] != null) form.elements[f].value = data[f]; });
+      document.querySelectorAll('textarea[maxlength]').forEach(ta => {
+        const c = ta.parentElement.querySelector('[data-count]'); if(c) c.textContent = ta.value.length;
+      });
+      saveBar.innerHTML = `<span class="dot"></span> 이전 작성 내용을 불러왔습니다`;
+    } catch(e) {}
+  }
+  let saveTimer;
+  form.addEventListener('input', () => {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveDraft, 400);
+  });
+  restoreDraft();
+
+  // ── 제출 ──
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    msg.textContent = ''; msg.className = 'form-msg';
+    const row = {};
+    fields.forEach(f => { row[f] = (form.elements[f]?.value || '').trim() || null; });
+
+    if(!row.name){ msg.textContent = '이름을 입력해주세요.'; msg.className='form-msg err'; return; }
+    if(!row.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(row.email)){
+      msg.textContent = '레퍼런스 채널을 받을 이메일을 정확히 입력해주세요.'; msg.className='form-msg err'; return;
+    }
+
+    submitBtn.disabled = true; submitBtn.textContent = '제출 중…';
+    const { error } = await sb.from('plans').insert(row);
+    if(error){
+      submitBtn.disabled = false; submitBtn.textContent = '기획서 제출하기';
+      msg.textContent = '제출 실패: ' + error.message + ' — 잠시 후 다시 시도하거나 운영자에게 알려주세요.';
+      msg.className = 'form-msg err';
+      return;
+    }
+    // 성공: 초안 정리 + 완료 화면
+    try { localStorage.removeItem(DRAFT_KEY); } catch(e) {}
+    form.style.display = 'none';
+    done.classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
