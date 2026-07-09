@@ -58,6 +58,19 @@
   .topnav a:hover { color: var(--ink-soft); }
   .topnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
 
+  /* 가희 위기의식 히어로 */
+  .alarm {
+    display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center;
+    background: var(--ink); color: #fff;
+    border-radius: 20px; padding: 34px 36px; margin-bottom: 42px;
+  }
+  .alarm .a-kicker { font-size: 13.5px; font-weight: 800; letter-spacing: 0.04em; color: var(--accent-light); margin-bottom: 12px; }
+  .alarm .a-title { font-size: 30px; font-weight: 800; line-height: 1.32; letter-spacing: -0.02em; margin-bottom: 15px; }
+  .alarm .a-title .em { color: #FDE047; }
+  .alarm .a-sub { font-size: 15.5px; color: rgba(255,255,255,0.82); line-height: 1.62; }
+  .alarm .a-sub b { color: #fff; }
+  .alarm .a-img { width: 188px; border-radius: 12px; display: block; box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+
   /* 커버 */
   .eyebrow {
     display: inline-block;
@@ -309,6 +322,11 @@
   @media (max-width: 640px) {
     .doc { padding: 32px 20px 30px; }
 
+    /* 가희 히어로 → 세로 스택 */
+    .alarm { grid-template-columns: 1fr; text-align: center; padding: 26px 20px; gap: 20px; }
+    .alarm .a-title { font-size: 22px; }
+    .alarm .a-img { width: 168px; margin: 2px auto 0; }
+
     h1 { font-size: 27px; }
     .lede { font-size: 15px; }
     section { margin-top: 38px; }
@@ -354,52 +372,21 @@
     <a href="plan/">채널 한 장 기획서</a>
   </nav>
 
+  <!-- 가희 위기의식 히어로 -->
+  <div class="alarm">
+    <div class="a-copy">
+      <div class="a-kicker">⏰ 잠깐, 솔직하게</div>
+      <div class="a-title">유튜브 "내일부터 매일 해야지"<br><span class="em">— 진짜 하고 있나요?</span></div>
+      <p class="a-sub">내일은? 내일모레는? 1년을 주면 할 수 있겠어요?<br>혼자 다짐만 반복하는 사이 채널은 계속 비어 있습니다. <b>이제 더는 미룰 수 없습니다.</b></p>
+    </div>
+    <img class="a-img" src="img/gahee.jpg" alt="가희: 내일은 할 수 있겠어? 그런 마음으로 내일모레는? 1년을 주면 할 수 있겠니?">
+  </div>
+
   <!-- 커버 -->
   <div class="eyebrow">CHALLENGE PROPOSAL · 2026-07</div>
   <h1>유튜브 챌린지<br><span class="hl">2주에 1개, 3개월에 6개.</span></h1>
   <p class="lede">기획 1주 + 제작 1주의 2주 사이클을 6번 돕니다. AI 워크숍으로 채널의 뼈대를 잡고, 매 사이클 기획안 검토와 영상 피드백을 받으며, 3개월 뒤 <b>검토받은 기획안 6개와 롱폼 영상 6개</b>를 손에 남기는 챌린지입니다.</p>
   <p class="meta">제안 · 임정 × 슬기 · 2026-07-07</p>
-
-  <!-- 참여자 -->
-  <section>
-    <h2>함께하는 사람들</h2>
-    <p class="soft" style="font-size:14.5px;">첫 시즌을 함께 여는 참여자입니다. 아래 <b>참여 신청하기</b>를 누르면 목록에 바로 반영됩니다.</p>
-    <div class="people" id="people">
-      <div class="person">
-        <img class="pavatar" src="img/seulki.jpg" alt="강슬기">
-        <div class="pbody">
-          <div class="phead"><span class="pname">강슬기</span><span class="phandle">Seulki Kang · @marketer.ai.seulki</span></div>
-          <p class="pbio">AI, 데이터 하는 16년차 마케터 &amp; 프리랜서<br>🙆‍♀️ 퇴근후AI•마케팅데이터커넥트 커뮤니티 운영<br>📮 일잘러의성장노트 뉴스레터 발행<br>🇿🇦 이태원 브라이리퍼블릭 사모님(?)<br>🏄‍♀️ 나와 AI, 링크드인 배우고 싶다면 프로필링크↘</p>
-          <div class="plinks">
-            <a class="plink" href="https://www.threads.com/@marketer.ai.seulki" target="_blank" rel="noopener">Threads <span class="pf">팔로워 5,445</span></a>
-            <a class="plink" href="https://www.linkedin.com/in/seulki-kang/" target="_blank" rel="noopener">LinkedIn <span class="pf">팔로워 15,061</span></a>
-          </div>
-        </div>
-      </div>
-      <div class="person">
-        <img class="pavatar" src="img/junyeop.jpg" alt="오준엽">
-        <div class="pbody">
-          <div class="phead"><span class="pname">오준엽</span><span class="phandle">커리어제이｜J커브취업코칭 · @career.jay</span></div>
-          <p class="pbio">핀테크 AI Product Manager 커리어코치, 상향이직전문<br>네이버·토스·카카오·당근·컬리 합격자 배출 | 500명+ 컨설팅<br>국내 최대 규모 취업 플랫폼 만족도 1위 컨설턴트<br>⬇️⬇️ 1:1 취업 전략 상담 ⬇️⬇️</p>
-          <div class="plinks">
-            <a class="plink" href="https://www.threads.com/@career.jay" target="_blank" rel="noopener">Threads <span class="pf">팔로워 637</span></a>
-          </div>
-        </div>
-      </div>
-      <div class="person">
-        <img class="pavatar" src="img/jay.jpg" alt="임정">
-        <div class="pbody">
-          <div class="phead"><span class="pname">임정</span><span class="phandle">빌드앤라이트 · @buildnwrite</span></div>
-          <p class="pbio">- 8년차 Data Scientist<br>- 상상력이 기술이 되는 시대, 만들고 공유합니다.<br>- 한빛미디어 📚『n8n이 다 해줌』 저자</p>
-          <div class="plinks">
-            <a class="plink" href="https://www.threads.com/@buildnwrite" target="_blank" rel="noopener">Threads <span class="pf">팔로워 286</span></a>
-            <a class="plink" href="https://www.linkedin.com/in/jayjunglim/" target="_blank" rel="noopener">LinkedIn <span class="pf">팔로워 1,339</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="cta-wrap"><button type="button" class="cta-btn" data-signup>✋ 참여 신청하기</button></div>
-  </section>
 
   <!-- 1. 누구를 위한 -->
   <section>
@@ -554,6 +541,69 @@
     </div>
   </section>
 
+  <!-- 참여자 -->
+  <section>
+    <h2>함께하는 사람들</h2>
+    <p class="soft" style="font-size:14.5px;">첫 시즌을 함께 여는 참여자입니다. 아래 <b>참여 신청하기</b>를 누르면 목록에 바로 반영됩니다.</p>
+    <div class="people" id="people">
+      <div class="person">
+        <img class="pavatar" src="img/seulki.jpg" alt="강슬기">
+        <div class="pbody">
+          <div class="phead"><span class="pname">강슬기</span><span class="phandle">Seulki Kang · @marketer.ai.seulki</span></div>
+          <p class="pbio">AI, 데이터 하는 16년차 마케터 &amp; 프리랜서<br>🙆‍♀️ 퇴근후AI•마케팅데이터커넥트 커뮤니티 운영<br>📮 일잘러의성장노트 뉴스레터 발행<br>🇿🇦 이태원 브라이리퍼블릭 사모님(?)<br>🏄‍♀️ 나와 AI, 링크드인 배우고 싶다면 프로필링크↘</p>
+          <div class="plinks">
+            <a class="plink" href="https://www.threads.com/@marketer.ai.seulki" target="_blank" rel="noopener">Threads <span class="pf">팔로워 5,445</span></a>
+            <a class="plink" href="https://www.linkedin.com/in/seulki-kang/" target="_blank" rel="noopener">LinkedIn <span class="pf">팔로워 15,061</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="person">
+        <img class="pavatar" src="img/junyeop.jpg" alt="오준엽">
+        <div class="pbody">
+          <div class="phead"><span class="pname">오준엽</span><span class="phandle">커리어제이｜J커브취업코칭 · @career.jay</span></div>
+          <p class="pbio">핀테크 AI Product Manager 커리어코치, 상향이직전문<br>네이버·토스·카카오·당근·컬리 합격자 배출 | 500명+ 컨설팅<br>국내 최대 규모 취업 플랫폼 만족도 1위 컨설턴트<br>⬇️⬇️ 1:1 취업 전략 상담 ⬇️⬇️</p>
+          <div class="plinks">
+            <a class="plink" href="https://www.threads.com/@career.jay" target="_blank" rel="noopener">Threads <span class="pf">팔로워 637</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="person">
+        <img class="pavatar" src="img/jay.jpg" alt="임정">
+        <div class="pbody">
+          <div class="phead"><span class="pname">임정</span><span class="phandle">빌드앤라이트 · @buildnwrite</span></div>
+          <p class="pbio">- 8년차 Data Scientist<br>- 상상력이 기술이 되는 시대, 만들고 공유합니다.<br>- 한빛미디어 📚『n8n이 다 해줌』 저자</p>
+          <div class="plinks">
+            <a class="plink" href="https://www.threads.com/@buildnwrite" target="_blank" rel="noopener">Threads <span class="pf">팔로워 286</span></a>
+            <a class="plink" href="https://www.linkedin.com/in/jayjunglim/" target="_blank" rel="noopener">LinkedIn <span class="pf">팔로워 1,339</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="person">
+        <img class="pavatar" src="img/g9ingan.jpg" alt="지구인간">
+        <div class="pbody">
+          <div class="phead"><span class="pname">지구인간</span><span class="phandle">기획자의 PPT·홈페이지 · @g9ingan</span></div>
+          <p class="pbio">- 현대·CJ 13년차 기획자 → 1인 에이전시 대표<br>- 대표님의 언어를 고객 언어로 번역하는 '설계자'<br>- 시간·돈·에너지 덜 쓰는 1인 비즈니스, 기획 인사이트 공유<br>- 설득력 있는 PPT·홈페이지 제작 / 기획 컨설팅 문의 👇</p>
+          <div class="plinks">
+            <a class="plink" href="https://www.threads.com/@g9ingan" target="_blank" rel="noopener">Threads <span class="pf">팔로워 3,794</span></a>
+            <a class="plink" href="https://www.linkedin.com/in/g9insite/" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="plink" href="https://blog.naver.com/jobsori_freedom" target="_blank" rel="noopener">내 링크</a>
+          </div>
+        </div>
+      </div>
+      <div class="person">
+        <img class="pavatar" src="img/madi.jpg" alt="마디">
+        <div class="pbody">
+          <div class="phead"><span class="pname">마디</span><span class="phandle">그린 스토리텔러 · @madi_is_free</span></div>
+          <p class="pbio">식물과 꽃으로 세계관을 그려요 🌷<br>👇 7/11~12일 〈로컬 다이브〉 프리마켓에서 만나요!</p>
+          <div class="plinks">
+            <a class="plink" href="https://www.threads.com/@madi_is_free" target="_blank" rel="noopener">Threads <span class="pf">팔로워 4,996</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cta-wrap"><button type="button" class="cta-btn" data-signup>✋ 참여 신청하기</button></div>
+  </section>
+
   <!-- 마감 CTA -->
   <div class="closing">
     <b>2주에 1개, 3개월에 6개.</b>
@@ -643,7 +693,11 @@
     if(!configured || !sb) return;
     const { data, error } = await sb.from('participants').select('*').order('created_at', { ascending: true });
     if(error){ console.warn('load error', error); return; }
-    (data||[]).filter(p => !/^__/.test((p.name||'').trim())).forEach(renderCard);
+    // 이미 정적 카드로 넣은 참여자는 중복 렌더 방지
+    const SEEDED = new Set(['지구인간','마디']);
+    (data||[])
+      .filter(p => !/^__/.test((p.name||'').trim()) && !SEEDED.has((p.name||'').trim()))
+      .forEach(renderCard);
   }
 
   // 모달 열기/닫기
