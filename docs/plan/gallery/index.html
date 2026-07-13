@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>참여자 기획서 갤러리 · 유튜브 챌린지</title>
+<meta name="description" content="유튜브 챌린지 참여자들의 채널 한 장 기획서 갤러리 (참여자 전용)">
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --paper: #ffffff;
+    --paper-warm: #f6f5f4;
+    --ink: #31302e;
+    --ink-soft: #615d59;
+    --ink-faint: #a39e98;
+    --line: #dddddd;
+    --accent: #2563EB;
+    --accent-dark: #1D4ED8;
+    --accent-light: #60A5FA;
+    --accent-bg: #eff4fe;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Pretendard", "Pretendard Variable", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: var(--paper); color: var(--ink); line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    width: 100%; max-width: 800px; margin: 0 auto;
+  }
+  .doc { padding: 34px 52px 40px; }
+
+  .topnav {
+    display: flex; gap: 8px; align-items: center;
+    border-bottom: 1.5px solid var(--line); margin-bottom: 30px;
+  }
+  .topnav a {
+    font-size: 14.5px; font-weight: 700; text-decoration: none;
+    color: var(--ink-faint); padding: 12px 4px; margin-bottom: -1.5px;
+    border-bottom: 2.5px solid transparent;
+  }
+  .topnav a + a { margin-left: 18px; }
+  .topnav a:hover { color: var(--ink-soft); }
+  .topnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .eyebrow {
+    display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--accent); border: 1.5px solid var(--accent-light);
+    border-radius: 999px; padding: 5px 16px; margin-bottom: 20px;
+  }
+  h1 { font-size: 34px; font-weight: 800; line-height: 1.24; letter-spacing: -0.02em; margin-bottom: 14px; }
+  h1 .hl { color: var(--accent); }
+  .lede { font-size: 16px; color: var(--ink-soft); max-width: 40em; margin-bottom: 26px; }
+
+  .status { text-align: center; color: var(--ink-faint); font-size: 14.5px; padding: 60px 0; }
+
+  .card {
+    border: 1.5px solid var(--line); border-radius: 16px;
+    padding: 24px 26px; margin-bottom: 22px; background: var(--paper);
+  }
+  .card-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+  .card-head .pname { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; }
+  .card-head .pchannel { font-size: 14px; font-weight: 700; color: var(--accent-dark); }
+  .card .concept { font-size: 14.5px; color: var(--ink-soft); margin-bottom: 14px; }
+  .item { margin-top: 12px; }
+  .item .q { font-size: 12.5px; font-weight: 800; color: var(--accent); letter-spacing: 0.02em; margin-bottom: 2px; }
+  .item .a { font-size: 14.5px; color: var(--ink); white-space: pre-wrap; }
+  .item .a.empty { color: var(--ink-faint); }
+  .meta { font-size: 12px; color: var(--ink-faint); margin-top: 14px; text-align: right; }
+
+  footer {
+    margin-top: 48px; padding-top: 20px; border-top: 1.5px solid var(--line);
+    font-size: 12.5px; color: var(--ink-faint);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .doc { padding: 24px 20px 30px; }
+    h1 { font-size: 26px; }
+    .card { padding: 18px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <nav class="topnav">
+    <a href="../../">제안서</a>
+    <a href="../">채널 한 장 기획서</a>
+    <a href="./" class="active">참여자 갤러리</a>
+  </nav>
+
+  <div class="eyebrow">PARTICIPANTS ONLY · GALLERY</div>
+  <h1>참여자 기획서 갤러리<br><span class="hl">서로의 뼈대를 봅니다.</span></h1>
+  <p class="lede">챌린지 참여자들이 제출한 채널 한 장 기획서입니다. 7월 25일(토) 오전 10시 온라인 OT에서 각자 발표해요. 이 페이지는 참여자 전용 링크로만 열립니다.</p>
+
+  <div class="status" id="status">기획서를 불러오는 중…</div>
+  <div id="list"></div>
+
+  <footer>
+    <span>YouTube Challenge · Plan Gallery</span>
+    <span>© 2026 BuildnWrite. All rights reserved.</span>
+  </footer>
+
+</div>
+
+<script>
+  const API_URL = 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs/exec';
+  const ITEMS = [
+    ['reason', '① 유튜브를 하는 이유'],
+    ['pipeline', '② 사업 파이프라인'],
+    ['audience', '③ 주 목적 시청층'],
+    ['cta', '④ 유입 첫 단계 (CTA · 랜딩)'],
+    ['message', '⑤ 채널이 전달하려는 메시지']
+  ];
+  const statusEl = document.getElementById('status');
+  const listEl = document.getElementById('list');
+
+  function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function card(p){
+    const items = ITEMS.map(([key, label]) => {
+      const v = (p[key] || '').trim();
+      return `<div class="item"><div class="q">${label}</div><div class="a${v ? '' : ' empty'}">${v ? esc(v) : '(미작성)'}</div></div>`;
+    }).join('');
+    const updated = p.updated_at ? new Date(p.updated_at) : null;
+    const meta = updated ? `마지막 수정 ${updated.getMonth()+1}/${updated.getDate()}` + (Number(p.submit_count) > 1 ? ` · ${p.submit_count}번째 제출` : '') : '';
+    return `<div class="card">
+      <div class="card-head"><span class="pname">${esc(p.name)}</span>${p.channel_name ? `<span class="pchannel">${esc(p.channel_name)}</span>` : ''}</div>
+      ${p.concept ? `<div class="concept">${esc(p.concept)}</div>` : ''}
+      ${items}
+      ${meta ? `<div class="meta">${meta}</div>` : ''}
+    </div>`;
+  }
+
+  async function load(){
+    const token = new URLSearchParams(location.search).get('t');
+    if(!token){
+      statusEl.textContent = '이 페이지는 참여자 전용입니다 — 기획서 제출 후 받은 이메일의 링크로 들어와주세요.';
+      return;
+    }
+    try {
+      const res = await fetch(`${API_URL}?action=gallery&t=${encodeURIComponent(token)}`);
+      const data = await res.json();
+      if(!data.ok) throw new Error(data.error || 'invalid');
+      if(!data.plans.length){
+        statusEl.textContent = '아직 제출된 기획서가 없어요 — 첫 번째 주인공이 되어보세요.';
+        return;
+      }
+      statusEl.style.display = 'none';
+      listEl.innerHTML = data.plans.map(card).join('');
+    } catch(e) {
+      statusEl.textContent = '기획서를 불러오지 못했어요 — 이메일의 링크가 맞는지 확인해주세요.';
+    }
+  }
+  load();
+</script>
+</body>
+</html>
