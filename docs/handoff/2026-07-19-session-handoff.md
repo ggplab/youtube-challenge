@@ -15,7 +15,9 @@
 
 1. **GEMINI_API_KEY 등록** — 어디까지: 코드·배포 완료, 키 없이도 저장·메일 동작(AI 검토만 생략) / 남은 일: [Apps Script 편집기](https://script.google.com/d/10d4YebiJYUwxn1qujzg32b5fz0smXjxLBLEcvSdYxNXRJY1cQjkQZQ4Y/edit) → 프로젝트 설정 → 스크립트 속성에 `GEMINI_API_KEY`(~/.zshenv 값) 추가 → /submit 테스트 제출 1건으로 AI 검토 메일 확인
 2. **카카오톡 오픈채팅방 개설** — 방 만들고 참여자 6명 초대, OT 링크·challenge.buildnwrite.com 공지
-3. **영상 인증 시스템** — 기획안 제출(/submit)만 구현됨. 제작 주 첫 마감(08-02) 전까지 인증 경로 필요 — 후보: submit 폼에 form:'verify' 확장(같은 GAS 패턴, 롱폼 URL 검증) 또는 시즌1 차용. OT에서는 "카톡방 공지"로 안내해둠
+3. ~~영상 인증 시스템~~ → **완료** (`50fac6a`, 배포 @5): /verify 폼 + 쇼츠 거부 + email+cycle upsert + 확인 메일 + 인증 현황 보드(토큰). E2E 실측 통과. GNB도 5탭(영상 인증 포함)으로 전 페이지+OT 덱 통일
+   - 마이너: oEmbed 제목 수집이 GAS에서 빈 값으로 옴(폴백: URL 표시) — 여유 시 원인 확인
+   - 테스트 행 정리: proposals·verifications 시트에 `__test_e2e` 행 2건 (공개 필터로 숨겨짐, 시트에서 수동 삭제 가능)
 4. **사이클 정산 카드** — 격주 월요일 ✅/❌+🔥 집계. GAS 시간 트리거로 구현 예정 (첫 정산 08-03 월)
 5. **임정 개인 과제** — 07-20까지 실운영 시스템 6개 소재 후보 리스트업 (오피스아워 과제 1번)
 
@@ -26,8 +28,8 @@
 
 ## 다음 세션 첫 작업 거점
 
-- OT 리허설: http://localhost:8933/ot/ 또는 https://challenge.buildnwrite.com/ot/ 를 넘겨보며 발표 흐름 점검 → 수정 지시
-- 또는 영상 인증 시스템 구현 착수 (`system/plan-backend/Code.js`에 verify 경로 추가, 위 3번)
+- OT 리허설: https://challenge.buildnwrite.com/ot/ 를 넘겨보며 발표 흐름 점검 → 수정 지시
+- 사이클 정산 카드 구현 (위 4번, 첫 정산 08-03 월)
 
 ## 추천 스킬
 
