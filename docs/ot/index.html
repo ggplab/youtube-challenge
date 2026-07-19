@@ -57,6 +57,8 @@
   .pcard .pn { font-size:20px; font-weight:800; }
   .pcard .pc { font-size:15px; color:var(--accent-dark); font-weight:700; margin:2px 0 8px; }
   .pcard .pt { font-size:15.5px; color:var(--ink-soft); line-height:1.55; }
+  .pcard .pav { width:64px; height:64px; border-radius:50%; object-fit:cover; margin-bottom:10px; border:2px solid #fff; box-shadow:0 3px 10px rgba(0,0,0,.12); }
+  .pcard .pav-init { display:flex; align-items:center; justify-content:center; background:var(--accent); color:#fff; font-size:24px; font-weight:800; }
   .titlewrap { flex:1; display:flex; flex-direction:column; justify-content:center; }
   .center { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; flex:1; }
 </style>
@@ -229,7 +231,14 @@
 <!-- 11.5 참여자 소개 -->
 <section class="slide">
   <h2>오늘의 참여자</h2>
-  <div id="pplgrid" style="display:grid; grid-template-columns:repeat(2,1fr); gap:16px; flex:1; align-content:center; overflow:hidden"></div>
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; flex:1; align-content:center">
+    <div class="pcard"><img class="pav" src="../img/seulki.jpg" alt="강슬기"><div class="pn">강슬기</div><div class="pc">@marketer.ai.seulki</div><div class="pt">AI·데이터 16년차 마케터 &amp; 프리랜서. 퇴근후AI·마케팅데이터커넥트 커뮤니티 운영</div></div>
+    <div class="pcard"><img class="pav" src="../img/junyeop.jpg" alt="오준엽"><div class="pn">오준엽</div><div class="pc">커리어제이 · @career.jay</div><div class="pt">핀테크 AI PM 커리어코치, 상향이직 전문. 500명+ 컨설팅</div></div>
+    <div class="pcard"><img class="pav" src="../img/jay.jpg" alt="임정"><div class="pn">임정</div><div class="pc">빌드앤라이트 · @buildnwrite</div><div class="pt">8년차 Data Scientist. 『n8n이 다 해줌』 저자, 업무 자동화 빌드 인 퍼블릭</div></div>
+    <div class="pcard"><img class="pav" src="../img/g9ingan.jpg" alt="지구인간"><div class="pn">지구인간</div><div class="pc">@g9ingan</div><div class="pt">기획 인사이트 · 웹 · PPT</div></div>
+    <div class="pcard"><img class="pav" src="../img/madi.jpg" alt="마디"><div class="pn">마디</div><div class="pc">@madi_is_free</div><div class="pt">원예 콘텐츠</div></div>
+    <div class="pcard"><div class="pav pav-init">보</div><div class="pn">손보미</div><div class="pc">&nbsp;</div><div class="pt">영어 강의 콘텐츠 (AWS 클라우드 탐구 중)</div></div>
+  </div>
   <div class="foot"><span>참여자</span><span class="pageno"></span></div>
 </section>
 <!-- 12 발표 세션 -->
@@ -307,20 +316,6 @@
     if(e.key==='Home')show(0); if(e.key==='End')show(slides.length-1); });
   addEventListener('click',e=>{ show(e.clientX>innerWidth/2? i+1 : i-1); });
   fit(); show(0);
-  // 참여자 카드: 기획서 갤러리 실시간 로드 (OT 시점 제출자 자동 반영)
-  (async () => {
-    const grid = document.getElementById('pplgrid');
-    try {
-      const API = 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs/exec';
-      const res = await fetch(API + '?action=gallery&t=da616006838644ceba60be340e7c1de8');
-      const data = await res.json();
-      const esc = t => String(t||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-      if (data.ok && data.plans.length) {
-        grid.innerHTML = data.plans.map(p => `<div class="pcard"><div class="pn">${esc(p.name)}</div>${p.channel_name?`<div class="pc">${esc(p.channel_name)}</div>`:''}<div class="pt">${esc((p.concept||'').slice(0,90))}</div></div>`).join('');
-        if (data.plans.length > 4) grid.style.gridTemplateColumns = 'repeat(3,1fr)';
-      } else { grid.innerHTML = '<p class="lead">기획서 제출을 기다리고 있습니다.</p>'; }
-    } catch(e) { grid.innerHTML = '<p class="lead">참여자 기획서는 갤러리에서 함께 봅니다.</p>'; }
-  })();
 </script>
 </body>
 </html>
