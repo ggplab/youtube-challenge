@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>국내 AI/IT 크리에이터 포지셔닝 맵 · BuildnWrite</title>
+<style>
+  :root {
+    --paper: #ffffff; --paper-warm: #f6f5f4;
+    --ink: #31302e; --ink-soft: #615d59; --ink-faint: #a39e98;
+    --line: #dddddd;
+    --accent: #2563EB; --accent-dark: #1D4ED8; --accent-bg: #eff4fe;
+    --teal: #0e9888;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:var(--paper); color:var(--ink); line-height:1.6; max-width:1080px; margin:0 auto; padding:40px 48px 48px; }
+  h1 { font-size:25px; font-weight:800; letter-spacing:-0.4px; }
+  .sub { color:var(--ink-soft); font-size:14px; margin:6px 0 4px; }
+  .meta { color:var(--ink-faint); font-size:12.5px; margin-bottom:22px; }
+  .legend { display:flex; gap:20px; align-items:center; font-size:13px; color:var(--ink-soft); margin:10px 0 4px; flex-wrap:wrap; }
+  .legend .sw { display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:6px; vertical-align:-1px; }
+  .chartwrap { overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--paper); padding:8px 4px 0; }
+  svg text { font-family:inherit; }
+  .tooltip { position:fixed; pointer-events:none; background:#31302eeb; color:#fff; border-radius:8px;
+    padding:9px 12px; font-size:12.5px; line-height:1.5; max-width:300px; opacity:0; transition:opacity .12s; z-index:10; }
+  .tooltip b { font-size:13.5px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; margin:26px 0; }
+  .card { border:1px solid var(--line); border-radius:12px; padding:16px 18px; background:var(--paper-warm); }
+  .card.reco { background:var(--accent-bg); border-color:var(--accent); }
+  .card h3 { font-size:14.5px; margin-bottom:8px; }
+  .card p { font-size:13px; color:var(--ink-soft); margin-bottom:6px; }
+  .card .tag { display:inline-block; font-size:11.5px; font-weight:700; color:var(--accent-dark);
+    background:#fff; border:1px solid var(--accent); border-radius:20px; padding:1px 10px; margin-bottom:8px; }
+  h2 { font-size:17px; margin:30px 0 10px; }
+  table { border-collapse:collapse; width:100%; font-size:12.5px; }
+  th,td { border:1px solid var(--line); padding:6px 9px; text-align:left; vertical-align:top; }
+  th { background:var(--paper-warm); font-weight:700; white-space:nowrap; }
+  td.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .tablewrap { overflow-x:auto; }
+  footer { margin-top:34px; color:var(--ink-faint); font-size:12px; border-top:1px solid var(--line); padding-top:14px; }
+</style>
+</head>
+<body>
+<h1>국내 AI/IT 크리에이터 포지셔닝 맵 — 기회의 땅</h1>
+<p class="sub"><b>X축</b> 타겟 기술 배경 (0 비개발자·일반 직장인 ↔ 100 전문 개발자) · <b>Y축</b> 콘텐츠 산출 깊이 (0 도구 소개·리뷰 ↔ 100 엔드투엔드 시스템 구축·실전 산출물)</p>
+<p class="meta">2026-07-19 · 멀티에이전트 웹서치 스윕 8종 → 43채널 발굴 → 중복 병합·범위 외 제외 후 35채널 스코어링 · 구독자 수는 검색으로 확인된 값만 표기(미확인은 작은 점)</p>
+
+<div class="legend">
+  <span><span class="sw" style="background:var(--teal)"></span>기존 채널 (점 크기 = 구독자, 테두리만 = 미확인)</span>
+  <span><span class="sw" style="background:var(--accent-dark)"></span>★ 권장 포지션 (30, 88)</span>
+  <span><span class="sw" style="background:#e9e7e4; border-radius:3px"></span>밀집 구역</span>
+  <span><span class="sw" style="background:var(--accent-bg); border:1.5px dashed var(--accent); border-radius:3px"></span>기회의 땅 (공백)</span>
+</div>
+
+<div class="chartwrap"><svg id="chart" width="1000" height="660" viewBox="0 0 1000 660" role="img" aria-label="포지셔닝 산점도"></svg></div>
+<div class="tooltip" id="tip"></div>
+
+<div class="cards" id="zonecards"></div>
+
+<h2>전체 채널 데이터 (35)</h2>
+<div class="tablewrap"><table id="tbl">
+<thead><tr><th>채널</th><th>X</th><th>Y</th><th>구독자</th><th>주력 주제</th><th>스코어 근거</th></tr></thead>
+<tbody></tbody>
+</table></div>
+
+<footer>
+데이터: 워크플로우 딥리서치(에이전트 15개) 결과. 구독자 수는 출처별 상충 시 최신·명시 기준 채택, 미확인은 공란. 제외 1건: 정서불안 김햄찌(AI 캐릭터 엔터테인먼트 — 지식 콘텐츠 지형 밖).<br>
+© 2026 BuildnWrite. All rights reserved.
+</footer>
+
+<script>
+fetch('positioning-data.json').then(r=>r.json()).then(init).catch(()=>{ /* file:// fallback */
+  document.querySelector('.chartwrap').insertAdjacentHTML('beforebegin','<p style="color:#b45309">positioning-data.json 로드 실패 — 로컬 서버로 열어주세요</p>');
+});
+
+function init(data){
+  const svg = document.getElementById('chart'), NS='http://www.w3.org/2000/svg';
+  const M = {l:64, r:26, t:18, b:64}, W=1000, H=660;
+  const px = x => M.l + (x/100)*(W-M.l-M.r);
+  const py = y => H-M.b - (y/100)*(H-M.t-M.b);
+  const el = (t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+  const txt=(x,y,s,a={})=>{const e=el('text',{x,y,...a});e.textContent=s;return e;};
+
+  // grid
+  for(let v=0;v<=100;v+=25){
+    svg.append(el('line',{x1:px(v),y1:py(0),x2:px(v),y2:py(100),stroke:'#eeecea','stroke-width':1}));
+    svg.append(el('line',{x1:px(0),y1:py(v),x2:px(100),y2:py(v),stroke:'#eeecea','stroke-width':1}));
+    svg.append(txt(px(v),H-M.b+20,v,{'text-anchor':'middle','font-size':11,fill:'#a39e98'}));
+    svg.append(txt(M.l-10,py(v)+4,v,{'text-anchor':'end','font-size':11,fill:'#a39e98'}));
+  }
+  // crowded zones (behind)
+  const crowded=[{x:[0,30],y:[0,50],label:'툴 소개·팁 밀집'},{x:[30,55],y:[35,70],label:'자동화 튜토리얼 밀집'},{x:[60,90],y:[15,55],label:'개발자 이론·리뷰 밀집'}];
+  crowded.forEach(z=>{
+    svg.append(el('rect',{x:px(z.x[0]),y:py(z.y[1]),width:px(z.x[1])-px(z.x[0]),height:py(z.y[0])-py(z.y[1]),fill:'#8b857e',opacity:0.08,rx:10}));
+    svg.append(txt(px(z.x[0])+8,py(z.y[1])+16,z.label,{'font-size':11,fill:'#a39e98','font-weight':600}));
+  });
+  // empty zones
+  (data.synthesis.empty_zones||[]).forEach((z,i)=>{
+    svg.append(el('ellipse',{cx:px(z.x_center),cy:py(z.y_center),rx:82,ry:52,fill:'#2563EB',opacity:0.06}));
+    svg.append(el('ellipse',{cx:px(z.x_center),cy:py(z.y_center),rx:82,ry:52,fill:'none',stroke:'#2563EB','stroke-dasharray':'6 5','stroke-width':1.6}));
+    svg.append(txt(px(z.x_center),py(z.y_center)-58,'기회의 땅 '+(i+1),{'text-anchor':'middle','font-size':11.5,fill:'#1D4ED8','font-weight':700}));
+  });
+  // axis titles
+  svg.append(txt((M.l+W-M.r)/2,H-16,'타겟 기술 배경 → 개발자',{'text-anchor':'middle','font-size':12.5,fill:'#615d59','font-weight':600}));
+  const yl=txt(0,0,'콘텐츠 산출 깊이 → 시스템 구축',{'text-anchor':'middle','font-size':12.5,fill:'#615d59','font-weight':600});
+  yl.setAttribute('transform',`translate(16,${(H-M.b+M.t)/2}) rotate(-90)`); svg.append(yl);
+
+  // points
+  const tip=document.getElementById('tip');
+  const rOf=s=>s? Math.max(5,Math.min(17,Math.sqrt(s)/60)) : 4.5;
+  data.channels.forEach(c=>{
+    const r=rOf(c.subs), known=!!c.subs;
+    const dot=el('circle',{cx:px(c.x),cy:py(c.y),r,fill:known?'#0e9888':'none',stroke:known?'#fff':'#0e9888','stroke-width':known?2:1.8,opacity:0.92,cursor:'pointer'});
+    dot.addEventListener('mousemove',e=>{
+      tip.style.opacity=1; tip.style.left=(e.clientX+14)+'px'; tip.style.top=(e.clientY+10)+'px';
+      tip.innerHTML=`<b>${c.name}</b><br>좌표 (${c.x}, ${c.y}) · ${c.subs_text||'구독자 미확인'}<br>${c.topic}<br><span style="opacity:.75">${c.rationale}</span>`;
+    });
+    dot.addEventListener('mouseleave',()=>tip.style.opacity=0);
+    svg.append(dot);
+    if((c.subs&&c.subs>=80000)||c.y>=60){
+      svg.append(txt(px(c.x)+r+4,py(c.y)+4,c.name,{'font-size':11,fill:'#31302e','font-weight':600,'paint-order':'stroke',stroke:'#ffffffcc','stroke-width':3}));
+    }
+  });
+  // recommendation star
+  const rx=px(30),ry=py(88);
+  const star=el('path',{d:starPath(rx,ry,13,6),fill:'#1D4ED8',stroke:'#fff','stroke-width':1.5});
+  svg.append(star);
+  svg.append(txt(rx+16,ry+5,'임정 권장 포지션 (30, 88)',{'font-size':12.5,fill:'#1D4ED8','font-weight':800,'paint-order':'stroke',stroke:'#ffffffdd','stroke-width':3}));
+  function starPath(cx,cy,R,r2){let p='';for(let i=0;i<10;i++){const a=Math.PI/5*i-Math.PI/2,rr=i%2?r2:R;p+=(i?'L':'M')+(cx+rr*Math.cos(a)).toFixed(1)+','+(cy+rr*Math.sin(a)).toFixed(1);}return p+'Z';}
+
+  // zone cards
+  const cards=document.getElementById('zonecards');
+  (data.synthesis.empty_zones||[]).forEach((z,i)=>{
+    cards.insertAdjacentHTML('beforeend',`<div class="card${i===0?' reco':''}">
+      ${i===0?'<span class="tag">★ 권장</span>':''}
+      <h3>기회의 땅 ${i+1} — ${z.label} (${z.x_center}, ${z.y_center})</h3>
+      <p><b>왜 비었나</b> ${z.why_empty}</p>
+      <p><b>기회</b> ${z.opportunity}</p>
+      <p><b>리스크</b> ${z.risk}</p></div>`);
+  });
+  cards.insertAdjacentHTML('beforeend',`<div class="card" style="grid-column:1/-1"><h3>종합 권고</h3><p>${data.synthesis.recommendation}</p></div>`);
+
+  // table
+  const tb=document.querySelector('#tbl tbody');
+  [...data.channels].sort((a,b)=>(b.subs||0)-(a.subs||0)).forEach(c=>{
+    tb.insertAdjacentHTML('beforeend',`<tr><td><b>${c.name}</b></td><td class="num">${c.x}</td><td class="num">${c.y}</td>
+      <td class="num">${c.subs?c.subs.toLocaleString():'—'}</td><td>${c.topic}</td><td>${c.rationale}</td></tr>`);
+  });
+}
+</script>
+</body>
+</html>
