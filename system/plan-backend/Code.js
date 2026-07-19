@@ -24,6 +24,13 @@ var PROPOSAL_HEADERS = [
 ];
 var PROPOSAL_FIELDS = ['name', 'email', 'cycle', 'target', 'topic', 'structure', 'links'];
 
+var VERIFY_SHEET = 'verifications';
+var VERIFY_HEADERS = [
+  'created_at', 'updated_at', 'name', 'email', 'cycle',
+  'video_url', 'video_title', 'edit_token', 'submit_count'
+];
+var VERIFY_FIELDS = ['name', 'email', 'cycle', 'video_url'];
+
 function setup() {
   sheet_();
   proposalSheet_();
@@ -93,11 +100,115 @@ function proposalRows_() {
 }
 
 // ── 제출 (upsert by email) ──
+
+function verifySheet_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName(VERIFY_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(VERIFY_SHEET);
+    sh.getRange(1, 1, 1, VERIFY_HEADERS.length).setValues([VERIFY_HEADERS]).setFontWeight('bold');
+    sh.setFrozenRows(1);
+  }
+  return sh;
+}
+
+function verifyRows_() {
+  var sh = verifySheet_();
+  var last = sh.getLastRow();
+  if (last < 2) return [];
+  var values = sh.getRange(2, 1, last - 1, VERIFY_HEADERS.length).getValues();
+  return values.map(function (v, i) {
+    var o = { _row: i + 2 };
+    VERIFY_HEADERS.forEach(function (h, j) { o[h] = v[j]; });
+    return o;
+  });
+}
+
+// ── 영상 인증 (upsert by email + cycle) ──
+function handleVerifyPost_(body) {
+  var row = {};
+  VERIFY_FIELDS.forEach(function (f) { row[f] = String(body[f] || '').trim(); });
+  if (!row.name) return json_({ ok: false, error: '이름이 없습니다.' });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(row.email)) return json_({ ok: false, error: '이메일 형식이 올바르지 않습니다.' });
+  if (!/^[1-6]$/.test(row.cycle)) return json_({ ok: false, error: '사이클은 1~6 중 하나여야 합니다.' });
+
+  // 유튜브 롱폼 URL 검증: watch/youtu.be/live 허용, shorts 거부
+  var url = row.video_url;
+  if (/youtube\.com\/shorts\//i.test(url)) {
+    return json_({ ok: false, error: '쇼츠는 인정되지 않습니다. 롱폼 영상 URL을 제출해주세요.' });
+  }
+  var idMatch = url.match(/(?:youtube\.com\/watch\?[^#]*v=|youtu\.be\/|youtube\.com\/live\/)([A-Za-z0-9_-]{6,20})/);
+  if (!idMatch) {
+    return json_({ ok: false, error: '유튜브 영상 URL이 아닙니다. youtube.com/watch?v=... 또는 youtu.be/... 형식으로 제출해주세요.' });
+  }
+  var canonical = 'https://www.youtube.com/watch?v=' + idMatch[1];
+
+  // oEmbed로 제목 수집 (실패해도 인증은 계속)
+  var title = '';
+  try {
+    var oe = UrlFetchApp.fetch('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent(canonical),
+      { muteHttpExceptions: true });
+    if (oe.getResponseCode() === 200) title = String(JSON.parse(oe.getContentText()).title || '');
+    else if (oe.getResponseCode() === 404 || oe.getResponseCode() === 401) {
+      return json_({ ok: false, error: '영상을 찾을 수 없습니다. 공개(또는 일부공개) 상태인지 확인해주세요.' });
+    }
+  } catch (err) { Logger.log('oEmbed failed: ' + err); }
+
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  var editToken, submitCount;
+  try {
+    var sh = verifySheet_();
+    var now = new Date();
+    var existing = verifyRows_().filter(function (r) {
+      return String(r.email).toLowerCase() === row.email.toLowerCase()
+        && String(r.cycle) === row.cycle;
+    })[0];
+    if (existing) {
+      editToken = existing.edit_token || Utilities.getUuid().replace(/-/g, '');
+      submitCount = (Number(existing.submit_count) || 0) + 1;
+      sh.getRange(existing._row, 1, 1, VERIFY_HEADERS.length).setValues([[
+        existing.created_at || now, now, row.name, row.email, row.cycle,
+        canonical, title, editToken, submitCount
+      ]]);
+    } else {
+      editToken = Utilities.getUuid().replace(/-/g, '');
+      submitCount = 1;
+      sh.appendRow([now, now, row.name, row.email, row.cycle, canonical, title, editToken, submitCount]);
+    }
+  } finally {
+    lock.releaseLock();
+  }
+
+  sendVerifyConfirmMail_(row, canonical, title, submitCount);
+  return json_({ ok: true, resubmit: submitCount > 1, video_title: title });
+}
+
+function sendVerifyConfirmMail_(row, canonical, title, submitCount) {
+  try {
+    var statusUrl = SITE + '/verify/?t=' + galleryToken_();
+    var html =
+      '<div style="font-family:-apple-system,\'Apple SD Gothic Neo\',\'Malgun Gothic\',sans-serif;max-width:640px;margin:0 auto;color:#1a1a1a;">'
+      + '<h2 style="margin:24px 0 4px;">' + escHtml_(row.name) + '님, 사이클 ' + escHtml_(row.cycle) + ' 영상 인증 완료 🎬</h2>'
+      + '<p style="color:#555;line-height:1.7;">' + (title ? '<b>' + escHtml_(title) + '</b><br>' : '')
+      + '<a href="' + canonical + '">' + canonical + '</a></p>'
+      + (submitCount > 1 ? '<p style="color:#777;">같은 사이클 재제출로 기록이 갱신됐습니다.</p>' : '')
+      + '<p style="margin:20px 0;"><a href="' + statusUrl + '" style="display:inline-block;background:#2563EB;color:#fff;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700;">👀 전체 인증 현황 보기</a></p>'
+      + '<p style="color:#999;font-size:13px;">© 2026 BuildnWrite. All rights reserved.</p></div>';
+    MailApp.sendEmail({
+      to: row.email,
+      subject: '[유튜브 챌린지] 사이클 ' + row.cycle + ' 영상 인증 완료',
+      htmlBody: html
+    });
+  } catch (err) { Logger.log('verify mail failed: ' + err); }
+}
+
 function doPost(e) {
-  try { var c0 = CacheService.getScriptCache(); c0.remove('gallery-json'); c0.remove('proposals-json'); } catch (err0) {}
+  try { var c0 = CacheService.getScriptCache(); c0.remove('gallery-json'); c0.remove('proposals-json'); c0.remove('verifications-json'); } catch (err0) {}
   try {
     var body = JSON.parse(e.postData.contents);
     if (body.form === 'proposal') return handleProposalPost_(body);
+    if (body.form === 'verify') return handleVerifyPost_(body);
     var row = {};
     FIELDS.forEach(function (f) { row[f] = String(body[f] || '').trim(); });
     if (!row.name) return json_({ ok: false, error: '이름이 없습니다.' });
@@ -272,6 +383,22 @@ function doGet(e) {
     var pPayload = JSON.stringify({ ok: true, proposals: proposals });
     pCache.put('proposals-json', pPayload, 60);
     return ContentService.createTextOutput(pPayload).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (p.action === 'verifications') {
+    if (!p.t || p.t !== galleryToken_()) {
+      return json_({ ok: false, error: 'invalid token' });
+    }
+    var vCache = CacheService.getScriptCache();
+    var vHit = vCache.get('verifications-json');
+    if (vHit) return ContentService.createTextOutput(vHit).setMimeType(ContentService.MimeType.JSON);
+    var verifs = verifyRows_().map(function (r) {
+      return { name: r.name, cycle: r.cycle, video_url: r.video_url, video_title: r.video_title,
+        updated_at: r.updated_at, submit_count: r.submit_count };
+    }).filter(function (r) { return !/^__/.test(String(r.name)); });
+    var vPayload = JSON.stringify({ ok: true, verifications: verifs });
+    vCache.put('verifications-json', vPayload, 60);
+    return ContentService.createTextOutput(vPayload).setMimeType(ContentService.MimeType.JSON);
   }
 
   if (p.action === 'proposal-mine') {

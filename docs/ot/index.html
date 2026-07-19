@@ -61,9 +61,21 @@
   .pcard .pav-init { display:flex; align-items:center; justify-content:center; background:var(--accent); color:#fff; font-size:24px; font-weight:800; }
   .titlewrap { flex:1; display:flex; flex-direction:column; justify-content:center; }
   .center { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; flex:1; }
+  #gnb { position:fixed; top:0; left:0; right:0; height:42px; z-index:5; display:flex; gap:26px;
+    align-items:center; justify-content:center; background:#141312; }
+  #gnb a { font-size:13.5px; font-weight:700; color:#8b857e; text-decoration:none; }
+  #gnb a:hover { color:#d8d4cf; }
+  #gnb a.active { color:#60A5FA; }
 </style>
 </head>
 <body>
+<nav id="gnb">
+  <a href="../">제안서</a>
+  <a href="../plan/">채널 한 장 기획서</a>
+  <a href="../submit/">기획안 제출</a>
+  <a href="../verify/">영상 인증</a>
+  <a href="./" class="active">OT 자료</a>
+</nav>
 <div id="stage">
 
 <!-- 1 타이틀 -->
@@ -308,8 +320,8 @@
   function show(n){ i=Math.max(0,Math.min(slides.length-1,n));
     slides.forEach((s,j)=>s.classList.toggle('active',j===i)); }
   document.querySelectorAll('.slide').forEach((s,i)=>{ const el=s.querySelector('.pageno'); if(el) el.textContent=(i+1)+' / '+slides.length; });
-  function fit(){ const s=Math.min(innerWidth/1280,innerHeight/720);
-    document.getElementById('stage').style.transform=`translate(-50%,-50%) scale(${s})`; }
+  function fit(){ const s=Math.min(innerWidth/1280,(innerHeight-42)/720);
+    const st=document.getElementById('stage'); st.style.top='calc(50% + 21px)'; st.style.transform=`translate(-50%,-50%) scale(${s})`; }
   addEventListener('resize',fit);
   addEventListener('keydown',e=>{ if(['ArrowRight','PageDown',' '].includes(e.key))show(i+1);
     if(['ArrowLeft','PageUp'].includes(e.key))show(i-1);
