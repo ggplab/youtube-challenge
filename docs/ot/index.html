@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>유튜브 챌린지 OT · 2026-07-25</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --paper:#ffffff; --paper-warm:#f6f5f4; --ink:#31302e; --ink-soft:#615d59;
+    --ink-faint:#a39e98; --line:#dddddd; --accent:#2563EB; --accent-dark:#1D4ED8; --accent-bg:#eff4fe;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { height:100%; background:#1c1b1a; overflow:hidden;
+    font-family:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",sans-serif; }
+  #stage { position:absolute; top:50%; left:50%; width:1280px; height:720px;
+    transform-origin:center center; }
+  .slide { position:absolute; inset:0; background:var(--paper); color:var(--ink);
+    padding:64px 80px; display:none; flex-direction:column; }
+  .slide.active { display:flex; }
+  .kicker { font-size:16px; font-weight:800; color:var(--accent-dark); letter-spacing:.06em; margin-bottom:14px; }
+  h1 { font-size:52px; font-weight:800; letter-spacing:-1px; line-height:1.25; }
+  h2 { font-size:38px; font-weight:800; letter-spacing:-0.6px; margin-bottom:28px; line-height:1.3; }
+  p.lead { font-size:22px; color:var(--ink-soft); line-height:1.65; }
+  ul.big { list-style:none; font-size:22px; line-height:1.6; }
+  ul.big li { padding:12px 0 12px 34px; position:relative; }
+  ul.big li::before { content:""; position:absolute; left:6px; top:22px; width:9px; height:9px;
+    border-radius:50%; background:var(--accent); }
+  ul.big li b { font-weight:800; }
+  .cols { display:flex; gap:36px; flex:1; min-height:0; }
+  .col { flex:1; min-width:0; }
+  table { border-collapse:collapse; width:100%; font-size:19px; }
+  th,td { border:1px solid var(--line); padding:10px 14px; text-align:left; }
+  th { background:var(--paper-warm); font-weight:800; }
+  .foot { position:absolute; bottom:22px; left:80px; right:80px; display:flex;
+    justify-content:space-between; font-size:13px; color:var(--ink-faint); }
+  .chip { display:inline-block; background:var(--accent-bg); color:var(--accent-dark);
+    font-weight:800; border-radius:24px; padding:4px 16px; font-size:17px; margin-right:8px; }
+  .stat { text-align:center; padding:26px 10px; background:var(--paper-warm); border-radius:16px; }
+  .stat .n { font-size:44px; font-weight:800; color:var(--accent-dark); }
+  .stat .l { font-size:17px; color:var(--ink-soft); margin-top:6px; }
+  .statrow { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:10px; }
+  img.shot { max-width:100%; max-height:100%; object-fit:contain; border:1px solid var(--line); border-radius:12px; }
+  .imgbox { flex:1; min-height:0; display:flex; align-items:center; justify-content:center; gap:20px; }
+  .cycle { display:flex; align-items:stretch; gap:0; margin:34px 0 22px; }
+  .cbox { flex:1; border:2px solid var(--accent); border-radius:16px; padding:22px 24px; background:var(--accent-bg); }
+  .cbox h3 { font-size:23px; color:var(--accent-dark); margin-bottom:10px; }
+  .cbox p { font-size:18px; color:var(--ink-soft); line-height:1.55; }
+  .carrow { display:flex; align-items:center; padding:0 14px; font-size:30px; color:var(--accent); font-weight:800; }
+  .quote { border-left:5px solid var(--accent); background:var(--paper-warm); padding:20px 26px;
+    font-size:21px; line-height:1.6; border-radius:0 12px 12px 0; margin-top:22px; }
+  .num { font-variant-numeric:tabular-nums; }
+  mark.hlY { background:linear-gradient(transparent 30%, #ffe97a 30%, #ffe97a 92%, transparent 92%); padding:1px 5px; border-radius:3px; font-weight:600; }
+  mark.hlB { background:linear-gradient(transparent 30%, #bcd6ff 30%, #bcd6ff 92%, transparent 92%); padding:1px 5px; border-radius:3px; font-weight:600; }
+  td.due { font-weight:800; color:var(--accent-dark); white-space:nowrap; }
+  .pcard { border:1.5px solid var(--line); border-radius:16px; padding:20px 22px; background:var(--paper-warm); }
+  .pcard .pn { font-size:20px; font-weight:800; }
+  .pcard .pc { font-size:15px; color:var(--accent-dark); font-weight:700; margin:2px 0 8px; }
+  .pcard .pt { font-size:15.5px; color:var(--ink-soft); line-height:1.55; }
+  .titlewrap { flex:1; display:flex; flex-direction:column; justify-content:center; }
+  .center { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; flex:1; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- 1 타이틀 -->
+<section class="slide">
+  <div class="titlewrap">
+    <div class="kicker">BuildnWrite · 2026-07-25 (토) 10:00 온라인 OT</div>
+    <h1>유튜브 챌린지<br>2주에 1개, 3개월에 6개</h1>
+    <p class="lead" style="margin-top:26px">기획 1주 + 제작 1주 × 6사이클. 12주 뒤, 검토받은 기획안 6개와 롱폼 영상 6개</p>
+  </div>
+  <div class="foot"><span>유튜브 챌린지 OT</span><span class="pageno"></span></div>
+</section>
+
+<!-- 2 아젠다 -->
+<section class="slide">
+  <h2>오늘 60분</h2>
+  <table style="font-size:22px">
+    <tr><th style="width:130px">~20분</th><td><b>왜, 그리고 어떻게</b>: 챌린지의 이유 · 시즌1 실측 · 진행 방식</td></tr>
+    <tr><th>25분</th><td><b>기획서 발표</b>: 전원, 1인 5분 (청중 · 목표 · 메시지)</td></tr>
+    <tr><th>15분</th><td><b>운영 안내 + Q&A</b>: 제출 시스템 · 사이클 1 과제</td></tr>
+  </table>
+  <p class="lead" style="margin-top:26px">목표는 하나입니다. <b>오늘 방향을 잡고, 이번 주에 채널을 개설하는 것.</b></p>
+  <div class="foot"><span>아젠다</span><span class="pageno"></span></div>
+</section>
+
+<!-- 3 왜 유튜브 -->
+<section class="slide">
+  <h2>왜 지금, 유튜브인가</h2>
+  <div class="cols">
+    <div class="col" style="flex:2.3">
+      <p class="lead" style="margin-bottom:4px">이 책을 읽고 세 가지 결론을 얻었습니다.</p>
+      <ul class="big" style="font-size:20.5px">
+        <li><b>사람의 주의(attention)가 가장 비싼 시대</b>. 지식으로 일하는 사람에게 가장 희소한 자원은 고객의 주의. 주의가 가장 오래 머무는 곳이 영상</li>
+        <li><b>콜드 트래픽을 데우는 건 짧은 노출이 아니라 긴 신뢰</b>. 글 1편이 스치는 동안, 롱폼은 몇 분의 체류를 만든다</li>
+        <li><b>무료 콘텐츠가 판매의 앞단이 된다</b>. 영상 6개는 지식 비즈니스 영업 자산의 초석</li>
+      </ul>
+      <p class="quote" style="font-size:19px">혼자 시작하면 채널 개설에서 멈춥니다. 그래서 시스템과 동료로 12주를 끌고 갑니다.</p>
+    </div>
+    <div class="col" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center">
+      <img src="img/story-book-cover.jpg" alt="스토리 설계자 표지" style="max-height:430px; border-radius:10px; box-shadow:0 14px 34px rgba(0,0,0,.2)">
+      <div style="font-size:14px; color:var(--ink-faint); margin-top:12px">도널드 밀러, 『스토리 설계자』 (윌북)</div>
+    </div>
+  </div>
+  <div class="foot"><span>왜</span><span class="pageno"></span></div>
+</section>
+
+<!-- 4 시즌1 실측 -->
+<section class="slide">
+  <h2>이미 한 번 검증된 판, 시즌1 실측</h2>
+  <div class="statrow">
+    <div class="stat"><div class="n">20명</div><div class="l">참가자</div></div>
+    <div class="stat"><div class="n">12주</div><div class="l">중단 없이 완주 운영</div></div>
+    <div class="stat"><div class="n">142건</div><div class="l">누적 인증</div></div>
+    <div class="stat"><div class="n">7종</div><div class="l">플랫폼 (유튜브 포함)</div></div>
+  </div>
+  <div class="imgbox" style="margin-top:22px">
+    <img class="shot" src="../season1-dashboard.png" alt="시즌1 대시보드">
+    <img class="shot" src="../season1-recent.png" alt="시즌1 인증 피드">
+  </div>
+  <div class="foot"><span>시즌1</span><span class="pageno"></span></div>
+</section>
+
+<!-- 5 시즌1 → 시즌2 -->
+<section class="slide">
+  <h2>시즌1에서 배워서, 이번 시즌에 바꾼 것</h2>
+  <table>
+    <tr><th style="width:44%">시즌1에서 겪은 것</th><th>시즌2 반영</th></tr>
+    <tr><td>"2주 1회, 플랫폼 자유"는 유연했지만 리듬이 무너지기 쉬웠음</td><td><span class="chip">구조</span>기획 주 · 제작 주 분리: 뭘 해야 할 주인지 항상 명확</td></tr>
+    <tr><td>제출만 받고 끝, 콘텐츠의 질은 각자 몫</td><td><span class="chip">피드백</span>기획안 AI 검토 + 영상 회신</td></tr>
+    <tr><td>7개 플랫폼 링크 수집 과정에서 인증 불안정</td><td><span class="chip">안정성</span>유튜브 롱폼 단일화</td></tr>
+    <tr><td>온라인만으로는 시작·끝의 결속력 아쉬움</td><td><span class="chip">결속</span>오늘 OT 전원 발표 + 오프라인 마무리 모임</td></tr>
+  </table>
+  <div class="foot"><span>시즌2</span><span class="pageno"></span></div>
+</section>
+
+
+<!-- 5.5 전체 일정 달력 -->
+<section class="slide">
+  <h2>12주 전체 일정, 마감은 여섯 번</h2>
+  <table style="font-size:17.5px">
+    <tr><th style="width:90px">사이클</th><th>기획 주</th><th style="width:150px">기획안 마감</th><th>제작 주</th><th style="width:150px">영상 마감</th></tr>
+    <tr><th>1</th><td><mark class="hlY">07/20 (월) ~ 07/26</mark> <b>+ OT 07/25 (토)</b></td><td class="due">07/26 (일)</td><td><mark class="hlB">07/27 ~ 08/02</mark></td><td class="due">08/02 (일)</td></tr>
+    <tr><th>2</th><td><mark class="hlY">08/03 ~ 08/09</mark></td><td class="due">08/09 (일)</td><td><mark class="hlB">08/10 ~ 08/16</mark></td><td class="due">08/16 (일)</td></tr>
+    <tr><th>3</th><td><mark class="hlY">08/17 ~ 08/23</mark></td><td class="due">08/23 (일)</td><td><mark class="hlB">08/24 ~ 08/30</mark></td><td class="due">08/30 (일)</td></tr>
+    <tr><th>4</th><td><mark class="hlY">08/31 ~ 09/06</mark></td><td class="due">09/06 (일)</td><td><mark class="hlB">09/07 ~ 09/13</mark></td><td class="due">09/13 (일)</td></tr>
+    <tr><th>5</th><td><mark class="hlY">09/14 ~ 09/20</mark></td><td class="due">09/20 (일)</td><td><mark class="hlB">09/21 ~ 09/27</mark></td><td class="due">09/27 (일)</td></tr>
+    <tr><th>6</th><td><mark class="hlY">09/28 ~ 10/04</mark></td><td class="due">10/04 (일)</td><td><mark class="hlB">10/05 ~ 10/11</mark></td><td class="due">10/11 (일)</td></tr>
+  </table>
+  <p class="lead" style="margin-top:16px"><mark class="hlY">기획 주</mark> 기획안 제출 · <mark class="hlB">제작 주</mark> 영상 업로드 인증 · 마감은 모두 <b>일요일 자정</b> · 마무리 모임 10월 중순 (오프라인)</p>
+  <div class="foot"><span>일정</span><span class="pageno"></span></div>
+</section>
+<!-- 6 진행 방식 -->
+<section class="slide">
+  <h2>진행 방식: 2주 사이클 × 6</h2>
+  <div class="cycle">
+    <div class="cbox"><h3>기획 1주</h3><p>소재 선정 → 기획안(타깃·주제·구성) 제출<br>일요일 자정 마감 → <b>AI 검토 회신</b></p></div>
+    <div class="carrow">→</div>
+    <div class="cbox"><h3>제작 1주</h3><p>촬영·편집 → 업로드 → 인증 제출<br>일요일 자정 마감 → 회신 + 갤러리 기록</p></div>
+    <div class="carrow">↺</div>
+  </div>
+  <p class="lead">사이클 1: 07-20 ~ 08-02 · … · 사이클 6: 09-28 ~ 10-11 · 마무리 모임 10월 중순(오프라인)</p>
+  <div class="foot"><span>진행</span><span class="pageno"></span></div>
+</section>
+
+<!-- 7 규칙 -->
+<section class="slide">
+  <h2>규칙은 세 개뿐</h2>
+  <ul class="big">
+    <li><b>마감은 일요일 자정</b>: 기획 주엔 기획안, 제작 주엔 영상 인증</li>
+    <li><b>롱폼만</b>: 쇼츠(/shorts/)는 인정하지 않습니다</li>
+    <li><b>미제출은 그대로 기록</b>: 사이클 정산 카드에 ✅/❌와 🔥연속 기록이 자동 게시. 서로 다 보입니다</li>
+  </ul>
+  <p class="quote">벌칙은 없습니다. 대신 기록이 남습니다. 시즌1에서 이 투명함이 완주를 만들었습니다.</p>
+  <div class="foot"><span>규칙</span><span class="pageno"></span></div>
+</section>
+
+<!-- 8 12주 뒤 -->
+<section class="slide">
+  <h2>12주 뒤, 각자 손에 남는 것</h2>
+  <div class="statrow">
+    <div class="stat"><div class="n">1개</div><div class="l">개설된 유튜브 채널</div></div>
+    <div class="stat"><div class="n">6개</div><div class="l">롱폼 영상</div></div>
+    <div class="stat"><div class="n">6개</div><div class="l">검토받은 기획안</div></div>
+    <div class="stat"><div class="n">🔥</div><div class="l">사이클 스트릭 기록</div></div>
+  </div>
+  <p class="lead" style="margin-top:30px">그리고 채널 한 장 기획서, 공개 아카이브 갤러리, 12주 데이터로 하는 마무리 회고.</p>
+  <div class="foot"><span>결과물</span><span class="pageno"></span></div>
+</section>
+
+<!-- 9 방법론 인트로 -->
+<section class="slide">
+  <div class="center">
+    <div class="kicker">INTERLUDE</div>
+    <h1 style="font-size:44px">채널 콘셉트, 감이 아니라<br>지도를 보고 정하기</h1>
+    <p class="lead" style="margin-top:22px">발표 전에 5분, 기획서를 만들 때 쓴 방법을 공유합니다</p>
+  </div>
+  <div class="foot"><span>콘셉트 방법론</span><span class="pageno"></span></div>
+</section>
+
+<!-- 10 3단계 방법론 -->
+<section class="slide">
+  <h2>채널 콘셉트 3단계</h2>
+  <div class="cycle">
+    <div class="cbox"><h3>1. 사업 기준</h3><p>내가 가진 것(경험·자산·강점)을 기억이 아니라 <b>기록</b>으로 정리</p></div>
+    <div class="carrow">→</div>
+    <div class="cbox"><h3>2. 시장 지형</h3><p>경쟁 채널을 2축 지도에 배치 → <b>기회의 땅</b>(빈 포지션) 찾기</p></div>
+    <div class="carrow">→</div>
+    <div class="cbox"><h3>3. 검증·확정</h3><p>"왜 비었나"를 따져 검증 → <b>콘셉트 한 문장</b>으로 수렴</p></div>
+  </div>
+  <ul class="big" style="font-size:20px">
+    <li>공백이 곧 기회는 아닙니다. <b>수요가 없어서</b> 빈 곳과 <b>어려워서</b> 빈 곳을 구분해야 합니다</li>
+    <li>채널의 목표는 구독자 수가 아니라 <b>내 사업으로의 전환</b>일 수 있습니다. 지표를 먼저 정하세요</li>
+  </ul>
+  <div class="foot"><span>콘셉트 방법론</span><span class="pageno"></span></div>
+</section>
+
+<!-- 11 실사례 지도 -->
+<section class="slide">
+  <h2>실사례: 국내 35개 채널 포지셔닝 맵</h2>
+  <div class="imgbox"><img class="shot" src="img/positioning-map.png" alt="포지셔닝 맵"></div>
+  <p class="lead" style="margin-top:14px">X: 타겟 기술 배경 · Y: 콘텐츠 산출 깊이. 밀집 구역을 피해 ★ 빈 포지션을 잡았습니다. 여러분 기획서에도 레퍼런스 3개를 회신해드립니다.</p>
+  <div class="foot"><span>콘셉트 방법론</span><span class="pageno"></span></div>
+</section>
+
+
+<!-- 11.5 참여자 소개 -->
+<section class="slide">
+  <h2>오늘의 참여자</h2>
+  <div id="pplgrid" style="display:grid; grid-template-columns:repeat(2,1fr); gap:16px; flex:1; align-content:center; overflow:hidden"></div>
+  <div class="foot"><span>참여자</span><span class="pageno"></span></div>
+</section>
+<!-- 12 발표 세션 -->
+<section class="slide">
+  <div class="center">
+    <div class="kicker">MAIN SESSION · 25분</div>
+    <h1 style="font-size:44px">채널 한 장 기획서 발표</h1>
+    <p class="lead" style="margin-top:24px">1인 5분, 세 가지만 말해주세요</p>
+    <div style="display:flex; gap:18px; margin-top:30px">
+      <span class="chip" style="font-size:21px; padding:10px 24px">① 대상 청중</span>
+      <span class="chip" style="font-size:21px; padding:10px 24px">② 채널 목표</span>
+      <span class="chip" style="font-size:21px; padding:10px 24px">③ 전달 메시지</span>
+    </div>
+  </div>
+  <div class="foot"><span>발표</span><span class="pageno"></span></div>
+</section>
+
+<!-- 13 레퍼런스 회신 -->
+<section class="slide">
+  <h2>발표가 끝나면</h2>
+  <ul class="big">
+    <li>제출된 기획서를 바탕으로 <b>레퍼런스 채널 3개</b>를 찾아 이메일로 회신해드립니다: 퍼널 구조 · 타겟 · 포맷, 역할별로 하나씩</li>
+    <li>기획서는 OT 후에도 <b>수정 링크로 언제든 다시 제출</b> 가능합니다</li>
+    <li>이 기획서가 12주 내내 <b>모든 기획안의 기준점</b>이 됩니다</li>
+  </ul>
+  <p class="quote">아직 제출 전이라면: <b>challenge.buildnwrite.com/plan</b> · 폼 안의 "AI와 같이 쓰기" 프롬프트로 인터뷰받으며 쓸 수 있습니다</p>
+  <div class="foot"><span>레퍼런스</span><span class="pageno"></span></div>
+</section>
+
+<!-- 14 사이클 1 과제 -->
+<section class="slide">
+  <h2>사이클 1: 이번 주에 할 일</h2>
+  <table style="font-size:21px">
+    <tr><th style="width:200px">오늘 (07-25)</th><td>기획서 발표 후 방향 확정</td></tr>
+    <tr><th>이번 주</th><td><b>유튜브 채널 개설</b>: 사이클 1에 포함된 과제입니다</td></tr>
+    <tr><th>07-26 (일) 자정</th><td><b>첫 기획안 제출</b>: 타깃 · 주제 · 구성, 제출하면 AI 검토 회신</td></tr>
+  </table>
+  <p class="lead" style="margin-top:24px">완벽한 첫 소재를 기다리지 마세요. 사이클은 6번 돕니다. 첫 사이클의 목표는 <b>시작한 상태를 만드는 것</b>입니다.</p>
+  <div class="foot"><span>과제</span><span class="pageno"></span></div>
+</section>
+
+<!-- 15 운영 안내 -->
+<section class="slide">
+  <h2>운영 안내</h2>
+  <table style="font-size:20px">
+    <tr><th style="width:230px">카카오톡 오픈채팅방</th><td>공지 · 질문 · 마감 리마인드 · 사이클 정산 공유</td></tr>
+    <tr><th>기획서 (숙제)</th><td>challenge.buildnwrite.com<b>/plan</b>: 채널 한 장 기획서 + 참여자 갤러리</td></tr>
+    <tr><th>기획안 제출</th><td>challenge.buildnwrite.com<b>/submit</b>: 매 기획 주 일요일 자정 마감, 제출하면 AI 검토가 이메일로</td></tr>
+    <tr><th>영상 인증</th><td>매 제작 주 일요일 자정 마감, 롱폼 URL 제출 → 갤러리 기록 (방법은 카톡방 공지)</td></tr>
+  </table>
+  <p class="lead" style="margin-top:24px">질문은 지금, 그리고 카톡방에서 언제든.</p>
+  <div class="foot"><span>운영</span><span class="pageno"></span></div>
+</section>
+
+<!-- 16 클로징 -->
+<section class="slide">
+  <div class="center">
+    <h1 style="font-size:46px">12주 뒤에 만날<br>여러분의 영상 6개를 기대합니다</h1>
+    <p class="lead" style="margin-top:26px">다음 만남은 10월 중순, 오프라인 마무리 모임</p>
+  </div>
+  <div class="foot"><span>© 2026 BuildnWrite. All rights reserved.</span><span class="pageno"></span></div>
+</section>
+
+</div>
+<script>
+  const slides=[...document.querySelectorAll('.slide')]; let i=0;
+  function show(n){ i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,j)=>s.classList.toggle('active',j===i)); }
+  document.querySelectorAll('.slide').forEach((s,i)=>{ const el=s.querySelector('.pageno'); if(el) el.textContent=(i+1)+' / '+slides.length; });
+  function fit(){ const s=Math.min(innerWidth/1280,innerHeight/720);
+    document.getElementById('stage').style.transform=`translate(-50%,-50%) scale(${s})`; }
+  addEventListener('resize',fit);
+  addEventListener('keydown',e=>{ if(['ArrowRight','PageDown',' '].includes(e.key))show(i+1);
+    if(['ArrowLeft','PageUp'].includes(e.key))show(i-1);
+    if(e.key==='Home')show(0); if(e.key==='End')show(slides.length-1); });
+  addEventListener('click',e=>{ show(e.clientX>innerWidth/2? i+1 : i-1); });
+  fit(); show(0);
+  // 참여자 카드: 기획서 갤러리 실시간 로드 (OT 시점 제출자 자동 반영)
+  (async () => {
+    const grid = document.getElementById('pplgrid');
+    try {
+      const API = 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs/exec';
+      const res = await fetch(API + '?action=gallery&t=da616006838644ceba60be340e7c1de8');
+      const data = await res.json();
+      const esc = t => String(t||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+      if (data.ok && data.plans.length) {
+        grid.innerHTML = data.plans.map(p => `<div class="pcard"><div class="pn">${esc(p.name)}</div>${p.channel_name?`<div class="pc">${esc(p.channel_name)}</div>`:''}<div class="pt">${esc((p.concept||'').slice(0,90))}</div></div>`).join('');
+        if (data.plans.length > 4) grid.style.gridTemplateColumns = 'repeat(3,1fr)';
+      } else { grid.innerHTML = '<p class="lead">기획서 제출을 기다리고 있습니다.</p>'; }
+    } catch(e) { grid.innerHTML = '<p class="lead">참여자 기획서는 갤러리에서 함께 봅니다.</p>'; }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사이클 기획안 갤러리 · 유튜브 챌린지</title>
+<meta name="description" content="유튜브 챌린지 참여자들의 격주 사이클 기획안 갤러리 (참여자 전용)">
+<meta name="robots" content="noindex">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://challenge.buildnwrite.com/submit/gallery/">
+<meta property="og:title" content="사이클 기획안 갤러리">
+<meta property="og:description" content="참여자들의 타깃, 주제, 영상 구성을 사이클별로 살펴봅니다.">
+<style>
+  :root {
+    --paper: #ffffff;
+    --paper-warm: #f6f5f4;
+    --ink: #31302e;
+    --ink-soft: #615d59;
+    --ink-faint: #a39e98;
+    --line: #dddddd;
+    --accent: #2563EB;
+    --accent-dark: #1D4ED8;
+    --accent-light: #60A5FA;
+    --accent-bg: #eff4fe;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Pretendard", "Pretendard Variable", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: var(--paper); color: var(--ink); line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    width: 100%; max-width: 800px; margin: 0 auto;
+  }
+  .doc { padding: 34px 52px 40px; }
+
+  .topnav {
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    border-bottom: 1.5px solid var(--line); margin-bottom: 30px;
+  }
+  .topnav a {
+    font-size: 14.5px; font-weight: 700; text-decoration: none;
+    color: var(--ink-faint); padding: 12px 4px; margin-bottom: -1.5px;
+    border-bottom: 2.5px solid transparent;
+  }
+  .topnav a + a { margin-left: 18px; }
+  .topnav a:hover { color: var(--ink-soft); }
+  .topnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .eyebrow {
+    display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--accent); border: 1.5px solid var(--accent-light);
+    border-radius: 999px; padding: 5px 16px; margin-bottom: 20px;
+  }
+  h1 { font-size: 34px; font-weight: 800; line-height: 1.24; letter-spacing: -0.02em; margin-bottom: 14px; }
+  h1 .hl { color: var(--accent); }
+  .lede { font-size: 16px; color: var(--ink-soft); max-width: 40em; margin-bottom: 24px; }
+
+  .cycle-tabs {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px;
+    margin: 0 0 24px;
+  }
+  .cycle-tab {
+    cursor: pointer; border: 1.5px solid var(--line); border-radius: 999px;
+    background: var(--paper); color: var(--ink-soft); padding: 8px 5px;
+    font-family: inherit; font-size: 13px; font-weight: 800;
+    transition: color .12s, border-color .12s, background .12s;
+  }
+  .cycle-tab:hover { color: var(--accent-dark); border-color: var(--accent-light); }
+  .cycle-tab.active { color: #fff; border-color: var(--accent); background: var(--accent); }
+
+  .status { text-align: center; color: var(--ink-faint); font-size: 14.5px; padding: 60px 0; }
+
+  .card {
+    border: 1.5px solid var(--line); border-radius: 16px;
+    padding: 24px 26px; margin-bottom: 22px; background: var(--paper);
+  }
+  .card-head { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 15px; }
+  .card-head .pname { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; }
+  .cycle-badge {
+    display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px;
+    font-size: 11.5px; font-weight: 800; color: var(--accent-dark); background: var(--accent-bg);
+  }
+  .review-badge {
+    margin-left: auto; display: inline-flex; align-items: center; padding: 4px 10px;
+    border-radius: 999px; font-size: 11.5px; font-weight: 800;
+    color: #18794e; background: #eaf7f0;
+  }
+  .review-badge.pending { color: #8a6508; background: #fff7db; }
+  .item { margin-top: 13px; }
+  .item .q { font-size: 12.5px; font-weight: 800; color: var(--accent); letter-spacing: 0.02em; margin-bottom: 2px; }
+  .item .a { font-size: 14.5px; color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .item .a.empty { color: var(--ink-faint); }
+  .meta { font-size: 12px; color: var(--ink-faint); margin-top: 15px; text-align: right; }
+
+  footer {
+    margin-top: 48px; padding-top: 20px; border-top: 1.5px solid var(--line);
+    font-size: 12.5px; color: var(--ink-faint);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .doc { padding: 24px 20px 30px; }
+    .topnav { gap: 0; }
+    .topnav a { font-size: 13px; }
+    .topnav a + a { margin-left: 14px; }
+    h1 { font-size: 26px; }
+    .cycle-tabs { grid-template-columns: repeat(3, 1fr); }
+    .card { padding: 18px 18px; }
+    .review-badge { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <nav class="topnav">
+    <a href="../../plan/">채널 한 장 기획서</a>
+    <a href="../">기획안 제출</a>
+    <a href="./" class="active">기획안 갤러리</a>
+  </nav>
+
+  <div class="eyebrow">PARTICIPANTS ONLY · CYCLE GALLERY</div>
+  <h1>사이클 기획안 갤러리<br><span class="hl">서로의 설계를 봅니다.</span></h1>
+  <p class="lede">챌린지 참여자들이 제출한 영상 기획안입니다. 사이클을 선택해 타깃, 주제, 구성의 흐름을 살펴보세요. 이 페이지는 참여자 전용 링크로만 열립니다.</p>
+
+  <div class="cycle-tabs" id="cycleTabs" aria-label="사이클 필터"></div>
+  <div class="status" id="status">기획안을 불러오는 중…</div>
+  <div id="list"></div>
+
+  <footer>
+    <span>YouTube Challenge · Proposal Gallery</span>
+    <span>© 2026 BuildnWrite. All rights reserved.</span>
+  </footer>
+
+</div>
+
+<script>
+  const API_URL = 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs/exec';
+  const statusEl = document.getElementById('status');
+  const listEl = document.getElementById('list');
+  const tabsEl = document.getElementById('cycleTabs');
+  const query = new URLSearchParams(location.search);
+  let selectedCycle = /^[1-6]$/.test(query.get('cycle') || '') ? query.get('cycle') : '1';
+  let proposals = [];
+
+  function esc(s){ return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function summarize(s, max){
+    const value = String(s || '').trim();
+    return value.length > max ? value.slice(0, max).trimEnd() + '…' : value;
+  }
+
+  function renderTabs(){
+    tabsEl.innerHTML = Array.from({ length: 6 }, (_, i) => String(i + 1)).map(cycle => {
+      const count = proposals.filter(p => String(p.cycle) === cycle).length;
+      const countText = proposals.length ? ` · ${count}` : '';
+      return `<button type="button" class="cycle-tab${selectedCycle === cycle ? ' active' : ''}" data-cycle="${cycle}" aria-pressed="${selectedCycle === cycle}">사이클 ${cycle}${countText}</button>`;
+    }).join('');
+  }
+
+  function card(p){
+    const reviewed = Boolean(String(p.ai_review || '').trim());
+    const structure = summarize(p.structure, 280);
+    const updated = p.updated_at ? new Date(p.updated_at) : null;
+    const meta = updated && !Number.isNaN(updated.getTime())
+      ? `마지막 수정 ${updated.getMonth()+1}/${updated.getDate()}` + (Number(p.submit_count) > 1 ? ` · ${p.submit_count}번째 제출` : '')
+      : '';
+    return `<div class="card">
+      <div class="card-head">
+        <span class="pname">${esc(p.name)}</span>
+        <span class="cycle-badge">사이클 ${esc(p.cycle)}</span>
+        <span class="review-badge${reviewed ? '' : ' pending'}">${reviewed ? 'AI 검토 완료' : 'AI 검토 대기'}</span>
+      </div>
+      <div class="item"><div class="q">타깃 시청자</div><div class="a${p.target ? '' : ' empty'}">${p.target ? esc(p.target) : '(미작성)'}</div></div>
+      <div class="item"><div class="q">영상 주제</div><div class="a${p.topic ? '' : ' empty'}">${p.topic ? esc(p.topic) : '(미작성)'}</div></div>
+      <div class="item"><div class="q">구성 요약</div><div class="a${structure ? '' : ' empty'}">${structure ? esc(structure) : '(미작성)'}</div></div>
+      ${meta ? `<div class="meta">${meta}</div>` : ''}
+    </div>`;
+  }
+
+  function renderList(){
+    const filtered = proposals.filter(p => String(p.cycle) === selectedCycle);
+    renderTabs();
+    if(!filtered.length){
+      listEl.innerHTML = '';
+      statusEl.style.display = 'block';
+      statusEl.textContent = `사이클 ${selectedCycle}에 아직 제출된 기획안이 없어요.`;
+      return;
+    }
+    statusEl.style.display = 'none';
+    listEl.innerHTML = filtered.map(card).join('');
+  }
+
+  tabsEl.addEventListener('click', e => {
+    const button = e.target.closest('[data-cycle]');
+    if(!button) return;
+    selectedCycle = button.dataset.cycle;
+    const params = new URLSearchParams(location.search);
+    params.set('cycle', selectedCycle);
+    history.replaceState(null, '', `${location.pathname}?${params.toString()}`);
+    renderList();
+  });
+
+  async function load(){
+    renderTabs();
+    const token = query.get('t');
+    if(!token){
+      statusEl.textContent = '이 페이지는 참여자 전용입니다 — 기획안 제출 후 받은 이메일의 링크로 들어와주세요.';
+      return;
+    }
+    try {
+      const res = await fetch(`${API_URL}?action=proposals&t=${encodeURIComponent(token)}`);
+      const data = await res.json();
+      if(!data.ok) throw new Error(data.error || 'invalid');
+      proposals = Array.isArray(data.proposals) ? data.proposals : [];
+      renderList();
+    } catch(e) {
+      statusEl.textContent = '기획안을 불러오지 못했어요 — 이메일의 링크가 맞는지 확인해주세요.';
+    }
+  }
+  load();
+</script>
+</body>
+</html>

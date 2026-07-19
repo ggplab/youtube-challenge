@@ -6,6 +6,8 @@
 <title>참여자 기획서 갤러리 · 유튜브 챌린지</title>
 <meta name="description" content="유튜브 챌린지 참여자들의 채널 한 장 기획서 갤러리 (참여자 전용)">
 <meta name="robots" content="noindex">
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com">
 <style>
   :root {
     --paper: #ffffff;
@@ -131,24 +133,36 @@
     </div>`;
   }
 
+  function render(plans){
+    if(!plans.length){
+      statusEl.textContent = '아직 제출된 기획서가 없어요, 첫 번째 주인공이 되어보세요.';
+      return false;
+    }
+    statusEl.style.display = 'none';
+    listEl.innerHTML = plans.map(card).join('');
+    return true;
+  }
+
   async function load(){
     const token = new URLSearchParams(location.search).get('t');
     if(!token){
-      statusEl.textContent = '이 페이지는 참여자 전용입니다 — 기획서 제출 후 받은 이메일의 링크로 들어와주세요.';
+      statusEl.textContent = '이 페이지는 참여자 전용입니다. 기획서 제출 후 받은 이메일의 링크로 들어와주세요.';
       return;
     }
+    const CACHE_KEY = 'plan-gallery:' + token;
+    // 캐시가 있으면 즉시 렌더 (체감 0초), 이어서 백그라운드에서 최신본으로 교체
+    let cached = null;
+    try { cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null'); } catch(e) {}
+    if(cached && cached.plans) render(cached.plans);
+    else statusEl.textContent = '기획서를 불러오는 중입니다…';
     try {
       const res = await fetch(`${API_URL}?action=gallery&t=${encodeURIComponent(token)}`);
       const data = await res.json();
       if(!data.ok) throw new Error(data.error || 'invalid');
-      if(!data.plans.length){
-        statusEl.textContent = '아직 제출된 기획서가 없어요 — 첫 번째 주인공이 되어보세요.';
-        return;
-      }
-      statusEl.style.display = 'none';
-      listEl.innerHTML = data.plans.map(card).join('');
+      localStorage.setItem(CACHE_KEY, JSON.stringify({plans: data.plans, at: Date.now()}));
+      render(data.plans);
     } catch(e) {
-      statusEl.textContent = '기획서를 불러오지 못했어요 — 이메일의 링크가 맞는지 확인해주세요.';
+      if(!cached) statusEl.textContent = '기획서를 불러오지 못했어요. 이메일의 링크가 맞는지 확인해주세요.';
     }
   }
   load();
