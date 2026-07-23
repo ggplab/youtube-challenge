@@ -1,5 +1,12 @@
 # 채널 한 장 기획서 — 임정 (v0.2, 2026-07-19)
 
+> 📍 **이 문서는 챌린지 제출본이다.** 채널 전략의 현행 SSOT는
+> `~/Projects/sns-content-hub/guides/channel-strategy.md` (2026-07-23 이관).
+> 전략이 바뀌면 그쪽을 먼저 고치고 이 문서에 반영한다 — 반대 방향 금지.
+>
+> 이관 시 함께 결정된 것 (2026-07-23): **메일리 폐기 · Instagram 정리** → 3채널(YouTube/LinkedIn/Threads) 확정.
+> 이 문서 ④항의 "뉴스레터는 아직 계획 없음, 추후 검토"가 "폐기"로 확정됐다.
+
 > 유튜브 챌린지 OT(07-25 토 10:00) 숙제 · 폼(challenge.buildnwrite.com/plan) 제출용 최종안
 > 근거: 롤모델 서치(2026-03-31) · 저자 벤치마크(2026-05-19) · 포지셔닝 딥리서치 35채널(2026-07-19, `positioning-map.html`) · YC 오피스아워(`ggplab-business/docs/office-hours/2026-07-19-youtube-channel-launch.md`)
 
