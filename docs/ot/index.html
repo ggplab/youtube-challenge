@@ -61,6 +61,13 @@
   .pcard .pav-init { display:flex; align-items:center; justify-content:center; background:var(--accent); color:#fff; font-size:24px; font-weight:800; }
   .titlewrap { flex:1; display:flex; flex-direction:column; justify-content:center; }
   .center { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; flex:1; }
+  .toolgrid { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; flex:1; align-content:center; margin-top:6px; }
+  .tcard { border:1.5px solid var(--line); border-left:5px solid var(--accent); border-radius:14px; padding:18px 22px; background:var(--paper-warm); }
+  .tcard .tn { font-size:21px; font-weight:800; }
+  .tcard .td2 { font-size:16.5px; color:var(--ink-soft); line-height:1.5; margin-top:6px; }
+  .posbox { border:2px solid var(--accent); border-radius:16px; padding:20px 24px; background:var(--accent-bg); }
+  .posbox .pl { font-size:15px; font-weight:800; color:var(--accent-dark); letter-spacing:.04em; }
+  .posbox .pv { font-size:20px; font-weight:800; margin-top:4px; line-height:1.4; }
   #gnb { position:fixed; top:0; left:0; right:0; height:42px; z-index:5; display:flex; gap:26px;
     align-items:center; justify-content:center; background:#141312; }
   #gnb a { font-size:13.5px; font-weight:700; color:#8b857e; text-decoration:none; }
@@ -88,26 +95,33 @@
   <div class="foot"><span>유튜브 챌린지 OT</span><span class="pageno"></span></div>
 </section>
 
-<!-- 2 아젠다 -->
+<!-- 2 환영 + 아젠다 + 아웃컴 -->
 <section class="slide">
-  <h2>오늘 60분</h2>
-  <table style="font-size:22px">
-    <tr><th style="width:130px">~20분</th><td><b>왜, 그리고 어떻게</b>: 챌린지의 이유 · 시즌1 실측 · 진행 방식</td></tr>
-    <tr><th>25분</th><td><b>기획서 발표</b>: 전원, 1인 5분 (청중 · 목표 · 메시지)</td></tr>
-    <tr><th>15분</th><td><b>운영 안내 + Q&A</b>: 제출 시스템 · 사이클 1 과제</td></tr>
+  <div class="kicker">WELCOME · 오늘 60분</div>
+  <h2>환영합니다 — 오늘 이렇게 진행합니다</h2>
+  <table style="font-size:20px">
+    <tr><th style="width:120px">~15분</th><td><b>왜, 그리고 어떻게</b>: 챌린지 목적 · 진행 달력 · 2주 워크플로우 · 시즌1이 가르쳐준 것</td></tr>
+    <tr><th>~30분</th><td><b>채널 기획 발표</b>: 진행자가 먼저, 이어서 전원 1인 5분 (대상 · 목표 · 메시지)</td></tr>
+    <tr><th>~15분</th><td><b>운영 안내 + 과제 + Q&amp;A</b>: 제출 시스템 · 이번 주 채널 개설</td></tr>
   </table>
-  <p class="lead" style="margin-top:26px">목표는 하나입니다. <b>오늘 방향을 잡고, 이번 주에 채널을 개설하는 것.</b></p>
-  <div class="foot"><span>아젠다</span><span class="pageno"></span></div>
+  <p class="lead" style="margin-top:22px"><b>오늘 끝나면 세 가지를 손에 쥡니다.</b></p>
+  <div class="statrow" style="grid-template-columns:repeat(3,1fr); margin-top:10px">
+    <div class="stat"><div class="n">①</div><div class="l">확정된 채널 방향</div></div>
+    <div class="stat"><div class="n">②</div><div class="l">레퍼런스 채널 3개 회신 예약</div></div>
+    <div class="stat"><div class="n">③</div><div class="l">이번 주 채널 개설 착수</div></div>
+  </div>
+  <div class="foot"><span>오늘의 진행</span><span class="pageno"></span></div>
 </section>
 
-<!-- 3 왜 유튜브 -->
+<!-- 3 챌린지의 목적 -->
 <section class="slide">
+  <div class="kicker">WHY · 챌린지의 목적</div>
   <h2>왜 지금, 유튜브인가</h2>
   <div class="cols">
     <div class="col" style="flex:2.3">
-      <p class="lead" style="margin-bottom:4px">이 책을 읽고 세 가지 결론을 얻었습니다.</p>
+      <p class="lead" style="margin-bottom:4px">지식으로 일하는 사람에게, 이 챌린지의 목적은 하나입니다 — <b>고객의 신뢰가 쌓이는 자산을 만드는 것.</b></p>
       <ul class="big" style="font-size:20.5px">
-        <li><b>사람의 주의(attention)가 가장 비싼 시대</b>. 지식으로 일하는 사람에게 가장 희소한 자원은 고객의 주의. 주의가 가장 오래 머무는 곳이 영상</li>
+        <li><b>주의(attention)가 가장 비싼 시대</b>. 가장 희소한 자원은 고객의 주의, 그 주의가 가장 오래 머무는 곳이 영상</li>
         <li><b>콜드 트래픽을 데우는 건 짧은 노출이 아니라 긴 신뢰</b>. 글 1편이 스치는 동안, 롱폼은 몇 분의 체류를 만든다</li>
         <li><b>무료 콘텐츠가 판매의 앞단이 된다</b>. 영상 6개는 지식 비즈니스 영업 자산의 초석</li>
       </ul>
@@ -118,40 +132,10 @@
       <div style="font-size:14px; color:var(--ink-faint); margin-top:12px">도널드 밀러, 『스토리 설계자』 (윌북)</div>
     </div>
   </div>
-  <div class="foot"><span>왜</span><span class="pageno"></span></div>
+  <div class="foot"><span>목적</span><span class="pageno"></span></div>
 </section>
 
-<!-- 4 시즌1 실측 -->
-<section class="slide">
-  <h2>이미 한 번 검증된 판, 시즌1 실측</h2>
-  <div class="statrow">
-    <div class="stat"><div class="n">20명</div><div class="l">참가자</div></div>
-    <div class="stat"><div class="n">12주</div><div class="l">중단 없이 완주 운영</div></div>
-    <div class="stat"><div class="n">142건</div><div class="l">누적 인증</div></div>
-    <div class="stat"><div class="n">7종</div><div class="l">플랫폼 (유튜브 포함)</div></div>
-  </div>
-  <div class="imgbox" style="margin-top:22px">
-    <img class="shot" src="../season1-dashboard.png" alt="시즌1 대시보드">
-    <img class="shot" src="../season1-recent.png" alt="시즌1 인증 피드">
-  </div>
-  <div class="foot"><span>시즌1</span><span class="pageno"></span></div>
-</section>
-
-<!-- 5 시즌1 → 시즌2 -->
-<section class="slide">
-  <h2>시즌1에서 배워서, 이번 시즌에 바꾼 것</h2>
-  <table>
-    <tr><th style="width:44%">시즌1에서 겪은 것</th><th>시즌2 반영</th></tr>
-    <tr><td>"2주 1회, 플랫폼 자유"는 유연했지만 리듬이 무너지기 쉬웠음</td><td><span class="chip">구조</span>기획 주 · 제작 주 분리: 뭘 해야 할 주인지 항상 명확</td></tr>
-    <tr><td>제출만 받고 끝, 콘텐츠의 질은 각자 몫</td><td><span class="chip">피드백</span>기획안 AI 검토 + 영상 회신</td></tr>
-    <tr><td>7개 플랫폼 링크 수집 과정에서 인증 불안정</td><td><span class="chip">안정성</span>유튜브 롱폼 단일화</td></tr>
-    <tr><td>온라인만으로는 시작·끝의 결속력 아쉬움</td><td><span class="chip">결속</span>오늘 OT 전원 발표 + 오프라인 마무리 모임</td></tr>
-  </table>
-  <div class="foot"><span>시즌2</span><span class="pageno"></span></div>
-</section>
-
-
-<!-- 5.5 전체 일정 달력 -->
+<!-- 4 진행 달력 -->
 <section class="slide">
   <h2>12주 전체 일정, 마감은 여섯 번</h2>
   <table style="font-size:17.5px">
@@ -166,121 +150,162 @@
   <p class="lead" style="margin-top:16px"><mark class="hlY">기획 주</mark> 기획안 제출 · <mark class="hlB">제작 주</mark> 영상 업로드 인증 · 마감은 모두 <b>일요일 자정</b> · 마무리 모임 10월 중순 (오프라인)</p>
   <div class="foot"><span>일정</span><span class="pageno"></span></div>
 </section>
-<!-- 6 진행 방식 -->
+
+<!-- 5 2주 워크플로우 (기획→촬영→편집) + 규칙 -->
 <section class="slide">
-  <h2>진행 방식: 2주 사이클 × 6</h2>
+  <h2>2주 워크플로우: 기획 → 촬영 → 편집</h2>
   <div class="cycle">
-    <div class="cbox"><h3>기획 1주</h3><p>소재 선정 → 기획안(타깃·주제·구성) 제출<br>일요일 자정 마감 → <b>AI 검토 회신</b></p></div>
+    <div class="cbox"><h3>1. 기획</h3><p>소재 선정 → 기획안(타깃·주제·구성) 제출<br>일요일 자정 → <b>AI 검토 회신</b></p></div>
     <div class="carrow">→</div>
-    <div class="cbox"><h3>제작 1주</h3><p>촬영·편집 → 업로드 → 인증 제출<br>일요일 자정 마감 → 회신 + 갤러리 기록</p></div>
+    <div class="cbox"><h3>2. 촬영</h3><p>확정 기획안대로 촬영<br>말할 것이 정해져 있으니 <b>찍는 데만 집중</b></p></div>
+    <div class="carrow">→</div>
+    <div class="cbox"><h3>3. 편집·업로드</h3><p>편집 → 업로드 → 인증 제출<br>일요일 자정 → 회신 + 갤러리 기록</p></div>
     <div class="carrow">↺</div>
   </div>
-  <p class="lead">사이클 1: 07-20 ~ 08-02 · … · 사이클 6: 09-28 ~ 10-11 · 마무리 모임 10월 중순(오프라인)</p>
-  <div class="foot"><span>진행</span><span class="pageno"></span></div>
-</section>
-
-<!-- 7 규칙 -->
-<section class="slide">
-  <h2>규칙은 세 개뿐</h2>
-  <ul class="big">
-    <li><b>마감은 일요일 자정</b>: 기획 주엔 기획안, 제작 주엔 영상 인증</li>
-    <li><b>롱폼만</b>: 쇼츠(/shorts/)는 인정하지 않습니다</li>
-    <li><b>미제출은 그대로 기록</b>: 사이클 정산 카드에 ✅/❌와 🔥연속 기록이 자동 게시. 서로 다 보입니다</li>
+  <p class="lead" style="font-size:19px; margin-bottom:8px"><mark class="hlY">기획 주(1주)</mark> 기획 · <mark class="hlB">제작 주(1주)</mark> 촬영+편집+업로드 — 이 사이클이 6번 반복됩니다.</p>
+  <ul class="big" style="font-size:19px">
+    <li><b>마감은 일요일 자정</b>, <b>롱폼만</b> (쇼츠 /shorts/ 는 불인정), <b>미제출은 그대로 기록</b> — ✅/❌·🔥연속이 정산 카드에 자동 게시, 서로 다 보입니다</li>
   </ul>
-  <p class="quote">벌칙은 없습니다. 대신 기록이 남습니다. 시즌1에서 이 투명함이 완주를 만들었습니다.</p>
-  <div class="foot"><span>규칙</span><span class="pageno"></span></div>
+  <p class="quote" style="font-size:19px">벌칙은 없습니다. 대신 기록이 남습니다. 시즌1에서 이 투명함이 완주를 만들었습니다.</p>
+  <div class="foot"><span>워크플로우</span><span class="pageno"></span></div>
 </section>
 
-<!-- 8 12주 뒤 -->
+<!-- 6 시즌1: 실패 → 개선 -->
 <section class="slide">
-  <h2>12주 뒤, 각자 손에 남는 것</h2>
-  <div class="statrow">
-    <div class="stat"><div class="n">1개</div><div class="l">개설된 유튜브 채널</div></div>
-    <div class="stat"><div class="n">6개</div><div class="l">롱폼 영상</div></div>
-    <div class="stat"><div class="n">6개</div><div class="l">검토받은 기획안</div></div>
-    <div class="stat"><div class="n">🔥</div><div class="l">사이클 스트릭 기록</div></div>
-  </div>
-  <p class="lead" style="margin-top:30px">그리고 채널 한 장 기획서, 공개 아카이브 갤러리, 12주 데이터로 하는 마무리 회고.</p>
-  <div class="foot"><span>결과물</span><span class="pageno"></span></div>
+  <h2>시즌1에서 막힌 것, 시즌2에서 바꾼 것</h2>
+  <p class="lead" style="font-size:19px; margin-bottom:16px">시즌1은 <b>20명 · 12주 완주 · 142건 인증</b>으로 판을 이미 검증했습니다. 그런데도 이런 게 막혔고, 그래서 이렇게 바꿨습니다.</p>
+  <table style="font-size:18.5px">
+    <tr><th style="width:48%">시즌1에서 막힌 것</th><th>시즌2에서 바꾼 것</th></tr>
+    <tr><td>"2주 1회 · 플랫폼 자유"는 유연했지만 <b>리듬이 무너지기 쉬웠다</b></td><td><span class="chip">구조</span>기획 주 · 제작 주 분리 — 뭘 할 주인지 늘 명확</td></tr>
+    <tr><td>제출만 받고 끝, <b>콘텐츠 질은 각자 몫</b>이라 동기가 흔들렸다</td><td><span class="chip">피드백</span>기획안 AI 검토 + 영상 회신</td></tr>
+    <tr><td>7개 플랫폼 링크를 모으는 과정에서 <b>인증이 불안정</b>했다</td><td><span class="chip">안정성</span>유튜브 롱폼 단일화</td></tr>
+    <tr><td>온라인만으로는 <b>시작·끝의 결속력</b>이 아쉬웠다</td><td><span class="chip">결속</span>OT 전원 발표 + 오프라인 마무리 모임</td></tr>
+  </table>
+  <div class="foot"><span>시즌1 → 시즌2</span><span class="pageno"></span></div>
 </section>
 
-<!-- 9 방법론 인트로 -->
+<!-- 7 채널 콘셉트 잡는 법 (공유 방법론) -->
 <section class="slide">
-  <div class="center">
-    <div class="kicker">INTERLUDE</div>
-    <h1 style="font-size:44px">채널 콘셉트, 감이 아니라<br>지도를 보고 정하기</h1>
-    <p class="lead" style="margin-top:22px">발표 전에 5분, 기획서를 만들 때 쓴 방법을 공유합니다</p>
-  </div>
-  <div class="foot"><span>콘셉트 방법론</span><span class="pageno"></span></div>
-</section>
-
-<!-- 10 3단계 방법론 -->
-<section class="slide">
-  <h2>채널 콘셉트 3단계</h2>
-  <div class="cycle">
+  <div class="kicker">공유 방법론 · 발표 전 5분</div>
+  <h2>채널 콘셉트, 감이 아니라 지도를 보고</h2>
+  <div class="cycle" style="margin:20px 0 16px">
     <div class="cbox"><h3>1. 사업 기준</h3><p>내가 가진 것(경험·자산·강점)을 기억이 아니라 <b>기록</b>으로 정리</p></div>
     <div class="carrow">→</div>
     <div class="cbox"><h3>2. 시장 지형</h3><p>경쟁 채널을 2축 지도에 배치 → <b>기회의 땅</b>(빈 포지션) 찾기</p></div>
     <div class="carrow">→</div>
     <div class="cbox"><h3>3. 검증·확정</h3><p>"왜 비었나"를 따져 검증 → <b>콘셉트 한 문장</b>으로 수렴</p></div>
   </div>
-  <ul class="big" style="font-size:20px">
-    <li>공백이 곧 기회는 아닙니다. <b>수요가 없어서</b> 빈 곳과 <b>어려워서</b> 빈 곳을 구분해야 합니다</li>
-    <li>채널의 목표는 구독자 수가 아니라 <b>내 사업으로의 전환</b>일 수 있습니다. 지표를 먼저 정하세요</li>
-  </ul>
+  <div class="cols" style="align-items:center">
+    <div class="col" style="flex:1.1"><div class="imgbox"><img class="shot" src="img/positioning-map.png" alt="포지셔닝 맵" style="max-height:300px"></div></div>
+    <div class="col" style="flex:1">
+      <ul class="big" style="font-size:19px">
+        <li>공백이 곧 기회는 아닙니다. <b>수요가 없어서</b> 빈 곳과 <b>어려워서</b> 빈 곳을 구분</li>
+        <li>목표는 구독자 수가 아니라 <b>내 사업으로의 전환</b>일 수 있습니다. 지표를 먼저 정하세요</li>
+        <li>여러분 기획서에도 <b>레퍼런스 3개</b>를 회신해드립니다</li>
+      </ul>
+    </div>
+  </div>
   <div class="foot"><span>콘셉트 방법론</span><span class="pageno"></span></div>
 </section>
 
-<!-- 11 실사례 지도 -->
+<!-- 8 진행자 먼저 발표: 내 채널 -->
 <section class="slide">
-  <h2>실사례: 국내 35개 채널 포지셔닝 맵</h2>
-  <div class="imgbox"><img class="shot" src="img/positioning-map.png" alt="포지셔닝 맵"></div>
-  <p class="lead" style="margin-top:14px">X: 타겟 기술 배경 · Y: 콘텐츠 산출 깊이. 밀집 구역을 피해 ★ 빈 포지션을 잡았습니다. 여러분 기획서에도 레퍼런스 3개를 회신해드립니다.</p>
-  <div class="foot"><span>콘셉트 방법론</span><span class="pageno"></span></div>
+  <div class="kicker">진행자가 먼저 발표합니다 · 예시</div>
+  <h2>제 채널은 이렇게 정했습니다</h2>
+  <div class="cols">
+    <div class="col" style="flex:1.4">
+      <p class="lead" style="font-size:20px; margin-bottom:2px"><b>콘셉트 한 문장</b></p>
+      <p class="lead" style="font-size:19px">내가 실제로 굴리는 업무 자동화 시스템을 공개하고, 누구나 <b>제약 버전(무료·저비용 도구)으로 재현</b>할 수 있게 번역해주는 채널</p>
+      <ul class="big" style="font-size:18.5px; margin-top:10px">
+        <li><b>시그니처</b> — 잘나서가 아니라, 시행착오를 먼저 겪은 사람이 알려준다</li>
+        <li><b>주 시청층</b> — 지출은 제약돼 있지만 성장 욕구로 공부하는 직장인 (반복 업무의 시스템화에서 막힘)</li>
+        <li><b>메시지</b> — "자동화는 개발자의 특권이 아니다. 시행착오만 감수하면 누구나 자기 업무 시스템을 만든다"</li>
+      </ul>
+    </div>
+    <div class="col" style="flex:1; display:flex; flex-direction:column; justify-content:center; gap:16px">
+      <div class="posbox">
+        <div class="pl">포지셔닝 좌표 (35채널 지도)</div>
+        <div class="pv">(30, 88) — 비개발자·반기술 경계 대상 <br>E2E 시스템 구축 공백 존</div>
+      </div>
+      <p class="lead" style="font-size:16px">공백의 이유 = 수요 부재가 아니라 <b>공급 난이도</b>(실운영+교수설계+제작 체력) → 난이도가 곧 해자</p>
+    </div>
+  </div>
+  <div class="foot"><span>내 채널</span><span class="pageno"></span></div>
 </section>
 
-
-<!-- 11.5 참여자 소개 -->
+<!-- 9 시리즈물 기획 방향 -->
 <section class="slide">
-  <h2>오늘의 참여자</h2>
-  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; flex:1; align-content:center">
-    <div class="pcard"><img class="pav" src="../img/seulki.jpg" alt="강슬기"><div class="pn">강슬기</div><div class="pc">@marketer.ai.seulki</div><div class="pt">AI·데이터 16년차 마케터 &amp; 프리랜서. 퇴근후AI·마케팅데이터커넥트 커뮤니티 운영</div></div>
+  <h2>시리즈 기획 방향: 매편 독립 완결 2부 구성</h2>
+  <div class="cycle">
+    <div class="cbox"><h3>1부. 돌아가는 모습</h3><p>실제 운영 중인 시스템이 <b>실제로 돌아가는 모습</b><br>(업무일지 자동화 · 챌린지 봇 · 콘텐츠 파이프라인)</p></div>
+    <div class="carrow">→</div>
+    <div class="cbox"><h3>2부. 따라 만들기</h3><p><b>제약 버전으로 번역</b>해 따라 만들기<br>셀프호스팅 → 노는 스마트폰, 유료 API → 무료 티어</p></div>
+  </div>
+  <div class="cols">
+    <div class="col">
+      <p class="lead" style="font-size:19px; margin-bottom:6px"><b>제약이 주는 것</b></p>
+      <ul class="big" style="font-size:18px">
+        <li>회당 공수 절감 · 제목이 곧 후킹 ("지출 0원, 구글 도구만으로")</li>
+        <li>시행착오 서사가 자연스럽게 콘텐츠가 됨</li>
+      </ul>
+    </div>
+    <div class="col">
+      <p class="lead" style="font-size:19px; margin-bottom:6px"><b>성공 지표 (조회수·구독자 아님)</b></p>
+      <ul class="big" style="font-size:18px">
+        <li>Threads·LinkedIn 팔로우 전환 · 강의/출강 문의 · 책 판매</li>
+        <li>첫 12주 = 검증 기간, 신호 없으면 포맷 조정 (two-way door)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>시리즈 방향</span><span class="pageno"></span></div>
+</section>
+
+<!-- 10 사업 첨언 도구 킷 (참고자료) -->
+<section class="slide">
+  <div class="kicker">참고자료 · 채널도 하나의 사업</div>
+  <h2>제가 사업 결정을 검증할 때 쓰는 도구</h2>
+  <div class="toolgrid">
+    <div class="tcard"><div class="tn">🗺️ 린 캔버스</div><div class="td2">사업을 한 장으로 — 고객·문제·해법·수익 구조. 분기마다 전략이 흔들렸는지 점검</div></div>
+    <div class="tcard"><div class="tn">🎙️ YC 오피스아워</div><div class="td2">결정을 <b>강제 질문</b>으로 스트레스 테스트하고 대안 2~3개와 다음 행동을 뽑는 자기 멘토링</div></div>
+    <div class="tcard"><div class="tn">⚖️ 의사결정 원칙</div><div class="td2">반복되는 판단을 규칙으로 — 단가 하한(Pricing Floor)·플랫폼 집중·자산 사다리</div></div>
+    <div class="tcard"><div class="tn">⏱️ 워크로그 텔레메트리</div><div class="td2">프로젝트별 실제 시간을 자동 계측 — 원칙을 뒷받침하는 측정된 근거</div></div>
+  </div>
+  <p class="lead" style="margin-top:16px; font-size:19px">전부 공개돼 있습니다 (BuildnWrite <b>Solo Biz Playbook</b>). 채널을 하나의 사업으로 굴릴 분들께 참고자료로 권합니다.</p>
+  <div class="foot"><span>사업 도구 킷</span><span class="pageno"></span></div>
+</section>
+
+<!-- 11 참가자 소개 & 발표 -->
+<section class="slide">
+  <div class="kicker">MAIN SESSION · 돌아가며 1인 5분</div>
+  <h2>자기소개 &amp; 채널 기획 발표</h2>
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-content:center">
+    <div class="pcard"><img class="pav" src="../img/seulki.jpg" alt="강슬기"><div class="pn">강슬기</div><div class="pc">@marketer.ai.seulki</div><div class="pt">AI·데이터 16년차 마케터 &amp; 프리랜서. 퇴근후AI·마케팅데이터커넥트 운영</div></div>
     <div class="pcard"><img class="pav" src="../img/junyeop.jpg" alt="오준엽"><div class="pn">오준엽</div><div class="pc">커리어제이 · @career.jay</div><div class="pt">핀테크 AI PM 커리어코치, 상향이직 전문. 500명+ 컨설팅</div></div>
     <div class="pcard"><img class="pav" src="../img/jay.jpg" alt="임정"><div class="pn">임정</div><div class="pc">빌드앤라이트 · @buildnwrite</div><div class="pt">8년차 Data Scientist. 『n8n이 다 해줌』 저자, 업무 자동화 빌드 인 퍼블릭</div></div>
     <div class="pcard"><img class="pav" src="../img/g9ingan.jpg" alt="지구인간"><div class="pn">지구인간</div><div class="pc">@g9ingan</div><div class="pt">기획 인사이트 · 웹 · PPT</div></div>
     <div class="pcard"><img class="pav" src="../img/madi.jpg" alt="마디"><div class="pn">마디</div><div class="pc">@madi_is_free</div><div class="pt">원예 콘텐츠</div></div>
     <div class="pcard"><div class="pav pav-init">보</div><div class="pn">손보미</div><div class="pc">&nbsp;</div><div class="pt">영어 강의 콘텐츠 (AWS 클라우드 탐구 중)</div></div>
   </div>
-  <div class="foot"><span>참여자</span><span class="pageno"></span></div>
-</section>
-<!-- 12 발표 세션 -->
-<section class="slide">
-  <div class="center">
-    <div class="kicker">MAIN SESSION · 25분</div>
-    <h1 style="font-size:44px">채널 한 장 기획서 발표</h1>
-    <p class="lead" style="margin-top:24px">1인 5분, 세 가지만 말해주세요</p>
-    <div style="display:flex; gap:18px; margin-top:30px">
-      <span class="chip" style="font-size:21px; padding:10px 24px">① 대상 청중</span>
-      <span class="chip" style="font-size:21px; padding:10px 24px">② 채널 목표</span>
-      <span class="chip" style="font-size:21px; padding:10px 24px">③ 전달 메시지</span>
-    </div>
-  </div>
-  <div class="foot"><span>발표</span><span class="pageno"></span></div>
+  <p class="lead" style="margin-top:14px; font-size:18px"><b>진행자 먼저 발표한 다음, 순서대로 1인 5분.</b> 발표 뒤 <b>진행자 코멘트 1개 + 동료 질문 1개</b>. 발표엔 세 가지만 —
+    <span class="chip" style="font-size:16px">① 대상 청중</span>
+    <span class="chip" style="font-size:16px">② 채널 목표</span>
+    <span class="chip" style="font-size:16px">③ 전달 메시지</span></p>
+  <div class="foot"><span>참여자 · 발표</span><span class="pageno"></span></div>
 </section>
 
-<!-- 13 레퍼런스 회신 -->
+<!-- 12 발표 후 레퍼런스 회신 -->
 <section class="slide">
   <h2>발표가 끝나면</h2>
   <ul class="big">
-    <li>제출된 기획서를 바탕으로 <b>레퍼런스 채널 3개</b>를 찾아 이메일로 회신해드립니다: 퍼널 구조 · 타겟 · 포맷, 역할별로 하나씩</li>
-    <li>기획서는 OT 후에도 <b>수정 링크로 언제든 다시 제출</b> 가능합니다</li>
+    <li>제출된 기획서를 바탕으로 <b>레퍼런스 채널 3개</b>를 찾아 이메일로 회신: 퍼널 구조 · 타겟 · 포맷, 역할별로 하나씩</li>
+    <li>기획서는 OT 후에도 <b>수정 링크로 언제든 다시 제출</b> 가능</li>
     <li>이 기획서가 12주 내내 <b>모든 기획안의 기준점</b>이 됩니다</li>
   </ul>
   <p class="quote">아직 제출 전이라면: <b>challenge.buildnwrite.com/plan</b> · 폼 안의 "AI와 같이 쓰기" 프롬프트로 인터뷰받으며 쓸 수 있습니다</p>
   <div class="foot"><span>레퍼런스</span><span class="pageno"></span></div>
 </section>
 
-<!-- 14 사이클 1 과제 -->
+<!-- 13 사이클 1 과제 + 채널 개설 미니 가이드 -->
 <section class="slide">
   <h2>사이클 1: 이번 주에 할 일</h2>
   <table style="font-size:21px">
@@ -288,11 +313,12 @@
     <tr><th>이번 주</th><td><b>유튜브 채널 개설</b>: 사이클 1에 포함된 과제입니다</td></tr>
     <tr><th>07-26 (일) 자정</th><td><b>첫 기획안 제출</b>: 타깃 · 주제 · 구성, 제출하면 AI 검토 회신</td></tr>
   </table>
-  <p class="lead" style="margin-top:24px">완벽한 첫 소재를 기다리지 마세요. 사이클은 6번 돕니다. 첫 사이클의 목표는 <b>시작한 상태를 만드는 것</b>입니다.</p>
+  <p class="lead" style="margin-top:20px; font-size:19px"><b>채널 개설, 이렇게 가볍게:</b> 채널명은 <b>가안</b>이면 충분(언제든 변경 가능) · 우선 <b>핸들만 확보</b> · 배너·소개글은 사이클 2 이후</p>
+  <p class="lead" style="margin-top:12px">완벽한 첫 소재를 기다리지 마세요. 사이클은 6번 돕니다. 첫 사이클의 목표는 <b>시작한 상태를 만드는 것</b>입니다.</p>
   <div class="foot"><span>과제</span><span class="pageno"></span></div>
 </section>
 
-<!-- 15 운영 안내 -->
+<!-- 14 운영 안내 -->
 <section class="slide">
   <h2>운영 안내</h2>
   <table style="font-size:20px">
@@ -305,7 +331,7 @@
   <div class="foot"><span>운영</span><span class="pageno"></span></div>
 </section>
 
-<!-- 16 클로징 -->
+<!-- 15 클로징 -->
 <section class="slide">
   <div class="center">
     <h1 style="font-size:46px">12주 뒤에 만날<br>여러분의 영상 6개를 기대합니다</h1>
