@@ -37,6 +37,22 @@ function setup() {
   Logger.log('GALLERY_TOKEN: ' + galleryToken_());
 }
 
+/**
+ * 스코프 재승인용. 편집기에서 1회 실행 → 권한 검토 → 허용.
+ * UrlFetchApp을 실제로 호출하므로 script.external_request 동의를 강제한다.
+ * 웹앱(USER_DEPLOYING)은 clasp push/redeploy만으로 새 스코프가 붙지 않는다.
+ */
+function authorize() {
+  var res = UrlFetchApp.fetch(
+    'https://www.youtube.com/oembed?format=json&url='
+    + encodeURIComponent('https://www.youtube.com/watch?v=dQw4w9WgXcQ'),
+    { muteHttpExceptions: true });
+  Logger.log('oEmbed HTTP ' + res.getResponseCode());
+  Logger.log('title: ' + String(JSON.parse(res.getContentText() || '{}').title || '(none)'));
+  Logger.log('GEMINI_API_KEY set: '
+    + !!PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY'));
+}
+
 // 시트·토큰은 첫 요청 때 lazy 초기화 — 에디터에서 별도 실행 없이 배포만으로 동작
 function sheet_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
