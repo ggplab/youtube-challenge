@@ -35,8 +35,10 @@
     if (!isEmbed) return;
     document.documentElement.classList.add('is-embed');
     var style = document.createElement('style');
+    // 탭 링크만 숨긴다. topnav 자체를 지우면 그 안에 있는 'AI와 같이 쓰기' 버튼까지 사라진다.
     style.textContent =
-      '.is-embed .topnav { display:none !important; }' +
+      '.is-embed .topnav a { display:none !important; }' +
+      '.is-embed .topnav { border-bottom:none !important; margin-bottom:14px !important; }' +
       '.is-embed .doc { padding-top:18px !important; }' +
       '.is-embed body { max-width:none !important; }';
     document.head.appendChild(style);
