@@ -87,6 +87,22 @@ function galleryToken_() {
 }
 
 /**
+ * 시각은 Date 객체가 아니라 KST 오프셋이 박힌 ISO 문자열로 저장한다.
+ * 이 스프레드시트의 타임존은 Etc/GMT인데 스크립트는 Asia/Seoul이라,
+ * Date를 그대로 셀에 넣으면 절대시각이 7시간 어긋난 채 기록된다(2026-07-25 실측).
+ * 문자열은 타임존 변환을 타지 않으므로 왕복이 정확하다.
+ */
+function nowStamp_() {
+  return Utilities.formatDate(new Date(), 'Asia/Seoul', "yyyy-MM-dd'T'HH:mm:ss'+09:00'");
+}
+
+/** 신규(문자열)와 기존(Date) 행이 섞여 있어도 같은 ISO 형태로 내보낸다. */
+function isoOf_(v) {
+  if (v instanceof Date) return v.toISOString();
+  return String(v == null ? '' : v);
+}
+
+/**
  * 시트 3탭에 흩어진 같은 사람을 묶기 위한 내부 join key.
  * 응답에 실리지 않는다 — 밖으로 나가면 실명과 짝지어 이메일 역산이 가능해진다.
  * upsert 비교가 전부 toLowerCase() 기준이라 같은 정규화를 쓴다.
@@ -187,7 +203,7 @@ function handleVerifyPost_(body) {
   var editToken, submitCount;
   try {
     var sh = verifySheet_();
-    var now = new Date();
+    var now = nowStamp_();
     var existing = verifyRows_().filter(function (r) {
       return String(r.email).toLowerCase() === row.email.toLowerCase()
         && String(r.cycle) === row.cycle;
@@ -250,7 +266,7 @@ function doPost(e) {
     lock.waitLock(10000);
     try {
       var sh = sheet_();
-      var now = new Date();
+      var now = nowStamp_();
       var existing = rows_().filter(function (r) {
         return String(r.email).toLowerCase() === row.email.toLowerCase();
       })[0];
@@ -296,7 +312,7 @@ function handleProposalPost_(body) {
   var editToken, submitCount;
   try {
     var sh = proposalSheet_();
-    var now = new Date();
+    var now = nowStamp_();
     var existing = proposalRows_().filter(function (r) {
       return String(r.email).toLowerCase() === row.email.toLowerCase()
         && String(r.cycle) === row.cycle;
@@ -466,7 +482,7 @@ function doGet(e) {
     proposalRows_().filter(function (r) { return !/^__/.test(String(r.name)); })
       .forEach(function (r) {
         personOf(r.email, r.name, '', false).proposals.push({
-          cycle: String(r.cycle), updated_at: r.updated_at, submit_count: r.submit_count
+          cycle: String(r.cycle), updated_at: isoOf_(r.updated_at), submit_count: r.submit_count
         });
       });
 
@@ -474,7 +490,7 @@ function doGet(e) {
       .forEach(function (r) {
         personOf(r.email, r.name, '', false).verifications.push({
           cycle: String(r.cycle), video_url: r.video_url, video_title: r.video_title,
-          updated_at: r.updated_at, submit_count: r.submit_count
+          updated_at: isoOf_(r.updated_at), submit_count: r.submit_count
         });
       });
 
@@ -501,7 +517,7 @@ function doGet(e) {
     if (pHit) return ContentService.createTextOutput(pHit).setMimeType(ContentService.MimeType.JSON);
     var proposals = proposalRows_().map(function (r) {
       return {
-        created_at: r.created_at, updated_at: r.updated_at,
+        created_at: isoOf_(r.created_at), updated_at: isoOf_(r.updated_at),
         name: r.name, cycle: r.cycle, target: r.target, topic: r.topic,
         structure: r.structure, links: r.links, ai_review: r.ai_review,
         submit_count: r.submit_count
@@ -521,7 +537,7 @@ function doGet(e) {
     if (vHit) return ContentService.createTextOutput(vHit).setMimeType(ContentService.MimeType.JSON);
     var verifs = verifyRows_().map(function (r) {
       return { name: r.name, cycle: r.cycle, video_url: r.video_url, video_title: r.video_title,
-        updated_at: r.updated_at, submit_count: r.submit_count };
+        updated_at: isoOf_(r.updated_at), submit_count: r.submit_count };
     }).filter(function (r) { return !/^__/.test(String(r.name)); });
     var vPayload = JSON.stringify({ ok: true, verifications: verifs });
     vCache.put('verifications-json', vPayload, 60);
@@ -549,7 +565,7 @@ function doGet(e) {
         name: r.name, channel_name: r.channel_name, concept: r.concept,
         reason: r.reason, pipeline: r.pipeline, audience: r.audience,
         cta: r.cta, message: r.message,
-        updated_at: r.updated_at, submit_count: r.submit_count
+        updated_at: isoOf_(r.updated_at), submit_count: r.submit_count
       };
     }).filter(function (r) { return !/^__/.test(String(r.name)); });
     var gPayload = JSON.stringify({ ok: true, plans: list });
