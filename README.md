@@ -121,7 +121,6 @@ flowchart LR
 | [`/plan`](https://challenge.buildnwrite.com/plan/) | OT 전 (1회) | 채널 한 장 기획서 제출 → 확인 메일(전문·수정 링크·갤러리 링크) | 라이브 |
 | [`/submit`](https://challenge.buildnwrite.com/submit/) | 기획 주 일요일 자정까지 | 기획안(타깃·주제·구성) 제출 → **AI 검토(Gemini) 이메일 회신** + 갤러리 기록 | 라이브 |
 | [`/verify`](https://challenge.buildnwrite.com/verify/) | 제작 주 일요일 자정까지 | YouTube URL 제출 → 롱폼 검증(`/shorts/` 거부) → 확인 메일 + 인증 현황 기록 | 라이브 |
-
 | 정산 카드 | 사이클 종료 다음 월요일 | 참가자별 ✅/❌ + 🔥연속 사이클 자동 게시 | 미구현 |
 
 제출은 모두 `이메일 + 사이클` 기준 upsert라 마감 전까지 몇 번이든 다시 제출할 수 있습니다.
