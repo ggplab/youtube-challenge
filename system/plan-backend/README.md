@@ -8,7 +8,7 @@ Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서�
 |------|-----|
 | 스크립트 | https://script.google.com/d/10d4YebiJYUwxn1qujzg32b5fz0smXjxLBLEcvSdYxNXRJY1cQjkQZQ4Y/edit |
 | 데이터 시트 (비공개) | https://drive.google.com/open?id=1R8oCmjfn-TeMinl6Hyhm0kMbGxPTTpDxYwSnA8eKtxs |
-| 웹앱 배포 ID | `AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs` (@6) |
+| 웹앱 배포 ID | `AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs` (@8) |
 | 웹앱 URL | `https://script.google.com/macros/s/<배포ID>/exec` |
 | 실행 계정 | jayjunglim@gmail.com (MailApp 발신, 일 100통 한도) |
 

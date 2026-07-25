@@ -145,5 +145,5 @@ flowchart LR
 - [x] 영상 인증 페이지(/verify) 배포 — 롱폼 검증·확인 메일·인증 현황
 - [x] 시트·Secrets 셋업 (구글시트 3탭 + `GEMINI_API_KEY`·`GALLERY_TOKEN` Script Properties)
 - [x] 리허설: 기획안 1건 + 인증 1건 (shorts·비유튜브·잘못된 사이클 거부 확인)
-- [ ] **Apps Script 재승인** — `script.external_request` 스코프 (AI 검토·영상 제목 수집이 이것 없이는 동작 안 함)
+- [x] Apps Script `script.external_request` 스코프 승인 — AI 검토·영상 제목 수집 동작 확인 (2026-07-25)
 - [ ] 사이클 정산 카드 (첫 정산 08-03 월)

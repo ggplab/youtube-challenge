@@ -555,7 +555,7 @@ function sendProposalConfirmMail_(row, aiReview, editToken, submitCount) {
       + pair[0] + '</td><td style="padding:10px 12px;border-bottom:1px solid #eee;color:#222;">' + val + '</td></tr>';
   }).join('');
   var reviewHtml = aiReview
-    ? '<div style="white-space:normal;line-height:1.75;color:#222;">' + escHtml_(aiReview).replace(/\n/g, '<br>') + '</div>'
+    ? '<div style="line-height:1.75;color:#222;">' + mdToHtml_(aiReview) + '</div>'
     : '<p style="margin:0;color:#777;">AI 검토는 잠시 후 다시 시도됩니다</p>';
 
   var html =
@@ -579,6 +579,30 @@ function sendProposalConfirmMail_(row, aiReview, editToken, submitCount) {
     htmlBody: html,
     name: 'BuildnWrite 유튜브 챌린지'
   });
+}
+
+// Gemini 응답은 마크다운으로 온다. 메일에서 기호가 그대로 보이지 않도록 최소 변환한다.
+function mdToHtml_(text) {
+  return escHtml_(text).split('\n').map(function (line) {
+    var t = line.trim();
+    if (!t) return '<div style="height:8px;"></div>';
+    if (/^-{3,}$/.test(t)) return '<hr style="border:none;border-top:1px solid #ddd;margin:16px 0;">';
+    var heading = t.match(/^#{2,4}\s*(.+)$/);
+    if (heading) {
+      return '<div style="font-weight:800;font-size:15px;color:#1D4ED8;margin:18px 0 6px;">'
+        + mdInline_(heading[1]) + '</div>';
+    }
+    var bullet = t.match(/^[-*]\s+(.+)$/);
+    if (bullet) return '<div style="margin:4px 0 4px 14px;">• ' + mdInline_(bullet[1]) + '</div>';
+    return '<div style="margin:6px 0;">' + mdInline_(t) + '</div>';
+  }).join('');
+}
+
+function mdInline_(s) {
+  return String(s)
+    .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+    .replace(/\*([^*]+)\*/g, '<i>$1</i>')
+    .replace(/`([^`]+)`/g, '<code style="background:#eee;padding:1px 4px;border-radius:3px;">$1</code>');
 }
 
 function escHtml_(s) {
