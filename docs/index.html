@@ -76,15 +76,49 @@
   a.cell { display:block; text-decoration:none; }
   a.cell:hover { filter:brightness(0.97); }
 
+  /* 버튼 어포던스: 쉬는 상태에서도 떠 있어 보이게 + 누르면 실제로 들어가게 */
   .cta-top { display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; margin:0 0 32px; }
-  .cta-top a { display:block; text-decoration:none; border-radius:16px; padding:20px 22px;
-    border:2px solid transparent; transition:.15s; }
-  .cta-top a .ct-title { font-size:18px; font-weight:800; letter-spacing:-0.3px; display:block; }
-  .cta-top a .ct-sub { font-size:12.5px; font-weight:600; display:block; margin-top:3px; opacity:.82; }
-  .cta-top a.plan { background:linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color:#fff; }
-  .cta-top a.plan:hover { transform:translateY(-2px); box-shadow:0 8px 22px rgba(37,99,235,0.32); }
-  .cta-top a.video { background:var(--done-bg); color:var(--done); border-color:#bbe7d3; }
-  .cta-top a.video:hover { transform:translateY(-2px); box-shadow:0 8px 22px rgba(5,150,105,0.18); }
+  .cta-top a { font:inherit; text-align:left; width:100%; cursor:pointer; display:block; text-decoration:none;
+    border-radius:16px; padding:19px 22px; border:none; position:relative;
+    transition:transform .13s ease, box-shadow .13s ease, filter .13s ease; }
+  .cta-top a .ct-row { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .cta-top a .ct-title { font-size:18px; font-weight:800; letter-spacing:-0.3px; }
+  .cta-top a .ct-sub { font-size:12.5px; font-weight:600; display:block; margin-top:3px; opacity:.85; }
+  .cta-top a .ct-arrow { font-size:19px; font-weight:800; opacity:.75; transition:transform .13s ease; }
+  .cta-top a:hover { transform:translateY(-2px); }
+  .cta-top a:hover .ct-arrow { transform:translateX(3px); }
+  .cta-top a:active { transform:translateY(1px); filter:brightness(0.96); }
+  .cta-top a:focus-visible { outline:3px solid #93b4fb; outline-offset:3px; }
+  .cta-top a.plan {
+    background:linear-gradient(135deg, #3b7bf6 0%, var(--accent-dark) 100%); color:#fff;
+    box-shadow:0 3px 0 #12358f, 0 8px 18px rgba(37,99,235,0.30), inset 0 1px 0 rgba(255,255,255,0.34); }
+  .cta-top a.plan:hover { box-shadow:0 5px 0 #12358f, 0 14px 26px rgba(37,99,235,0.36), inset 0 1px 0 rgba(255,255,255,0.34); }
+  .cta-top a.plan:active { box-shadow:0 1px 0 #12358f, 0 4px 10px rgba(37,99,235,0.28), inset 0 1px 0 rgba(255,255,255,0.2); }
+  .cta-top a.video {
+    background:linear-gradient(135deg, #10b981 0%, var(--done) 100%); color:#fff;
+    box-shadow:0 3px 0 #047954, 0 8px 18px rgba(5,150,105,0.26), inset 0 1px 0 rgba(255,255,255,0.32); }
+  .cta-top a.video:hover { box-shadow:0 5px 0 #047954, 0 14px 26px rgba(5,150,105,0.32), inset 0 1px 0 rgba(255,255,255,0.32); }
+  .cta-top a.video:active { box-shadow:0 1px 0 #047954, 0 4px 10px rgba(5,150,105,0.24), inset 0 1px 0 rgba(255,255,255,0.2); }
+
+  /* 모달: 뒤에 대시보드가 깔려 있어서 여기서는 blur가 실제로 보인다 */
+  .modal { position:fixed; inset:0; z-index:60; display:none; }
+  .modal.open { display:block; }
+  .modal-backdrop { position:absolute; inset:0; background:rgba(28,32,42,0.46);
+    backdrop-filter:blur(7px) saturate(115%); -webkit-backdrop-filter:blur(7px) saturate(115%); }
+  .modal-panel { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:min(880px, calc(100vw - 32px)); height:min(88vh, 980px);
+    background:rgba(255,255,255,0.94); border:1px solid rgba(255,255,255,0.6); border-radius:20px;
+    box-shadow:0 30px 80px rgba(15,23,42,0.35); display:flex; flex-direction:column; overflow:hidden; }
+  .modal-head { display:flex; align-items:center; justify-content:space-between; gap:12px;
+    padding:14px 18px; border-bottom:1px solid var(--line); background:rgba(255,255,255,0.7); }
+  .modal-head .mt { font-size:15.5px; font-weight:800; }
+  .modal-head .mx { font:inherit; font-size:20px; line-height:1; cursor:pointer; border:none; background:transparent;
+    color:var(--ink-soft); padding:6px 10px; border-radius:9px; }
+  .modal-head .mx:hover { background:var(--paper-warm); color:var(--ink); }
+  .modal iframe { flex:1; width:100%; border:none; background:#fff; }
+  .modal-hint { font-size:11.5px; color:var(--ink-faint); padding:8px 18px; border-top:1px solid var(--line);
+    background:rgba(255,255,255,0.7); }
+  body.modal-open { overflow:hidden; }
 
   .feed { display:grid; gap:10px; }
   .fitem { border:1.5px solid var(--line); border-radius:14px; padding:13px 16px; background:var(--paper-warm);
@@ -107,6 +141,8 @@
     .stats { grid-template-columns:repeat(2, 1fr); }
     .cta-top { grid-template-columns:1fr; gap:10px; }
     .cta-top a { padding:17px 18px; }
+    .modal-panel { width:100vw; height:100dvh; max-height:none; border-radius:0;
+      left:0; top:0; transform:none; }
   }
 </style>
 </head>
@@ -114,11 +150,9 @@
 <div class="doc">
   <nav class="topnav">
     <a href="./" class="active">대시보드</a>
-    <a href="proposal/">제안서</a>
     <a href="plan/">채널 기획서</a>
-    <a href="submit/">영상 기획안</a>
-    <a href="verify/">영상 인증</a>
     <a href="ot/">OT 자료</a>
+    <a href="proposal/">제안서</a>
   </nav>
 
   <div class="eyebrow">YOUTUBE CHALLENGE · SUBMISSIONS</div>
@@ -126,10 +160,24 @@
   <p class="lede">2주 1사이클 × 6 = 영상 6개. 기획 주에 <b>기획안</b>, 제작 주에 <b>영상</b>을 각각 일요일 자정까지 제출합니다. 제출하면 이 표에 바로 올라옵니다.</p>
 
   <div class="cta-top" id="ctaTop">
-    <a class="plan" href="submit/"><span class="ct-title">영상 기획안 제출</span>
+    <a class="plan" href="submit/" data-form="submit" data-title="영상 기획안 제출">
+      <span class="ct-row"><span class="ct-title">영상 기획안 제출</span><span class="ct-arrow">→</span></span>
       <span class="ct-sub">기획 주 · 타깃·주제·구성 → AI 검토 회신</span></a>
-    <a class="video" href="verify/"><span class="ct-title">영상 인증</span>
+    <a class="video" href="verify/" data-form="verify" data-title="영상 인증">
+      <span class="ct-row"><span class="ct-title">영상 인증</span><span class="ct-arrow">→</span></span>
       <span class="ct-sub">제작 주 · 업로드한 롱폼 URL 제출</span></a>
+  </div>
+
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel">
+      <div class="modal-head">
+        <span class="mt" id="modalTitle"></span>
+        <button type="button" class="mx" id="modalClose" aria-label="닫기">✕</button>
+      </div>
+      <iframe id="modalFrame" title="제출 폼"></iframe>
+      <div class="modal-hint">작성 중인 내용은 자동 저장됩니다. 닫아도 다시 열면 이어서 쓸 수 있어요.</div>
+    </div>
   </div>
 
   <div class="stats" id="stats"></div>
@@ -289,6 +337,48 @@
       : `<div class="empty">아직 제출이 없습니다.<br><b>사이클 ${cur.n} ${esc(nextLabel)}은 ${mmdd(kstStart(nextDue))}(일) 자정</b>입니다.</div>`;
   }
 
+  // ── 제출 모달 ──
+  // CTA는 <a href>로 두고 여기서 가로챈다. JS가 죽어도 페이지 이동으로 제출은 된다.
+  const modal = document.getElementById('modal');
+  const modalFrame = document.getElementById('modalFrame');
+  const modalTitle = document.getElementById('modalTitle');
+  let lastFocused = null;
+
+  function openModal(path, title) {
+    lastFocused = document.activeElement;
+    modalTitle.textContent = title;
+    modalFrame.src = path + '?embed=1';
+    modal.classList.add('open');
+    document.body.classList.add('modal-open');
+    document.getElementById('modalClose').focus();
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    document.body.classList.remove('modal-open');
+    modalFrame.src = 'about:blank';
+    if (lastFocused) lastFocused.focus();
+  }
+
+  document.querySelectorAll('#ctaTop a[data-form]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      openModal(a.getAttribute('href'), a.dataset.title);
+    });
+  });
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  // 배경 클릭으로는 닫지 않는다 — 기획안 작성 중 오클릭 한 번에 창이 사라지면 곤란하다
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  // 폼(iframe)이 제출 성공을 알리면 대시보드를 즉시 다시 그린다
+  window.addEventListener('message', e => {
+    if (e.origin !== location.origin) return;
+    const d = e.data;
+    if (!d || d.source !== 'ytc-form' || d.type !== 'submitted') return;
+    refresh();
+  });
+
   // 캐시를 먼저 그려 첫 화면을 즉시 채우고, 백그라운드로 갱신한다 (GAS 응답이 1~2초 걸린다)
   const CACHE_KEY = 'yt-challenge-dashboard';
   try {
@@ -296,7 +386,7 @@
     if (cached && cached.participants) render(cached);
   } catch (e) {}
 
-  (async () => {
+  async function refresh() {
     try {
       const res = await fetch(API_URL + '?action=dashboard');
       const data = await res.json();
@@ -310,7 +400,8 @@
           '<div class="empty">현황을 불러오지 못했습니다. 잠시 후 새로고침해주세요.</div>';
       }
     }
-  })();
+  }
+  refresh();
 </script>
 </body>
 </html>

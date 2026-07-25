@@ -100,6 +100,7 @@
   <footer>© 2026 BuildnWrite. All rights reserved.</footer>
 </div>
 
+<script src="../assets/form-enhance.js"></script>
 <script>
   const API_URL = 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs/exec';
   const f = document.getElementById('f'), btn = document.getElementById('btn'), msg = document.getElementById('msg');
@@ -123,6 +124,8 @@
       if (!data.ok) throw new Error(data.error || '제출에 실패했습니다.');
       showMsg('ok', (data.resubmit ? '재인증 완료! 기록이 갱신됐습니다.' : '인증 완료! 확인 메일을 보냈습니다.')
         + (data.video_title ? ' — 「' + esc(data.video_title) + '」' : ''));
+      YTCForm.rememberIdentity(body.name, body.email);
+      YTCForm.notifySubmitted('verify');
       loadBoard();
     } catch (err) {
       showMsg('err', err.message || '제출에 실패했습니다. 잠시 후 다시 시도해주세요.');
@@ -151,6 +154,9 @@
     } catch(e) {}
   }
   loadBoard();
+
+  YTCForm.applyEmbedMode();
+  YTCForm.setupNamePicker({ nameInputId: 'f-name', emailInputId: 'f-email', apiUrl: API_URL });
 </script>
 </body>
 </html>

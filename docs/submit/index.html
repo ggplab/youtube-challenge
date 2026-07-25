@@ -278,6 +278,7 @@
 
 </div>
 
+<script src="../assets/form-enhance.js"></script>
 <script>
   // === 백엔드: Google Apps Script Web App (저장 시트 + AI 검토 + 확인 이메일 발송) ===
   const API_URL = 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs/exec';
@@ -416,10 +417,15 @@
     }
     // 성공: 초안 정리 + 완료 화면
     try { localStorage.removeItem(DRAFT_KEY); } catch(e) {}
+    YTCForm.rememberIdentity(row.name, row.email);   // 다음 제출 때 이메일 자동 채움
+    YTCForm.notifySubmitted('proposal');             // 모달로 열렸으면 대시보드에 알림
     form.style.display = 'none';
     done.classList.add('show');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+
+  YTCForm.applyEmbedMode();
+  YTCForm.setupNamePicker({ nameInputId: 'f-name', emailInputId: 'f-email', apiUrl: API_URL });
 </script>
 </body>
 </html>
