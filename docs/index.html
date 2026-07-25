@@ -133,6 +133,20 @@
   .empty { border:1.5px dashed var(--line); border-radius:14px; padding:26px 20px; text-align:center;
     color:var(--ink-faint); font-size:14px; }
   .empty b { color:var(--ink-soft); }
+
+  .cli { display:grid; gap:10px; }
+  .cli-item { border:1.5px solid var(--line); border-radius:14px; padding:13px 16px; background:var(--paper-warm);
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .cli-label { font-size:12px; font-weight:800; color:var(--accent-dark); background:var(--accent-bg);
+    border-radius:20px; padding:2px 10px; white-space:nowrap; }
+  .cli-item code { flex:1; min-width:220px; font-size:12.5px; line-height:1.55; color:var(--ink);
+    font-family:ui-monospace, SFMono-Regular, Menlo, monospace; word-break:break-all; }
+  .cli-copy { font:inherit; font-size:13px; font-weight:800; cursor:pointer; white-space:nowrap;
+    color:#fff; background:var(--ink); border:none; border-radius:9px; padding:8px 15px; transition:.13s; }
+  .cli-copy:hover { background:#4a4844; }
+  .cli-copy.copied { background:var(--done); }
+  .cli-note { font-size:12.5px; color:var(--ink-faint); margin-top:12px; }
+  .cli-note a { color:var(--accent-dark); font-weight:600; }
   footer { margin-top:46px; padding-top:16px; border-top:1px solid var(--line);
     font-size:12px; color:var(--ink-faint); }
 
@@ -192,6 +206,24 @@
     <h2>최근 제출</h2>
     <p class="sect-hint">최신순 12건</p>
     <div class="feed" id="feed"></div>
+  </section>
+
+  <section class="sect">
+    <h2>Claude로 제출하기</h2>
+    <p class="sect-hint">사이트에 들어오지 않고 터미널에서 바로 제출하는 두 번째 통로입니다. 아래를 복사해 Claude Code에 붙여넣으면 인터뷰로 항목을 채우고 제출까지 해줍니다.</p>
+    <div class="cli">
+      <div class="cli-item">
+        <div class="cli-label">영상 기획안</div>
+        <code id="cliPlan">https://challenge.buildnwrite.com/skills/proposal.md 를 읽고 그대로 따라서 내 영상 기획안 제출을 도와줘</code>
+        <button type="button" class="cli-copy" data-copy="cliPlan">복사</button>
+      </div>
+      <div class="cli-item">
+        <div class="cli-label">영상 인증</div>
+        <code id="cliVerify">https://challenge.buildnwrite.com/skills/verify.md 를 읽고 그대로 따라서 내 영상 인증을 도와줘</code>
+        <button type="button" class="cli-copy" data-copy="cliVerify">복사</button>
+      </div>
+    </div>
+    <p class="cli-note">claude.ai 채팅에서는 제출 요청을 보낼 수 없어 항목 정리까지만 됩니다 — 정리된 내용을 위 버튼으로 붙여넣으세요. 지시서 원문: <a href="skills/proposal.md">기획안</a> · <a href="skills/verify.md">인증</a></p>
   </section>
 
   <footer>© 2026 BuildnWrite. All rights reserved.</footer>
@@ -377,6 +409,21 @@
     const d = e.data;
     if (!d || d.source !== 'ytc-form' || d.type !== 'submitted') return;
     refresh();
+  });
+
+  // ── Claude 통로: 한 줄 복사 ──
+  document.querySelectorAll('.cli-copy').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const text = document.getElementById(btn.dataset.copy).textContent.trim();
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = '복사됨'; btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+      } catch (e) {
+        btn.textContent = '복사 실패';
+        setTimeout(() => { btn.textContent = '복사'; }, 2000);
+      }
+    });
   });
 
   // 캐시를 먼저 그려 첫 화면을 즉시 채우고, 백그라운드로 갱신한다 (GAS 응답이 1~2초 걸린다)
