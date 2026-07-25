@@ -34,7 +34,7 @@
 ## STEP 4. 제출
 
 ```bash
-curl -sL -X POST 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs/exec' \
+curl -sL 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs/exec' \
   -H 'Content-Type: text/plain' \
   -d '{
     "form": "verify",
@@ -45,7 +45,7 @@ curl -sL -X POST 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0y
   }'
 ```
 
-- `-L`은 **반드시** 넣으세요. 이 엔드포인트는 302 리다이렉트로 응답하므로 없으면 빈 응답을 받습니다.
+- `-L`은 **반드시** 넣고, **`-X POST`는 절대 쓰지 마세요.** 이 엔드포인트는 302 리다이렉트로 응답하는데, `-X POST`를 쓰면 리다이렉트된 주소에도 POST를 보내 405가 납니다. 이때 **제출 자체는 이미 처리된 상태**라 실패로 오인해 다시 보내면 중복 제출이 됩니다. `-d`만 쓰면 curl이 알아서 POST로 보내고 리다이렉트를 따라갑니다.
 - 성공 응답: `{"ok":true,"resubmit":false,"video_title":"영상 제목"}`
   - `video_title`이 오면 그 제목을 사용자에게 보여주며 맞는 영상인지 확인시켜 주세요.
   - `resubmit: true` — 같은 사이클에 이미 인증한 적이 있어 갱신된 것입니다.
