@@ -29,6 +29,12 @@ Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서�
 | 진단 | `GET /exec?action=diag&t=<공유토큰>` | 외부 호출 계통 자가진단 — Gemini 키 등록 여부, oEmbed·Gemini 실제 호출 결과 | `{ok, gemini_key_set, oembed, gemini}` |
 | 공개 | `GET /exec?action=dashboard` | **토큰 불요.** 메인 대시보드용. 참가자별로 제출 내역을 중첩해 반환 | `{ok, participants:[{name, channel_name, proposals[], verifications[]}]}` |
 
+### 두 번째 통로 (CLI)
+
+웹앱은 `access: ANYONE_ANONYMOUS`라 API가 인증 없이 열려 있고, 이 리포도 public이라 스펙은 이미 공개다. 이를 정돈해 `docs/skills/proposal.md`·`verify.md`에 Claude용 지시서로 문서화했다(대시보드 하단에서 URL 한 줄로 배포). 제출용 별도 키는 두지 않는다 — 키를 두면 공개 리포에 커밋되는 자기모순이고, "이메일을 알아야 남의 기록을 덮을 수 있다"는 장벽은 `action=dashboard`가 이메일·해시를 싣지 않는 설계가 지탱하므로 스펙 공개와 무관하다.
+
+**curl 주의**: `-L`은 필수이고 `-X POST`는 쓰면 안 된다. 둘을 같이 쓰면 리다이렉트된 주소에도 POST가 가서 405가 나는데, **그 시점에 제출은 이미 처리된 상태**라 실패로 오인해 재시도하면 중복 제출이 된다(2026-07-26 실측, `submit_count` 2로 재현). `-d`만 주면 curl이 302에서 GET으로 전환해 정상 응답을 받는다.
+
 ### `action=dashboard`가 내보내지 않는 것
 
 이메일, **이메일 해시**, 기획안 본문(`target`·`topic`·`structure`), 수정토큰. 시트 3탭에 흩어진 같은 사람을 묶는 join key는 `joinKey_()`(정규화 후 SHA-256)로 만들지만 **응답에 싣지 않는다** — 실명과 해시가 한 줄에 같이 나가면 이름 기반 대입으로 이메일이 역산되기 때문이다. 그래서 매칭을 서버 안에서 끝내고 참가자 객체에 제출 내역을 중첩시킨다. 표시 이름은 `plans`(채널 기획서)의 것을 canonical로 쓴다 — 폼마다 표기가 달라도 흔들리지 않게.
