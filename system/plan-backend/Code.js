@@ -365,6 +365,43 @@ function saveProposalReview_(editToken, submitCount, aiReview) {
 function doGet(e) {
   var p = (e && e.parameter) || {};
 
+  // 외부 호출(UrlFetchApp) 계통 자가진단. 스코프 누락·키 미등록을 구분한다.
+  if (p.action === 'diag') {
+    if (!p.t || p.t !== galleryToken_()) {
+      return json_({ ok: false, error: 'invalid token' });
+    }
+    var diag = { ok: true, gemini_key_set: false, oembed: '', gemini: '' };
+    diag.gemini_key_set = !!PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY');
+    try {
+      var oeRes = UrlFetchApp.fetch(
+        'https://www.youtube.com/oembed?format=json&url='
+        + encodeURIComponent('https://www.youtube.com/watch?v=dQw4w9WgXcQ'),
+        { muteHttpExceptions: true });
+      diag.oembed = 'HTTP ' + oeRes.getResponseCode()
+        + ' title=' + String(JSON.parse(oeRes.getContentText() || '{}').title || '(none)');
+    } catch (oeErr) {
+      diag.oembed = 'ERROR ' + String(oeErr && oeErr.message || oeErr).slice(0, 160);
+    }
+    if (!diag.gemini_key_set) {
+      diag.gemini = 'skipped (GEMINI_API_KEY not set)';
+    } else {
+      try {
+        var gRes = UrlFetchApp.fetch(
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='
+          + encodeURIComponent(PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY')),
+          {
+            method: 'post', contentType: 'application/json',
+            payload: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: 'ping' }] }] }),
+            muteHttpExceptions: true
+          });
+        diag.gemini = 'HTTP ' + gRes.getResponseCode() + ' ' + gRes.getContentText().slice(0, 120);
+      } catch (gErr) {
+        diag.gemini = 'ERROR ' + String(gErr && gErr.message || gErr).slice(0, 160);
+      }
+    }
+    return json_(diag);
+  }
+
   if (p.action === 'proposals') {
     if (!p.t || p.t !== galleryToken_()) {
       return json_({ ok: false, error: 'invalid token' });

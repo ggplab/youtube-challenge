@@ -8,7 +8,7 @@ Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서�
 |------|-----|
 | 스크립트 | https://script.google.com/d/10d4YebiJYUwxn1qujzg32b5fz0smXjxLBLEcvSdYxNXRJY1cQjkQZQ4Y/edit |
 | 데이터 시트 (비공개) | https://drive.google.com/open?id=1R8oCmjfn-TeMinl6Hyhm0kMbGxPTTpDxYwSnA8eKtxs |
-| 웹앱 배포 ID | `AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs` (@1) |
+| 웹앱 배포 ID | `AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs` (@6) |
 | 웹앱 URL | `https://script.google.com/macros/s/<배포ID>/exec` |
 | 실행 계정 | jayjunglim@gmail.com (MailApp 발신, 일 100통 한도) |
 
@@ -24,6 +24,15 @@ Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서�
 | 추가 | `POST /exec` + body `form: "proposal"` | email+cycle 기준 기획안 upsert, Gemini 검토 저장, 확인 메일 발송 | `{ok, resubmit, ai_reviewed}` |
 | 추가 | `GET /exec?action=proposals&t=<공유토큰>` | 사이클 기획안 전체 목록. email·수정토큰 제외, cycle 포함 | `{ok, proposals}` |
 | 추가 | `GET /exec?action=proposal-mine&edit=<개인토큰>` | 해당 수정토큰의 기획안 반환(재제출 프리필) | `{ok, proposal}` |
+| 인증 | `POST /exec` + body `form: "verify"` | email+cycle 기준 영상 인증 upsert. 쇼츠·비유튜브 URL 거부, oEmbed 제목 수집, 확인 메일 발송 | `{ok, resubmit, video_title}` |
+| 인증 | `GET /exec?action=verifications&t=<공유토큰>` | 인증 현황 목록. email·수정토큰 제외 | `{ok, verifications}` |
+| 진단 | `GET /exec?action=diag&t=<공유토큰>` | 외부 호출 계통 자가진단 — Gemini 키 등록 여부, oEmbed·Gemini 실제 호출 결과 | `{ok, gemini_key_set, oembed, gemini}` |
+
+## ⚠️ UrlFetchApp 스코프 (2026-07-25 트러블슈팅)
+
+`appsscript.json`에 `oauthScopes`를 명시하면 **그 목록으로 권한이 고정된다.** 초기 배포에 `script.external_request`가 빠져 있어 AI 검토와 영상 제목 수집이 조용히 실패했다 — 코드의 `try/catch`가 권한 예외를 삼켜 저장·메일은 정상 동작하고 `ai_review`·`video_title`만 빈 값으로 남는 형태였다.
+
+스코프를 추가한 뒤에는 `clasp push`·`redeploy`만으로는 반영되지 않는다. 웹앱이 `USER_DEPLOYING`이라 **배포 계정이 브라우저에서 1회 재승인**해야 새 스코프가 붙는다: 편집기에서 아무 함수(`setup`)를 실행 → 권한 검토 → 고급 → 허용. 반영 여부는 `action=diag`로 확인한다.
 
 ## `proposals` 시트 스키마
 

@@ -34,8 +34,8 @@ flowchart LR
     C --> D[마무리 모임<br/>12주 회고]
 ```
 
-1. **기획 주**: 소재를 정하고 기획안(타깃·주제·구성)을 일요일 자정까지 제출 페이지(challenge.buildnwrite.com/submit)에 제출합니다. AI 검토 회신이 이메일로 옵니다 (후킹·타깃 적합성·구성 관점).
-2. **제작 주**: 촬영·편집 후 업로드하고 일요일 자정까지 `/인증`. 봇이 간단한 피드백 회신과 함께 갤러리에 기록합니다. 롱폼만 인정하고 쇼츠는 제외합니다.
+1. **기획 주**: 소재를 정하고 기획안(타깃·주제·구성)을 일요일 자정까지 제출 페이지([challenge.buildnwrite.com/submit](https://challenge.buildnwrite.com/submit/))에 제출합니다. AI 검토 회신이 이메일로 옵니다 (후킹·타깃 적합성·구성 관점).
+2. **제작 주**: 촬영·편집 후 업로드하고 일요일 자정까지 인증 페이지([challenge.buildnwrite.com/verify](https://challenge.buildnwrite.com/verify/))에 영상 URL을 제출합니다. 확인 메일과 함께 인증 현황에 기록됩니다. 롱폼만 인정하고 쇼츠는 제외합니다.
 3. **미제출은 그대로 기록**: 사이클 정산 카드에 ✅/❌와 🔥연속 사이클이 자동 게시됩니다. 서로 다 보입니다.
 
 ## 04. 시작 주간의 하이라이트: 기획서 숙제 + 온라인 OT (07-25 토 10:00 확정)
@@ -112,21 +112,24 @@ flowchart LR
 
 # 부록: 운영·시스템 구조
 
-**상태**: 기획 단계 (2026-07-07). 운영 구조 확정, 시스템은 placeholder (`system/` 참고). 진행 확정 시 개발 착수.
+**상태**: 운영 중 (2026-07-25). 제출·인증은 디스코드 봇 대신 **웹 폼 + Apps Script 백엔드**로 구현해 라이브 상태입니다. 정산 카드만 미구현.
 
 ## 제출과 피드백 (시스템 동작)
 
-| 커맨드 | 언제 | 무슨 일이 일어나나 |
-|--------|------|--------------------|
-| `/기획` | 기획 주 일요일 자정까지 | 기획안(타깃·주제·구성) 제출 → **봇이 AI 검토 회신** (후킹·타깃 적합성·구성 관점) + 기록 |
-| `/인증` | 제작 주 일요일 자정까지 | YouTube URL 제출 → 롱폼 검증(`/shorts/` 거부) → **봇이 간단 회신** + 갤러리·스트릭 기록 |
-| 정산 카드 | 사이클 종료 다음 월요일 | 참가자별 ✅/❌ + 🔥연속 사이클 자동 게시 |
+| 경로 | 언제 | 무슨 일이 일어나나 | 상태 |
+|------|------|--------------------|------|
+| [`/plan`](https://challenge.buildnwrite.com/plan/) | OT 전 (1회) | 채널 한 장 기획서 제출 → 확인 메일(전문·수정 링크·갤러리 링크) | 라이브 |
+| [`/submit`](https://challenge.buildnwrite.com/submit/) | 기획 주 일요일 자정까지 | 기획안(타깃·주제·구성) 제출 → **AI 검토(Gemini) 이메일 회신** + 갤러리 기록 | 라이브 |
+| [`/verify`](https://challenge.buildnwrite.com/verify/) | 제작 주 일요일 자정까지 | YouTube URL 제출 → 롱폼 검증(`/shorts/` 거부) → 확인 메일 + 인증 현황 기록 | 라이브 |
+| 정산 카드 | 사이클 종료 다음 월요일 | 참가자별 ✅/❌ + 🔥연속 사이클 자동 게시 | 미구현 |
 
-## 시스템 (placeholder: 확정 후 개발)
+제출은 모두 `이메일 + 사이클` 기준 upsert라 마감 전까지 몇 번이든 다시 제출할 수 있고, 갤러리·현황 링크는 공유토큰(`?t=`)이 있어야 열립니다.
 
-검증된 두 시스템을 차용합니다. 아키텍처와 차용 매핑은 [`system/README.md`](system/README.md) 참고.
+## 시스템
 
-- **인증·정산·갤러리**: [content-designer-challenge](https://github.com/ggplab/content_designer_challenge): 20명 · 12주 · 인증 142건 실운영 (Supabase Edge Functions + Discord + Sheets + GitHub Pages)
+백엔드는 Apps Script Web App + 구글시트 단일 배포입니다. 상세는 [`system/plan-backend/README.md`](system/plan-backend/README.md) 참고.
+
+- **인증·갤러리 설계 차용**: [content-designer-challenge](https://github.com/ggplab/content_designer_challenge): 20명 · 12주 · 인증 142건 실운영
 - **AI 피드백 회신**: n8n 도서 챌린지의 `/피드백` 패턴을 웹 폼으로 이식: 제출물 → AI 검토(Gemini) → 이메일 회신 + 시트 기록
 
 ## 문서
@@ -139,6 +142,8 @@ flowchart LR
 - [ ] 지인에게 제안서 공유 → 참여 신청 접수 (마감 07-19)
 - [x] 기획안 제출 페이지(/submit) 배포 + 카카오톡 오픈채팅방 개설
 - [x] OT 일정 확정: 온라인 07-25(토) 오전 10시
-- [ ] `system/` 개발: `/기획` `/인증` 봇 + 사이클 정산 + 갤러리
-- [ ] 시트·Secrets 셋업 (시즌1 인프라 재사용, 시즌2 전용 탭 분리)
-- [ ] 리허설: `/기획` 1건 + `/인증` 1건 (shorts 거부 포함) + 정산 수동 트리거
+- [x] 영상 인증 페이지(/verify) 배포 — 롱폼 검증·확인 메일·인증 현황
+- [x] 시트·Secrets 셋업 (구글시트 3탭 + `GEMINI_API_KEY`·`GALLERY_TOKEN` Script Properties)
+- [x] 리허설: 기획안 1건 + 인증 1건 (shorts·비유튜브·잘못된 사이클 거부 확인)
+- [ ] **Apps Script 재승인** — `script.external_request` 스코프 (AI 검토·영상 제목 수집이 이것 없이는 동작 안 함)
+- [ ] 사이클 정산 카드 (첫 정산 08-03 월)
