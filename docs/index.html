@@ -76,6 +76,16 @@
   a.cell { display:block; text-decoration:none; }
   a.cell:hover { filter:brightness(0.97); }
 
+  .cta-top { display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; margin:0 0 32px; }
+  .cta-top a { display:block; text-decoration:none; border-radius:16px; padding:20px 22px;
+    border:2px solid transparent; transition:.15s; }
+  .cta-top a .ct-title { font-size:18px; font-weight:800; letter-spacing:-0.3px; display:block; }
+  .cta-top a .ct-sub { font-size:12.5px; font-weight:600; display:block; margin-top:3px; opacity:.82; }
+  .cta-top a.plan { background:linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%); color:#fff; }
+  .cta-top a.plan:hover { transform:translateY(-2px); box-shadow:0 8px 22px rgba(37,99,235,0.32); }
+  .cta-top a.video { background:var(--done-bg); color:var(--done); border-color:#bbe7d3; }
+  .cta-top a.video:hover { transform:translateY(-2px); box-shadow:0 8px 22px rgba(5,150,105,0.18); }
+
   .feed { display:grid; gap:10px; }
   .fitem { border:1.5px solid var(--line); border-radius:14px; padding:13px 16px; background:var(--paper-warm);
     display:flex; gap:12px; align-items:baseline; flex-wrap:wrap; }
@@ -89,16 +99,14 @@
   .empty { border:1.5px dashed var(--line); border-radius:14px; padding:26px 20px; text-align:center;
     color:var(--ink-faint); font-size:14px; }
   .empty b { color:var(--ink-soft); }
-  .cta { display:flex; gap:8px; flex-wrap:wrap; margin-top:18px; }
-  .cta a { font-size:14px; font-weight:800; text-decoration:none; border-radius:10px; padding:10px 16px; }
-  .cta a.primary { background:var(--accent); color:#fff; }
-  .cta a.ghost { background:var(--accent-bg); color:var(--accent-dark); }
   footer { margin-top:46px; padding-top:16px; border-top:1px solid var(--line);
     font-size:12px; color:var(--ink-faint); }
 
   @media (max-width: 760px) {
     .doc { padding:24px 18px 32px; }
     .stats { grid-template-columns:repeat(2, 1fr); }
+    .cta-top { grid-template-columns:1fr; gap:10px; }
+    .cta-top a { padding:17px 18px; }
   }
 </style>
 </head>
@@ -117,6 +125,13 @@
   <h1>제출 대시보드</h1>
   <p class="lede">2주 1사이클 × 6 = 영상 6개. 기획 주에 <b>기획안</b>, 제작 주에 <b>영상</b>을 각각 일요일 자정까지 제출합니다. 제출하면 이 표에 바로 올라옵니다.</p>
 
+  <div class="cta-top" id="ctaTop">
+    <a class="plan" href="submit/"><span class="ct-title">영상 기획안 제출</span>
+      <span class="ct-sub">기획 주 · 타깃·주제·구성 → AI 검토 회신</span></a>
+    <a class="video" href="verify/"><span class="ct-title">영상 인증</span>
+      <span class="ct-sub">제작 주 · 업로드한 롱폼 URL 제출</span></a>
+  </div>
+
   <div class="stats" id="stats"></div>
 
   <section class="sect">
@@ -129,10 +144,6 @@
     <h2>최근 제출</h2>
     <p class="sect-hint">최신순 12건</p>
     <div class="feed" id="feed"></div>
-    <div class="cta">
-      <a class="primary" href="submit/">영상 기획안 제출</a>
-      <a class="ghost" href="verify/">영상 인증</a>
-    </div>
   </section>
 
   <footer>© 2026 BuildnWrite. All rights reserved.</footer>
@@ -203,6 +214,13 @@
     const nextDue = planOpen ? cur.planDue : cur.videoDue;
     const nextLabel = planOpen ? '기획안 마감' : '영상 마감';
     const daysLeft = Math.ceil((dueAt(nextDue) - now) / (24*60*60*1000));
+
+    // 상단 CTA 부제는 현재 사이클 마감으로 채운다 — 눌러야 할 이유를 버튼에 붙여두려고
+    const planDL = document.querySelector('#ctaTop .plan .ct-sub');
+    const videoDL = document.querySelector('#ctaTop .video .ct-sub');
+    if (planDL) planDL.textContent = `사이클 ${cur.n} · ${mmdd(kstStart(cur.planDue))}(일) 자정 마감`
+      + (planOpen ? '' : ' (마감)');
+    if (videoDL) videoDL.textContent = `사이클 ${cur.n} · ${mmdd(kstStart(cur.videoDue))}(일) 자정 마감`;
 
     document.getElementById('stats').innerHTML = [
       `<div class="stat"><div class="num">${people.length}</div><div class="lab">참가자</div>
