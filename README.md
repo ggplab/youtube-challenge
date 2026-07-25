@@ -123,7 +123,9 @@ flowchart LR
 | [`/verify`](https://challenge.buildnwrite.com/verify/) | 제작 주 일요일 자정까지 | YouTube URL 제출 → 롱폼 검증(`/shorts/` 거부) → 확인 메일 + 인증 현황 기록 | 라이브 |
 | 정산 카드 | 사이클 종료 다음 월요일 | 참가자별 ✅/❌ + 🔥연속 사이클 자동 게시 | 미구현 |
 
-제출은 모두 `이메일 + 사이클` 기준 upsert라 마감 전까지 몇 번이든 다시 제출할 수 있고, 갤러리·현황 링크는 공유토큰(`?t=`)이 있어야 열립니다.
+제출은 모두 `이메일 + 사이클` 기준 upsert라 마감 전까지 몇 번이든 다시 제출할 수 있습니다.
+
+**공개 범위** — 메인의 [제출 대시보드](https://challenge.buildnwrite.com/)는 토큰 없이 열립니다. 여기에 나오는 것은 **이름·채널명·사이클별 제출 시각·영상 링크**입니다. 이메일과 기획안 본문(타깃·주제·구성)은 나오지 않고, 그 둘을 담은 갤러리(`/plan/gallery`·`/submit/gallery`)는 확인 메일로 받는 공유토큰(`?t=`)이 있어야 열립니다. 대시보드에는 `noindex`를 걸어 검색엔진 색인은 막았습니다.
 
 ## 시스템
 
@@ -134,7 +136,8 @@ flowchart LR
 
 ## 문서
 
-- [제안서 HTML](docs/index.html) (배포: https://challenge.buildnwrite.com) · [전체 PNG](docs/proposal.png) · [카톡 공유용 카드 4장](docs/kakao/)
+- [제출 대시보드](docs/index.html) (배포: https://challenge.buildnwrite.com — 메인)
+- [제안서 HTML](docs/proposal/index.html) (배포: https://challenge.buildnwrite.com/proposal/) · [전체 PNG](docs/proposal.png) · [카톡 공유용 카드 4장](docs/kakao/)
 - 시즌1 운영 기록: content-designer-challenge `changelog/` · `docs/season1-pause.md`
 
 ## 운영 체크리스트 (진행 확정 시)

@@ -27,6 +27,11 @@ Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서�
 | 인증 | `POST /exec` + body `form: "verify"` | email+cycle 기준 영상 인증 upsert. 쇼츠·비유튜브 URL 거부, oEmbed 제목 수집, 확인 메일 발송 | `{ok, resubmit, video_title}` |
 | 인증 | `GET /exec?action=verifications&t=<공유토큰>` | 인증 현황 목록. email·수정토큰 제외 | `{ok, verifications}` |
 | 진단 | `GET /exec?action=diag&t=<공유토큰>` | 외부 호출 계통 자가진단 — Gemini 키 등록 여부, oEmbed·Gemini 실제 호출 결과 | `{ok, gemini_key_set, oembed, gemini}` |
+| 공개 | `GET /exec?action=dashboard` | **토큰 불요.** 메인 대시보드용. 참가자별로 제출 내역을 중첩해 반환 | `{ok, participants:[{name, channel_name, proposals[], verifications[]}]}` |
+
+### `action=dashboard`가 내보내지 않는 것
+
+이메일, **이메일 해시**, 기획안 본문(`target`·`topic`·`structure`), 수정토큰. 시트 3탭에 흩어진 같은 사람을 묶는 join key는 `joinKey_()`(정규화 후 SHA-256)로 만들지만 **응답에 싣지 않는다** — 실명과 해시가 한 줄에 같이 나가면 이름 기반 대입으로 이메일이 역산되기 때문이다. 그래서 매칭을 서버 안에서 끝내고 참가자 객체에 제출 내역을 중첩시킨다. 표시 이름은 `plans`(채널 기획서)의 것을 canonical로 쓴다 — 폼마다 표기가 달라도 흔들리지 않게.
 
 ## ⚠️ UrlFetchApp 스코프 (2026-07-25 트러블슈팅)
 

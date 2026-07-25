@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>유튜브 챌린지 제안서: 2주에 1개, 3개월에 6개</title>
+<meta name="description" content="기획 1주 + 제작 1주의 2주 사이클을 6번. 3개월 뒤 롱폼 영상 6개. 지금 참여 신청하세요.">
+<!-- Open Graph (카톡·SNS 링크 미리보기) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://challenge.buildnwrite.com/proposal/">
+<meta property="og:title" content="유더미 챌린지">
+<meta property="og:description" content="유튜브 더는 미룰수없다">
+<meta property="og:image" content="https://challenge.buildnwrite.com/img/og-cover.png">
+<meta property="og:image:width" content="428">
+<meta property="og:image:height" content="243">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="유더미 챌린지">
+<meta name="twitter:description" content="유튜브 더는 미룰수없다">
+<meta name="twitter:image" content="https://challenge.buildnwrite.com/img/og-cover.png">
+<style>
+  :root {
+    --paper: #ffffff;
+    --paper-warm: #f6f5f4;
+    --ink: #31302e;
+    --ink-soft: #615d59;
+    --ink-faint: #a39e98;
+    --line: #dddddd;
+    --accent: #2563EB;
+    --accent-dark: #1D4ED8;
+    --accent-light: #60A5FA;
+    --accent-bg: #eff4fe;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Pretendard", "Pretendard Variable", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .doc { padding: 34px 52px 40px; }
+
+  /* 상단 탭 네비 */
+  .topnav {
+    display: flex; gap: 8px;
+    border-bottom: 1.5px solid var(--line);
+    margin-bottom: 30px;
+   flex-wrap: wrap; align-items: center;}
+  .topnav a {
+    font-size: 14.5px; font-weight: 700; text-decoration: none;
+    color: var(--ink-faint); padding: 12px 4px; margin-bottom: -1.5px;
+    border-bottom: 2.5px solid transparent;
+   white-space: nowrap;}
+  .topnav a + a { margin-left: 18px; }
+  .topnav a:hover { color: var(--ink-soft); }
+  .topnav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* 가희 위기의식 히어로 */
+  .alarm {
+    display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center;
+    background: var(--ink); color: #fff;
+    border-radius: 20px; padding: 34px 36px; margin-bottom: 42px;
+  }
+  .alarm .a-kicker { font-size: 13.5px; font-weight: 800; letter-spacing: 0.04em; color: var(--accent-light); margin-bottom: 12px; }
+  .alarm .a-title { font-size: 30px; font-weight: 800; line-height: 1.32; letter-spacing: -0.02em; margin-bottom: 15px; }
+  .alarm .a-title .em { color: #FDE047; }
+  .alarm .a-sub { font-size: 15.5px; color: rgba(255,255,255,0.82); line-height: 1.62; }
+  .alarm .a-sub b { color: #fff; }
+  .alarm .a-img { width: 188px; border-radius: 12px; display: block; box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+
+  /* 커버 */
+  .eyebrow {
+    display: inline-block;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--accent);
+    border: 1.5px solid var(--accent-light);
+    border-radius: 999px;
+    padding: 5px 16px;
+    margin-bottom: 22px;
+  }
+  h1 { font-size: 38px; font-weight: 800; line-height: 1.24; letter-spacing: -0.02em; margin-bottom: 14px; }
+  h1 .hl { color: var(--accent); }
+  .lede { font-size: 16.5px; color: var(--ink-soft); max-width: 38em; margin-bottom: 10px; }
+  .meta { font-size: 13.5px; color: var(--ink-faint); }
+
+  /* 섹션 공통 */
+  section { margin-top: 50px; }
+  h2 {
+    font-size: 21px; font-weight: 800; letter-spacing: -0.01em;
+    padding-top: 30px; border-top: 1.5px solid var(--line);
+    margin-bottom: 16px;
+  }
+  h2 .no { color: var(--accent); margin-right: 10px; font-feature-settings: "tnum"; }
+  p { font-size: 15.5px; margin-bottom: 10px; }
+  .soft { color: var(--ink-soft); }
+  .caption { font-size: 13px; color: var(--ink-faint); }
+
+  /* 대상 카드 */
+  .whos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 11px; margin: 18px 0 6px; }
+  .who { border: 1.5px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; }
+  .who .icon { font-size: 22px; margin-bottom: 8px; }
+  .who b { display: block; font-size: 15.5px; margin-bottom: 5px; }
+  .who p { font-size: 13.5px; color: var(--ink-soft); margin: 0; }
+
+  /* 인용 카드 */
+  .quotes { display: grid; gap: 11px; margin: 18px 0 12px; }
+  .quote {
+    border-left: 4px solid var(--accent);
+    background: var(--paper-warm);
+    border-radius: 0 12px 12px 0;
+    padding: 15px 20px;
+  }
+  .quote b { display: block; font-size: 15.5px; margin-bottom: 3px; }
+  .quote p { font-size: 14px; color: var(--ink-soft); margin: 0; }
+
+  /* 원칙 배너 */
+  .principle {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    color: #fff; border-radius: 14px;
+    padding: 24px 30px; margin: 20px 0 6px;
+  }
+  .principle b { font-size: 20px; letter-spacing: -0.01em; }
+  .principle span { opacity: 0.88; font-size: 14.5px; display: block; margin-top: 8px; }
+
+  /* 다이어그램 */
+  .diagram {
+    background: var(--paper-warm);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px 22px 22px;
+    margin: 20px 0 8px;
+  }
+  .flow { display: flex; align-items: stretch; gap: 0; }
+  .node {
+    flex: 1;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 10px;
+    text-align: center;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .node b { font-size: 14px; display: block; }
+  .node span { font-size: 11.5px; color: var(--ink-soft); margin-top: 3px; display: block; line-height: 1.45; }
+  .node.dark { background: var(--ink); border-color: var(--ink); }
+  .node.dark b { color: #fff; }
+  .node.dark span { color: rgba(255,255,255,0.75); }
+  .arrow {
+    flex: none; width: 26px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent); font-weight: 800; font-size: 16px;
+  }
+  .cycle-box {
+    flex: 2.6;
+    border: 2px dashed var(--accent);
+    border-radius: 14px;
+    background: var(--accent-bg);
+    padding: 24px 12px 12px;
+    position: relative;
+  }
+  .cycle-box .badge {
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: var(--accent); color: #fff;
+    font-size: 12px; font-weight: 800; letter-spacing: 0.04em;
+    border-radius: 999px; padding: 3px 14px; white-space: nowrap;
+  }
+  .cycle-inner { display: flex; align-items: stretch; }
+  .cycle-inner .node { border-color: var(--accent-light); }
+  .cycle-inner .node.plan b { color: var(--accent-dark); }
+  .cycle-inner .node.video { background: var(--accent); border-color: var(--accent); }
+  .cycle-inner .node.video b { color: #fff; }
+  .cycle-inner .node.video span { color: rgba(255,255,255,0.82); }
+  .loop {
+    text-align: center; font-size: 11.5px; color: var(--accent-dark);
+    margin-top: 8px; font-weight: 700;
+  }
+  .diagram .caption { text-align: center; margin-top: 14px; }
+
+  /* 규칙 */
+  .rules { display: grid; gap: 11px; margin: 18px 0 6px; }
+  .rule {
+    display: flex; gap: 15px; align-items: flex-start;
+    background: var(--paper-warm); border: 1px solid var(--line);
+    border-radius: 12px; padding: 15px 19px;
+  }
+  .rule .n {
+    flex: none; width: 27px; height: 27px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; margin-top: 2px;
+  }
+  .rule p { margin: 0; font-size: 15px; }
+
+  /* 표 */
+  table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 16px 0 6px; }
+  th, td { text-align: left; padding: 11px 14px; border: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--paper-warm); font-weight: 700; white-space: nowrap; }
+  .tag {
+    display: inline-block; font-size: 12px; font-weight: 700;
+    color: var(--accent); background: var(--accent-bg);
+    border-radius: 6px; padding: 2px 8px; margin-right: 6px; white-space: nowrap;
+  }
+
+  /* 스탯 */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 18px 0 8px; }
+  .stat { background: var(--accent-bg); border-radius: 12px; padding: 17px 8px; text-align: center; }
+  .stat .v { font-size: 25px; font-weight: 800; color: var(--accent-dark); font-feature-settings: "tnum"; }
+  .stat .k { font-size: 12.5px; color: var(--ink-soft); margin-top: 3px; }
+
+  /* 대시보드 이미지 */
+  .shot { margin: 16px 0 6px; display: grid; gap: 10px; }
+  .shot img { width: 100%; border: 1px solid var(--line); border-radius: 12px; display: block; }
+
+  /* 선택지 */
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0 6px; }
+  .option { border: 1.5px solid var(--line); border-radius: 14px; padding: 20px 22px; }
+  .option h3 { font-size: 16px; margin-bottom: 8px; }
+  .option h3 .ab { color: var(--accent); margin-right: 6px; }
+  .option ul { list-style: none; }
+  .option li { font-size: 13.5px; padding: 4px 0 4px 20px; position: relative; color: var(--ink-soft); }
+  .option li::before { content: "·"; position: absolute; left: 6px; color: var(--accent); font-weight: 700; }
+  .option li.con::before { content: "△"; font-size: 10px; color: var(--ink-faint); }
+
+  /* 액션 */
+  .steps { counter-reset: step; margin: 18px 0 6px; display: grid; gap: 8px; }
+  .step {
+    display: flex; gap: 14px; align-items: baseline;
+    border: 1px solid var(--line); border-radius: 10px; padding: 13px 17px; font-size: 14.5px;
+  }
+  .step::before {
+    counter-increment: step; content: "STEP " counter(step);
+    flex: none; font-size: 11.5px; font-weight: 800; color: var(--accent);
+    letter-spacing: 0.04em; font-feature-settings: "tnum";
+  }
+  .step p { margin: 0; }
+  .step .who2 { color: var(--ink-faint); font-size: 12.5px; margin-left: auto; padding-left: 12px; white-space: nowrap; }
+
+  /* 참여자 */
+  .people { display: grid; gap: 11px; margin: 18px 0 16px; }
+  .person { display: flex; gap: 15px; border: 1.5px solid var(--line); border-radius: 14px; padding: 17px 20px 15px; }
+  .person .pavatar {
+    flex: none; width: 54px; height: 54px; border-radius: 50%;
+    object-fit: cover; background: var(--accent-bg); border: 1px solid var(--line);
+  }
+  .person .pbody { flex: 1; min-width: 0; }
+  .person .phead { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+  .person .pname { font-size: 16.5px; font-weight: 800; letter-spacing: -0.01em; }
+  .person .phandle { font-size: 12.5px; color: var(--ink-faint); }
+  .person .pbio { font-size: 13.6px; color: var(--ink-soft); line-height: 1.56; margin: 5px 0 12px; }
+  .person .pbio .ptopic { display: inline-block; font-size: 12px; font-weight: 700; color: var(--accent-dark); background: var(--accent-bg); border-radius: 6px; padding: 2px 9px; margin-bottom: 6px; }
+  .person .plinks { display: flex; flex-wrap: wrap; gap: 8px; }
+  .person .plink {
+    display: inline-flex; align-items: baseline; gap: 6px;
+    font-size: 12.5px; font-weight: 700; text-decoration: none;
+    color: var(--accent-dark); background: var(--accent-bg);
+    border-radius: 8px; padding: 5px 12px;
+  }
+  .person .plink:hover { background: #e0e9fd; }
+  .person .plink .pf { color: var(--ink-faint); font-weight: 700; font-feature-settings: "tnum"; }
+  .person.pending { border-style: dashed; opacity: 0.9; }
+
+  /* CTA 버튼 */
+  .cta-wrap { display: flex; justify-content: center; margin: 4px 0 2px; }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+    font-family: inherit; font-size: 15.5px; font-weight: 800; letter-spacing: -0.01em;
+    color: #fff; background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    border: none; border-radius: 999px; padding: 13px 30px;
+    box-shadow: 0 4px 14px rgba(37,99,235,0.28); transition: transform .12s, box-shadow .12s;
+  }
+  .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.36); }
+  .cta-btn.full { width: 100%; justify-content: center; margin-top: 6px; }
+
+  /* 마감 CTA 배너 */
+  .closing {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    color: #fff; border-radius: 18px; padding: 34px 32px; margin: 46px 0 0; text-align: center;
+  }
+  .closing b { font-size: 23px; font-weight: 800; letter-spacing: -0.01em; display: block; }
+  .closing span { opacity: 0.9; font-size: 15px; display: block; margin: 10px 0 20px; }
+  .closing .cta-btn { color: var(--accent-dark); background: #fff; box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+
+  /* 공유(고스트) 버튼 */
+  .cta-wrap { gap: 10px; flex-wrap: wrap; }
+  .cta-btn.ghost { color: var(--accent-dark); background: var(--accent-bg); box-shadow: none; }
+  .cta-btn.ghost:hover { background: #e0e9fd; box-shadow: none; }
+  .closing .cta-btn.ghost { color: #fff; background: rgba(255,255,255,0.14); border: 1.5px solid rgba(255,255,255,0.55); box-shadow: none; }
+  .closing .cta-btn.ghost:hover { background: rgba(255,255,255,0.24); }
+
+  /* 링크 복사 토스트 */
+  .toast {
+    position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px);
+    background: var(--ink); color: #fff; font-size: 14px; font-weight: 700;
+    padding: 12px 22px; border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,0.28);
+    opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 200; max-width: 90vw;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* 모달 */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 100;
+    background: rgba(24,23,22,0.55); backdrop-filter: blur(2px);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--paper); border-radius: 18px; width: 100%; max-width: 440px;
+    max-height: 92vh; overflow-y: auto; padding: 28px 28px 26px; position: relative;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+  }
+  .modal h3 { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .modal .modal-sub { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 18px; }
+  .modal-close {
+    position: absolute; top: 16px; right: 18px; cursor: pointer;
+    background: none; border: none; font-size: 26px; line-height: 1; color: var(--ink-faint);
+  }
+  .modal label { display: block; font-size: 13px; font-weight: 700; color: var(--ink); margin: 14px 0 5px; }
+  .modal label .req { color: var(--accent); }
+  .modal input {
+    width: 100%; font-family: inherit; font-size: 14.5px; color: var(--ink);
+    border: 1.5px solid var(--line); border-radius: 10px; padding: 11px 13px; background: var(--paper-warm);
+  }
+  .modal input:focus { outline: none; border-color: var(--accent-light); background: #fff; }
+  .modal .form-msg { font-size: 13px; margin-top: 12px; text-align: center; min-height: 18px; }
+  .modal .form-msg.ok { color: var(--accent-dark); font-weight: 700; }
+  .modal .form-msg.err { color: #c0392b; }
+
+  footer {
+    margin-top: 54px; padding-top: 20px; border-top: 1.5px solid var(--line);
+    font-size: 12.5px; color: var(--ink-faint);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  /* ── 모바일 (≤640px). PNG 내보내기는 데스크톱 폭이라 영향 없음 ── */
+  @media (max-width: 640px) {
+    .doc { padding: 32px 20px 30px; }
+
+    /* 가희 히어로 → 세로 스택 */
+    .alarm { grid-template-columns: 1fr; text-align: center; padding: 26px 20px; gap: 20px; }
+    .alarm .a-title { font-size: 22px; }
+    .alarm .a-img { width: 168px; margin: 2px auto 0; }
+
+    h1 { font-size: 27px; }
+    .lede { font-size: 15px; }
+    section { margin-top: 38px; }
+    h2 { font-size: 18px; padding-top: 24px; }
+    p { font-size: 15px; }
+
+    /* 그리드 재배치 */
+    .whos { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .options { grid-template-columns: 1fr; }
+
+    /* 한 장 구조 흐름도 → 세로 스택 */
+    .diagram { padding: 22px 15px 18px; }
+    .flow { flex-direction: column; gap: 6px; }
+    .flow > .arrow { width: 100%; height: 20px; transform: rotate(90deg); }
+    .cycle-box { flex: none; width: 100%; }
+
+    /* 표 가로 넘침 방지 */
+    table { font-size: 13.5px; }
+    th, td { padding: 9px 11px; }
+    th { white-space: normal; }
+
+    /* 액션 스텝 줄바꿈 허용 */
+    .step { flex-wrap: wrap; }
+    .step .who2 { margin-left: 0; padding-left: 0; }
+
+    /* 인물 카드 여백 축소 */
+    .person { padding: 15px 16px 14px; gap: 12px; }
+
+    /* 배너 여백 축소 */
+    .principle { padding: 20px 22px; }
+    .closing { padding: 28px 22px; margin-top: 40px; }
+    .closing b { font-size: 21px; }
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <!-- 상단 탭 -->
+  <nav class="topnav">
+    <a href="../">대시보드</a>
+    <a href="./" class="active">제안서</a>
+    <a href="../plan/">채널 기획서</a>
+    <a href="../submit/">영상 기획안</a>
+    <a href="../verify/">영상 인증</a>
+    <a href="../ot/">OT 자료</a>
+  </nav>
+
+  <!-- 가희 위기의식 히어로 -->
+  <div class="alarm">
+    <div class="a-copy">
+      <div class="a-kicker">⏰ 잠깐, 솔직하게</div>
+      <div class="a-title">유튜브 "내일부터 매일 해야지"<br><span class="em">— 진짜 하고 있나요?</span></div>
+      <p class="a-sub">내일은? 내일모레는? 1년을 주면 할 수 있겠어요?<br>혼자 다짐만 반복하는 사이 채널은 계속 비어 있습니다. <b>이제 더는 미룰 수 없습니다.</b></p>
+    </div>
+    <img class="a-img" src="../img/gahee.jpg" alt="가희: 내일은 할 수 있겠어? 그런 마음으로 내일모레는? 1년을 주면 할 수 있겠니?">
+  </div>
+
+  <!-- 커버 -->
+  <div class="eyebrow">CHALLENGE PROPOSAL · 2026-07</div>
+  <h1>유튜브 챌린지<br><span class="hl">2주에 1개, 3개월에 6개.</span></h1>
+  <p class="lede">기획 1주 + 제작 1주의 2주 사이클을 6번 돕니다. AI와 함께 쓴 채널 기획서로 뼈대를 잡고, 매 사이클 기획안 검토와 영상 피드백을 받으며, 3개월 뒤 <b>검토받은 기획안 6개와 롱폼 영상 6개</b>를 손에 남기는 챌린지입니다.</p>
+  <p class="meta">제안 · 임정 × 슬기 · 2026-07-07</p>
+
+  <!-- 1. 누구를 위한 -->
+  <section>
+    <h2><span class="no">01</span>누구를 위한 챌린지인가</h2>
+    <div class="whos">
+      <div class="who"><div class="icon">🎬</div><b>콘텐츠 제작업</b><p>클라이언트 일에 밀려 정작 내 채널은 비어 있는 분</p></div>
+      <div class="who"><div class="icon">🎓</div><b>강사 · 교육자</b><p>강의력은 있는데 그걸 증명할 공개 자산이 없는 분</p></div>
+      <div class="who"><div class="icon">✨</div><b>셀프브랜딩</b><p>글은 쌓았는데 영상이라는 다음 단계를 미뤄온 분</p></div>
+    </div>
+  </section>
+
+  <!-- 2. 왜 유튜브 -->
+  <section>
+    <h2><span class="no">02</span>왜 지금, 유튜브인가</h2>
+    <p>『스토리 설계자』를 공부하며 정리한 세 가지가 이 챌린지의 출발점입니다.</p>
+    <div class="quotes">
+      <div class="quote"><b>"사람의 주의(attention)가 가장 비싼 시대"</b><p>지식과 콘텐츠로 일하는 사람에게 가장 희소한 자원은 고객의 주의입니다. 지금 주의가 가장 오래 머무는 곳이 영상입니다.</p></div>
+      <div class="quote"><b>콜드 트래픽을 데우는 건 짧은 노출이 아니라 긴 신뢰</b><p>유튜브 롱폼은 나를 모르는 사람을 팬으로 데우는 가장 밀도 높은 매체입니다. 글 1편이 스치는 동안 영상은 몇 분의 체류를 만듭니다.</p></div>
+      <div class="quote"><b>무료 콘텐츠가 판매의 앞단이 된다</b><p>잘 쌓인 무료 콘텐츠 라이브러리는 그 자체로 지식 비즈니스의 영업 자산입니다. 영상 6개는 그 라이브러리의 초석입니다.</p></div>
+    </div>
+    <p class="caption">출처: 『스토리 설계자』 스터디 노트 (2026-06)</p>
+  </section>
+
+  <!-- 3. 진행 구조 -->
+  <section>
+    <h2><span class="no">03</span>어떻게 진행되나: 한 장 구조</h2>
+    <div class="diagram">
+      <div class="flow">
+        <div class="node"><b>온보딩</b><span>모집 마감<br>07-19(일)</span></div>
+        <div class="arrow">→</div>
+        <div class="node dark"><b>온라인 OT</b><span>07-25(토) 10:00<br>기획서 발표</span></div>
+        <div class="arrow">→</div>
+        <div class="cycle-box">
+          <div class="badge">2주 사이클 × 6 = 12주</div>
+          <div class="cycle-inner">
+            <div class="node plan"><b>기획 1주</b><span>소재·기획안 제출<br>봇이 기획 검토 회신</span></div>
+            <div class="arrow">→</div>
+            <div class="node video"><b>영상 1주</b><span>편집·업로드 인증<br>봇이 간단 피드백</span></div>
+          </div>
+          <div class="loop">↺ 일요일 자정 마감, 다음 사이클로</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="node"><b>마무리 모임</b><span>12주 회고<br>다음 시즌 결정</span></div>
+      </div>
+      <p class="caption">온라인 OT와 유튜브 채널 개설은 사이클 1의 기획 주(07-20 주)에 함께 진행합니다.</p>
+    </div>
+    <div class="rules">
+      <div class="rule"><div class="n">1</div><p><b>기획 주</b>: 소재를 정하고 기획안(타깃·주제·구성)을 일요일 자정까지 제출 페이지에 올립니다. <b>AI 검토 회신</b>이 이메일로 옵니다 (후킹·타깃 적합성·구성 관점).</p></div>
+      <div class="rule"><div class="n">2</div><p><b>제작 주</b>: 촬영·편집 후 업로드하고 일요일 자정까지 <b>/인증</b>. 봇이 간단한 피드백 회신과 함께 갤러리에 기록합니다. 롱폼만 인정하고 쇼츠는 제외합니다.</p></div>
+      <div class="rule"><div class="n">3</div><p><b>미제출은 그대로 기록</b>: 사이클 정산 카드에 ✅/❌와 🔥연속 사이클이 자동 게시됩니다. 서로 다 보입니다.</p></div>
+    </div>
+  </section>
+
+  <!-- 4. 기획서 숙제 + 온라인 OT -->
+  <section>
+    <h2><span class="no">04</span>시작 주간의 하이라이트: 기획서 숙제 + 온라인 OT</h2>
+    <p><b>7월 25일(토) 오전 10시, 온라인 OT로 모입니다.</b> OT 전에 각자 <a href="../plan/" style="color:var(--accent);font-weight:700;">채널 기획서</a>를 숙제로 작성해 제출하고, OT에서 자기 기획서를 발표합니다.</p>
+    <table>
+      <tr><th style="width:34%">① 숙제 (OT 전)</th><td>기획서 폼 작성·제출 — "AI와 같이 쓰기" 프롬프트로 AI 인터뷰받으며 작성 가능. 제출하면 작성 내용·참여자 갤러리·수정 링크가 이메일로 발송</td></tr>
+      <tr><th>② OT 발표</th><td>각자 기획서 발표: 대상 청중·채널 목표·전달 메시지</td></tr>
+      <tr><th>③ 레퍼런스 채널 3개</th><td>제출된 기획서 기반으로 벤치마크 채널을 찾아 이메일 회신</td></tr>
+    </table>
+    <p class="soft" style="font-size:14px;"><b>채널 한 장 기획서</b>가 12주 내내 모든 기획안의 기준점이 됩니다. OT 전까지 수정 링크로 얼마든지 다시 제출할 수 있습니다.</p>
+    <div class="principle">
+      <b>혼자 시작하면 채널 개설에서 멈춥니다.</b>
+      <span>기획서와 OT 발표로 방향을 잡고, 사이클 1에서 채널 개설까지 함께 끝냅니다. 이후는 시스템이 2주마다 끌고 갑니다.</span>
+    </div>
+  </section>
+
+  <!-- 5. 일정 -->
+  <section>
+    <h2><span class="no">05</span>일정: 7월 21일 주 시작</h2>
+    <table>
+      <tr><th style="width:30%">온보딩 · 모집</th><td><b>마감 07-19(일)</b> · 모집 확정, 카카오톡 오픈채팅방 합류</td></tr>
+      <tr><th>온라인 OT</th><td><b>07-25(토) 오전 10시 확정</b> · 각자 기획서 발표 (숙제: OT 전 기획서 제출)</td></tr>
+      <tr><th>사이클 1~6</th><td>07-20(월) ~ 10-11(일) · 2주 × 6 = 12주, 영상 6개<br><span class="caption">C1 07-20~08-02 (채널 개설 포함) · C2 ~08-16 · C3 ~08-30 · C4 ~09-13 · C5 ~09-27 · C6 ~10-11</span></td></tr>
+      <tr><th>마무리 모임</th><td>10월 중순 (오프라인) · 12주 데이터 회고 + 다음 시즌 결정</td></tr>
+    </table>
+  </section>
+
+  <!-- 6. 근거 -->
+  <section>
+    <h2><span class="no">06</span>이미 한 번 검증된 판입니다: 시즌1 실측</h2>
+    <p>이 챌린지는 아이디어가 아니라 재가동입니다. 2026년 봄, 같은 시스템으로 12주 콘텐츠 챌린지를 운영했습니다.</p>
+    <div class="stats">
+      <div class="stat"><div class="v">20명</div><div class="k">시즌1 참가자</div></div>
+      <div class="stat"><div class="v">12주</div><div class="k">중단 없이 완주 운영</div></div>
+      <div class="stat"><div class="v">142건</div><div class="k">누적 콘텐츠 인증</div></div>
+      <div class="stat"><div class="v">7종</div><div class="k">플랫폼 (유튜브 포함)</div></div>
+    </div>
+    <div class="shot">
+      <a href="https://ggplab.github.io/content_designer_challenge/" target="_blank" rel="noopener"><img src="../season1-dashboard.png" alt="시즌1 대시보드: 통계와 리더보드"></a>
+      <a href="https://ggplab.github.io/content_designer_challenge/" target="_blank" rel="noopener"><img src="../season1-recent.png" alt="시즌1 대시보드: 최근 인증 피드"></a>
+    </div>
+    <p class="caption">시즌1 공개 대시보드 실황. 인증 자동 집계와 리더보드(위), 실시간 인증 피드(아래)가 12주 동안 사람 손 없이 돌았습니다. <a href="https://ggplab.github.io/content_designer_challenge/" target="_blank" rel="noopener" style="color:var(--accent);font-weight:700;">→ 대시보드 직접 보기</a></p>
+    <table>
+      <tr><th style="width:44%">시즌1에서 겪은 것</th><th>이번 시즌에 반영한 것</th></tr>
+      <tr><td>"2주 1회, 플랫폼 자유" 규칙은 유연했지만 리듬이 무너지기 쉬웠음</td><td><span class="tag">구조</span>기획 주·제작 주가 분리된 2주 사이클. 뭘 해야 할 주인지 항상 명확</td></tr>
+      <tr><td>제출만 받고 끝, 콘텐츠의 질은 각자 몫이었음</td><td><span class="tag">피드백</span>기획안 AI 검토 + 영상 회신 (검증된 AI 피드백 봇 패턴 차용)</td></tr>
+      <tr><td>7개 플랫폼 링크 수집 과정에서 일부 인증이 종종 불안정</td><td><span class="tag">안정성</span>유튜브 단일화로 인증 실패 요인 제거</td></tr>
+      <tr><td>온라인으로만 진행되어 시작과 끝의 결속력 아쉬움</td><td><span class="tag">결속</span>실시간 OT에서 전원 기획서 발표 + 오프라인 마무리 모임</td></tr>
+    </table>
+  </section>
+
+  <!-- 7. 얻는 것 -->
+  <section>
+    <h2><span class="no">07</span>12주 뒤, 각자 손에 남는 것</h2>
+    <div class="stats">
+      <div class="stat"><div class="v">1개</div><div class="k">개설된 유튜브 채널</div></div>
+      <div class="stat"><div class="v">6개</div><div class="k">롱폼 영상 라이브러리</div></div>
+      <div class="stat"><div class="v">6개</div><div class="k">검토받은 기획안</div></div>
+      <div class="stat"><div class="v">🔥 6</div><div class="k">사이클 스트릭 기록</div></div>
+    </div>
+    <p class="soft" style="font-size:14.5px;">여기에 채널 한 장 기획서, 공개 아카이브 갤러리, 그리고 마무리 모임에서 12주 데이터를 놓고 하는 회고까지. 혼자서는 2~3주차에 무너지는 루틴을 시스템과 동료가 끝까지 끌고 갑니다.</p>
+  </section>
+
+  <!-- 8. 모집 -->
+  <section>
+    <h2><span class="no">08</span>어떻게 모으나: 지인 공유로</h2>
+    <p>이번 시즌은 <b>신뢰 기반의 지인 중심</b>으로 모읍니다. 완주율과 결속력이 높고, OT·마무리 모임을 잡기 수월하기 때문입니다.</p>
+    <p class="soft" style="font-size:14.5px;">모집 채널은 하나로 단일화합니다 — <b>참여자가 이 제안서를 지인에게 공유</b> → 지인이 제안서를 보고 → <b>참여 신청</b>으로 바로 합류. 아래 버튼으로 공유하세요.</p>
+    <div class="cta-wrap">
+      <button type="button" class="cta-btn" data-share>🔗 제안서 공유하기</button>
+      <button type="button" class="cta-btn ghost" data-signup>✋ 참여 신청하기</button>
+    </div>
+  </section>
+
+  <!-- 9. 이후 액션 -->
+  <section>
+    <h2><span class="no">09</span>이후 액션</h2>
+    <div class="steps">
+      <div class="step"><p>온라인 OT 확정: 07-25(토) 오전 10시 ✅</p><span class="who2">임정 × 슬기</span></div>
+      <div class="step"><p>지인에게 제안서 공유 → 참여 신청 접수, 마감 07-19(일)</p><span class="who2">공동</span></div>
+      <div class="step"><p>카카오톡 오픈채팅방 개설 + 기획안 제출 페이지 셋업 (완료)</p><span class="who2">임정</span></div>
+      <div class="step"><p>숙제: 채널 한 장 기획서 작성·제출 → 온라인 OT에서 발표 (07-25 토 10:00)</p><span class="who2">전원</span></div>
+      <div class="step"><p>사이클 1: 채널 개설 + 첫 기획안 제출 (마감 07-26)</p><span class="who2">전원</span></div>
+    </div>
+  </section>
+
+  <!-- 참여자 -->
+  <section>
+    <h2>함께하는 사람들</h2>
+    <p class="soft" style="font-size:14.5px;">첫 시즌을 함께 여는 참여자입니다. 아래 <b>참여 신청하기</b>를 누르면 목록에 바로 반영됩니다.</p>
+    <div class="people" id="people">
+      <div class="person">
+        <img class="pavatar" src="../img/seulki.jpg" alt="강슬기">
+        <div class="pbody">
+          <div class="phead"><span class="pname">강슬기</span><span class="phandle">Seulki Kang · @marketer.ai.seulki</span></div>
+          <p class="pbio">AI, 데이터 하는 16년차 마케터 &amp; 프리랜서<br>🙆‍♀️ 퇴근후AI•마케팅데이터커넥트 커뮤니티 운영<br>📮 일잘러의성장노트 뉴스레터 발행<br>🇿🇦 이태원 브라이리퍼블릭 사모님(?)<br>🏄‍♀️ 나와 AI, 링크드인 배우고 싶다면 프로필링크↘</p>
+          <div class="plinks">
+            <a class="plink" href="https://www.threads.com/@marketer.ai.seulki" target="_blank" rel="noopener">Threads <span class="pf">팔로워 5,445</span></a>
+            <a class="plink" href="https://www.linkedin.com/in/seulki-kang/" target="_blank" rel="noopener">LinkedIn <span class="pf">팔로워 15,061</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="person">
+        <img class="pavatar" src="../img/junyeop.jpg" alt="오준엽">
+        <div class="pbody">
+          <div class="phead"><span class="pname">오준엽</span><span class="phandle">커리어제이｜J커브취업코칭 · @career.jay</span></div>
+          <p class="pbio">핀테크 AI Product Manager 커리어코치, 상향이직전문<br>네이버·토스·카카오·당근·컬리 합격자 배출 | 500명+ 컨설팅<br>국내 최대 규모 취업 플랫폼 만족도 1위 컨설턴트<br>⬇️⬇️ 1:1 취업 전략 상담 ⬇️⬇️</p>
+          <div class="plinks">
+            <a class="plink" href="https://www.threads.com/@career.jay" target="_blank" rel="noopener">Threads <span class="pf">팔로워 637</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="person">
+        <img class="pavatar" src="../img/jay.jpg" alt="임정">
+        <div class="pbody">
+          <div class="phead"><span class="pname">임정</span><span class="phandle">빌드앤라이트 · @buildnwrite</span></div>
+          <p class="pbio">- 8년차 Data Scientist<br>- 상상력이 기술이 되는 시대, 만들고 공유합니다.<br>- 한빛미디어 📚『n8n이 다 해줌』 저자</p>
+          <div class="plinks">
+            <a class="plink" href="https://www.threads.com/@buildnwrite" target="_blank" rel="noopener">Threads <span class="pf">팔로워 286</span></a>
+            <a class="plink" href="https://www.linkedin.com/in/jayjunglim/" target="_blank" rel="noopener">LinkedIn <span class="pf">팔로워 1,339</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="person">
+        <img class="pavatar" src="../img/g9ingan.jpg" alt="지구인간">
+        <div class="pbody">
+          <div class="phead"><span class="pname">지구인간</span><span class="phandle">기획자의 PPT·홈페이지 · @g9ingan</span></div>
+          <p class="pbio">- 현대·CJ 13년차 기획자 → 1인 에이전시 대표<br>- 대표님의 언어를 고객 언어로 번역하는 '설계자'<br>- 시간·돈·에너지 덜 쓰는 1인 비즈니스, 기획 인사이트 공유<br>- 설득력 있는 PPT·홈페이지 제작 / 기획 컨설팅 문의 👇</p>
+          <div class="plinks">
+            <a class="plink" href="https://www.threads.com/@g9ingan" target="_blank" rel="noopener">Threads <span class="pf">팔로워 3,794</span></a>
+            <a class="plink" href="https://www.linkedin.com/in/g9insite/" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="plink" href="https://blog.naver.com/jobsori_freedom" target="_blank" rel="noopener">내 링크</a>
+          </div>
+        </div>
+      </div>
+      <div class="person">
+        <img class="pavatar" src="../img/madi.jpg" alt="마디">
+        <div class="pbody">
+          <div class="phead"><span class="pname">마디</span><span class="phandle">그린 스토리텔러 · @madi_is_free</span></div>
+          <p class="pbio">식물과 꽃으로 세계관을 그려요 🌷<br>👇 7/11~12일 〈로컬 다이브〉 프리마켓에서 만나요!</p>
+          <div class="plinks">
+            <a class="plink" href="https://www.threads.com/@madi_is_free" target="_blank" rel="noopener">Threads <span class="pf">팔로워 4,996</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cta-wrap"><button type="button" class="cta-btn" data-signup>✋ 참여 신청하기</button></div>
+  </section>
+
+  <!-- 마감 CTA -->
+  <div class="closing">
+    <b>2주에 1개, 3개월에 6개.</b>
+    <span>혼자서는 2~3주차에 무너지는 루틴, 시스템과 동료가 끝까지 끌고 갑니다. 지금 합류하세요.</span>
+    <div class="cta-wrap">
+      <button type="button" class="cta-btn" data-signup>✋ 참여 신청하기</button>
+      <button type="button" class="cta-btn ghost" data-share>🔗 공유하기</button>
+    </div>
+  </div>
+
+  <footer>
+    <span>YouTube Challenge · 2-Week Cycle × 6</span>
+    <span>© 2026 BuildnWrite. All rights reserved.</span>
+  </footer>
+
+</div>
+
+<!-- 신청 모달 -->
+<div class="modal-overlay" id="signupModal">
+  <div class="modal">
+    <button type="button" class="modal-close" data-close aria-label="닫기">×</button>
+    <h3>참여 신청하기</h3>
+    <p class="modal-sub">신청하면 <b>함께하는 사람들</b> 목록에 바로 반영됩니다. 이름만 필수예요.</p>
+    <form id="signupForm">
+      <label>이름 <span class="req">*</span></label>
+      <input name="name" maxlength="40" required placeholder="이름 또는 활동명">
+      <label>희망 콘텐츠 주제 · 참여 동기</label>
+      <input name="motive" maxlength="120" placeholder="예: 기술, 재미, 음악 …">
+      <label>스레드 URL</label>
+      <input name="threads_url" type="url" maxlength="200" placeholder="https://www.threads.com/@...">
+      <label>링크드인 URL</label>
+      <input name="linkedin_url" type="url" maxlength="200" placeholder="https://www.linkedin.com/in/...">
+      <label>내 링크 (블로그·포트폴리오 등)</label>
+      <input name="link_url" type="url" maxlength="200" placeholder="https://...">
+      <button type="submit" class="cta-btn full">신청 제출</button>
+      <p class="form-msg" id="formMsg"></p>
+    </form>
+    <div id="joinDone" style="display:none; text-align:center;">
+      <div style="font-size:38px; margin-bottom:8px;">🎉</div>
+      <h3 style="margin-bottom:6px;">신청 완료!</h3>
+      <p class="modal-sub" style="margin-bottom:20px;">아래 버튼으로 오픈카톡방에 입장하면 온보딩 안내를 받을 수 있어요.</p>
+      <a class="cta-btn full" href="https://open.kakao.com/o/g1zAa3Ci" target="_blank" rel="noopener" style="text-decoration:none; background:linear-gradient(135deg,#FEE500 0%,#FADA00 100%); color:#3C1E1E; box-shadow:0 4px 14px rgba(250,218,0,0.4);">💬 오픈카톡방 입장하기</a>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+  // === Supabase 연결 (백엔드 셋업 후 채움) ===
+  const SUPABASE_URL = 'https://tcxtcacibgoancvoiybx.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRjeHRjYWNpYmdvYW5jdm9peWJ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NTM4NjksImV4cCI6MjA4NjIyOTg2OX0.XTAgQ_zniNLn09scbCAEW3CfzJfEAJOVv7_mlpcptQE';
+  const configured = !SUPABASE_URL.startsWith('__');
+  const sb = configured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+  const $ = (s) => document.querySelector(s);
+  const peopleEl = $('#people');
+  const modal = $('#signupModal');
+  const form = $('#signupForm');
+  const msg = $('#formMsg');
+  const joinDone = $('#joinDone');
+  function showJoined(){ form.style.display='none'; joinDone.style.display='block'; }
+
+  const PALETTE = ['#2563EB','#7C3AED','#DB2777','#059669','#D97706','#0891B2'];
+  function esc(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function avatar(name){
+    const ch = esc((name||'?').trim().charAt(0).toUpperCase());
+    let h=0; for(const c of (name||'')) h=(h*31+c.charCodeAt(0))>>>0;
+    const bg = PALETTE[h % PALETTE.length];
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="54" height="54"><rect width="54" height="54" rx="27" fill="${bg}"/><text x="27" y="35" font-size="24" font-family="sans-serif" font-weight="700" fill="#ffffff" text-anchor="middle">${ch}</text></svg>`;
+    return 'data:image/svg+xml,' + encodeURIComponent(svg);
+  }
+  function linkChip(label, url){
+    if(!url) return '';
+    return `<a class="plink" href="${esc(url)}" target="_blank" rel="noopener">${label}</a>`;
+  }
+  function renderCard(p){
+    const div = document.createElement('div');
+    div.className = 'person';
+    const links = [linkChip('Threads', p.threads_url), linkChip('LinkedIn', p.linkedin_url), linkChip('내 링크', p.link_url)].join('');
+    div.innerHTML = `<img class="pavatar" src="${avatar(p.name)}" alt="${esc(p.name)}">
+      <div class="pbody">
+        <div class="phead"><span class="pname">${esc(p.name)}</span><span class="phandle">신규 참여자</span></div>
+        ${p.motive ? `<p class="pbio"><span class="ptopic">🎯 ${esc(p.motive)}</span></p>` : ''}
+        <div class="plinks">${links || '<span class="phandle">링크 미등록</span>'}</div>
+      </div>`;
+    peopleEl.appendChild(div);
+  }
+  async function loadParticipants(){
+    if(!configured || !sb) return;
+    const { data, error } = await sb.from('participants').select('*').order('created_at', { ascending: true });
+    if(error){ console.warn('load error', error); return; }
+    // 이미 정적 카드로 넣은 참여자는 중복 렌더 방지
+    const SEEDED = new Set(['지구인간','마디']);
+    (data||[])
+      .filter(p => !/^__/.test((p.name||'').trim()) && !SEEDED.has((p.name||'').trim()))
+      .forEach(renderCard);
+  }
+
+  // 모달 열기/닫기
+  function openModal(){ form.style.display=''; joinDone.style.display='none'; msg.textContent=''; modal.classList.add('open'); document.body.style.overflow='hidden'; setTimeout(()=>form.name.focus(),50); }
+  function closeModal(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  document.querySelectorAll('[data-signup]').forEach(b=>b.addEventListener('click', openModal));
+  document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click', closeModal));
+
+  // 공유하기 (모바일: 네이티브 공유시트 → 카톡 등 / 데스크톱: 링크 복사)
+  const SHARE = {
+    title: '유튜브 챌린지 · 2주에 1개, 3개월에 6개',
+    text: '유튜브, 더는 미룰 수 없다. 2주 사이클로 3개월에 롱폼 6개 만드는 챌린지 — 같이 할래요?',
+    url: 'https://challenge.buildnwrite.com/proposal/'
+  };
+  let toastEl;
+  function toast(msg){
+    if(!toastEl){ toastEl=document.createElement('div'); toastEl.className='toast'; document.body.appendChild(toastEl); }
+    toastEl.textContent=msg; toastEl.classList.add('show');
+    clearTimeout(toastEl._t); toastEl._t=setTimeout(()=>toastEl.classList.remove('show'), 2400);
+  }
+  async function doShare(){
+    if(navigator.share){
+      try { await navigator.share(SHARE); return; }
+      catch(e){ if(e && e.name==='AbortError') return; }  // 사용자가 취소하면 조용히 종료
+    }
+    try {
+      await navigator.clipboard.writeText(SHARE.url);
+      toast('🔗 링크가 복사됐어요 — 지인에게 붙여넣어 공유하세요');
+    } catch(e){
+      toast('공유 링크: ' + SHARE.url);
+    }
+  }
+  document.querySelectorAll('[data-share]').forEach(b=>b.addEventListener('click', doShare));
+  modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape' && modal.classList.contains('open')) closeModal(); });
+
+  // 제출
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd = new FormData(form);
+    const row = {
+      name: (fd.get('name')||'').trim(),
+      motive: (fd.get('motive')||'').trim() || null,
+      threads_url: (fd.get('threads_url')||'').trim() || null,
+      linkedin_url: (fd.get('linkedin_url')||'').trim() || null,
+      link_url: (fd.get('link_url')||'').trim() || null,
+    };
+    if(!row.name){ msg.textContent='이름을 입력해주세요.'; msg.className='form-msg err'; return; }
+    msg.textContent='제출 중…'; msg.className='form-msg';
+    if(!configured || !sb){
+      // 백엔드 미연결 상태: 화면에만 임시 반영
+      renderCard(row);
+      form.reset();
+      showJoined();
+      return;
+    }
+    const { error } = await sb.from('participants').insert(row);
+    if(error){ msg.textContent='제출 실패: '+error.message; msg.className='form-msg err'; return; }
+    renderCard(row);
+    form.reset();
+    showJoined();
+  });
+
+  loadParticipants();
+</script>
+</body>
+</html>

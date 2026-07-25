@@ -86,6 +86,18 @@ function galleryToken_() {
   return t;
 }
 
+/**
+ * 시트 3탭에 흩어진 같은 사람을 묶기 위한 내부 join key.
+ * 응답에 실리지 않는다 — 밖으로 나가면 실명과 짝지어 이메일 역산이 가능해진다.
+ * upsert 비교가 전부 toLowerCase() 기준이라 같은 정규화를 쓴다.
+ */
+function joinKey_(email) {
+  var normalized = String(email || '').trim().toLowerCase();
+  return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, normalized)
+    .map(function (b) { return ('0' + (b & 0xFF).toString(16)).slice(-2); })
+    .join('');
+}
+
 function json_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
@@ -220,7 +232,11 @@ function sendVerifyConfirmMail_(row, canonical, title, submitCount) {
 }
 
 function doPost(e) {
-  try { var c0 = CacheService.getScriptCache(); c0.remove('gallery-json'); c0.remove('proposals-json'); c0.remove('verifications-json'); } catch (err0) {}
+  try {
+    var c0 = CacheService.getScriptCache();
+    c0.remove('gallery-json'); c0.remove('proposals-json');
+    c0.remove('verifications-json'); c0.remove('dashboard-json');
+  } catch (err0) {}
   try {
     var body = JSON.parse(e.postData.contents);
     if (body.form === 'proposal') return handleProposalPost_(body);
@@ -416,6 +432,64 @@ function doGet(e) {
       }
     }
     return json_(diag);
+  }
+
+  // 공개 대시보드용. 토큰 불요.
+  // 내보내는 것: 이름·채널명·사이클별 제출 시각·영상 링크.
+  // 내보내지 않는 것: 이메일, 이메일 해시, 기획안 본문(타깃·주제·구성).
+  // 참가자 매칭은 이메일 해시로 하되 그 키는 서버 안에서만 쓰고 응답에 싣지 않는다.
+  // 실명과 해시가 같이 나가면 이름 기반 대입으로 이메일이 역산되기 때문이다.
+  if (p.action === 'dashboard') {
+    var dCache = CacheService.getScriptCache();
+    var dHit = dCache.get('dashboard-json');
+    if (dHit) return ContentService.createTextOutput(dHit).setMimeType(ContentService.MimeType.JSON);
+
+    var people = {};
+    var order = [];
+    // canonical: 채널 기획서(plans)의 이름을 우선한다. 폼마다 표기가 달라도 흔들리지 않게.
+    var personOf = function (email, name, channel, isCanonical) {
+      var key = joinKey_(email);
+      if (!people[key]) {
+        people[key] = { name: '', channel_name: '', canonical: false, proposals: [], verifications: [] };
+        order.push(key);
+      }
+      var person = people[key];
+      if (name && (isCanonical || !person.canonical)) person.name = name;
+      if (isCanonical) person.canonical = true;
+      if (channel) person.channel_name = channel;
+      return person;
+    };
+
+    rows_().filter(function (r) { return !/^__/.test(String(r.name)); })
+      .forEach(function (r) { personOf(r.email, r.name, r.channel_name, true); });
+
+    proposalRows_().filter(function (r) { return !/^__/.test(String(r.name)); })
+      .forEach(function (r) {
+        personOf(r.email, r.name, '', false).proposals.push({
+          cycle: String(r.cycle), updated_at: r.updated_at, submit_count: r.submit_count
+        });
+      });
+
+    verifyRows_().filter(function (r) { return !/^__/.test(String(r.name)); })
+      .forEach(function (r) {
+        personOf(r.email, r.name, '', false).verifications.push({
+          cycle: String(r.cycle), video_url: r.video_url, video_title: r.video_title,
+          updated_at: r.updated_at, submit_count: r.submit_count
+        });
+      });
+
+    var dPayload = JSON.stringify({
+      ok: true,
+      participants: order.map(function (k) {
+        var person = people[k];
+        return {
+          name: person.name, channel_name: person.channel_name,
+          proposals: person.proposals, verifications: person.verifications
+        };
+      })
+    });
+    dCache.put('dashboard-json', dPayload, 60);
+    return ContentService.createTextOutput(dPayload).setMimeType(ContentService.MimeType.JSON);
   }
 
   if (p.action === 'proposals') {
