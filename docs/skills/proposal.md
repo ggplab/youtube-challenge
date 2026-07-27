@@ -71,16 +71,16 @@ curl -sL 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfi
 
 - `-L`은 **반드시** 넣고, **`-X POST`는 절대 쓰지 마세요.** 이 엔드포인트는 302 리다이렉트로 응답하는데, `-X POST`를 쓰면 리다이렉트된 주소에도 POST를 보내 405가 납니다. 이때 **제출 자체는 이미 처리된 상태**라 실패로 오인해 다시 보내면 중복 제출이 됩니다. `-d`만 쓰면 curl이 알아서 POST로 보내고 리다이렉트를 따라갑니다.
 - JSON 안에 줄바꿈이 필요하면 `\n`으로 이스케이프하세요.
-- 성공 응답: `{"ok":true,"resubmit":false,"ai_reviewed":true}`
+- 성공 응답: `{"ok":true,"resubmit":false,"review":"queued"}`
   - `resubmit: true` — 같은 사이클에 이미 낸 적이 있어 갱신된 것입니다.
-  - `ai_reviewed: true` — AI 검토가 메일에 함께 갑니다.
+  - `review: "queued"` — AI 검토는 접수 메일과 별도로, 몇 분~몇십 분 내 다른 메일로 발송됩니다.
 - 실패 응답: `{"ok":false,"error":"...")` — 오류 메시지를 사용자에게 그대로 전하세요.
 
 ## STEP 6. 마무리
 
 제출이 성공하면 사용자에게 알려주세요.
 
-- 입력한 이메일로 **제출 내용 전문 · AI 검토 결과 · 수정 링크 · 갤러리 링크**가 발송됩니다.
+- 입력한 이메일로 **제출 내용 전문 · 수정 링크 · 갤러리 링크**가 발송되고, **AI 검토 결과는 별도 메일로 순차 도착**합니다.
 - 제출 현황은 https://challenge.buildnwrite.com 에서 바로 확인됩니다.
 - 마감 전까지 같은 사이클로 몇 번이든 다시 제출할 수 있습니다.
 
