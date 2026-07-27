@@ -6,10 +6,13 @@
 ## 흐름
 
 ```
-참가자 제출 → GAS: 저장만 (제출 시점 메일 없음)
-맥미니 launchd(10분 주기) → GET action=review-pending&t=<WORKER_TOKEN>
-  → 건별 claude -p --model sonnet (빈 스크래치 cwd + 전 툴 차단)
-  → POST form:"review" → GAS: ai_review 저장 + 접수 전문+검토 통합 확인 메일 발송
+참가자 제출(기획안·영상 공통) → GAS: 저장만 (제출 시점 메일 없음)
+맥미니 launchd(10분 주기):
+  기획안 — review-pending 폴링 → claude -p (sonnet) 검토 → form:"review" 저장
+           → GAS가 접수 전문+검토 통합 메일 발송
+  영상   — verify-pending 폴링(같은 사이클 기획안 조인) → yt-dlp로 자막 추출·정제(60k자 캡)
+           → claude -p (sonnet): 기획-영상 일치·훅·구성·CTA 검토 → form:"video-review" 저장
+           → GAS가 인증 확인+검토 통합 메일 발송. 자막 없으면 제목·기획안 기반 제한 검토로 폴백(메일에 고지)
 ```
 
 실패(claude 비정상 종료·빈 출력·재제출 경합 stale)는 **저장하지 않고 다음 주기에 자동 재시도**된다.

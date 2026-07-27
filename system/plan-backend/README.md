@@ -27,7 +27,9 @@ Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서�
 | 워커 | `GET /exec?action=worker-token-mail&t=<공유토큰>` | WORKER_TOKEN을 운영자 메일로만 발송 (부트스트랩) | `{ok, mailed_to_operator}` |
 | 추가 | `GET /exec?action=proposals&t=<공유토큰>` | 사이클 기획안 전체 목록. email·수정토큰 제외, cycle 포함 | `{ok, proposals}` |
 | 추가 | `GET /exec?action=proposal-mine&edit=<개인토큰>` | 해당 수정토큰의 기획안 반환(재제출 프리필) | `{ok, proposal}` |
-| 인증 | `POST /exec` + body `form: "verify"` | email+cycle 기준 영상 인증 upsert. 쇼츠·비유튜브 URL 거부, oEmbed 제목 수집, 확인 메일 발송 | `{ok, resubmit, video_title}` |
+| 인증 | `POST /exec` + body `form: "verify"` | email+cycle 기준 영상 인증 upsert. 쇼츠·비유튜브 URL 거부, oEmbed 제목 수집. **제출 시점 메일 없음** — 워커의 영상 검토 완료 시 인증 확인+검토를 한 통으로 발송 | `{ok, resubmit, video_title, review:"queued"}` |
+| 워커 | `GET /exec?action=verify-pending&t=<워커토큰>` | 미검토 영상 인증 목록 + 같은 사이클 기획안 조인(대조용, 이메일 제외) | `{ok, pending}` |
+| 워커 | `POST /exec` + body `form: "video-review", t:<워커토큰>` | verifications.ai_review 저장(빈 값 거부, stale 스킵) + 인증 확인+검토 통합 메일 발송 | `{ok, stale, mailed}` |
 | 인증 | `GET /exec?action=verifications&t=<공유토큰>` | 인증 현황 목록. email·수정토큰 제외 | `{ok, verifications}` |
 | 진단 | `GET /exec?action=diag&t=<공유토큰>` | 자가진단 — oEmbed 호출 결과, 미검토 기획안 건수 | `{ok, oembed, review_pending}` |
 | 공개 | `GET /exec?action=dashboard` | **토큰 불요.** 메인 대시보드용. 참가자별로 제출 내역을 중첩해 반환 | `{ok, participants:[{name, channel_name, proposals[], verifications[]}]}` |

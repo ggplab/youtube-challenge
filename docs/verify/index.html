@@ -75,7 +75,7 @@
       <input id="f-name" name="name" maxlength="40" required placeholder="예: 임정"></div>
     <div><label for="f-email">이메일 <span class="req">*</span></label>
       <input id="f-email" name="email" type="email" maxlength="120" required placeholder="you@example.com">
-      <div class="hint">확인 메일과 인증 현황 링크가 이 주소로 발송됩니다</div></div>
+      <div class="hint">AI 영상 검토가 담긴 확인 메일이 이 주소로 발송됩니다 (검토 후 한 통, 보통 몇 분)</div></div>
     <div><label for="f-cycle">사이클 <span class="req">*</span></label>
       <select id="f-cycle" name="cycle" required>
         <option value="1">사이클 1 · 영상 마감 08/02 (일)</option>
@@ -122,7 +122,7 @@
       const res = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(body) });
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || '제출에 실패했습니다.');
-      showMsg('ok', (data.resubmit ? '재인증 완료! 기록이 갱신됐습니다.' : '인증 완료! 확인 메일을 보냈습니다.')
+      showMsg('ok', (data.resubmit ? '재인증 완료! 기록이 갱신됐습니다.' : '인증 완료! AI 영상 검토가 담긴 확인 메일이 곧 발송됩니다.')
         + (data.video_title ? ' — 「' + esc(data.video_title) + '」' : ''));
       YTCForm.rememberIdentity(body.name, body.email);
       YTCForm.notifySubmitted('verify');

@@ -46,7 +46,7 @@ curl -sL 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfi
 ```
 
 - `-L`은 **반드시** 넣고, **`-X POST`는 절대 쓰지 마세요.** 이 엔드포인트는 302 리다이렉트로 응답하는데, `-X POST`를 쓰면 리다이렉트된 주소에도 POST를 보내 405가 납니다. 이때 **제출 자체는 이미 처리된 상태**라 실패로 오인해 다시 보내면 중복 제출이 됩니다. `-d`만 쓰면 curl이 알아서 POST로 보내고 리다이렉트를 따라갑니다.
-- 성공 응답: `{"ok":true,"resubmit":false,"video_title":"영상 제목"}`
+- 성공 응답: `{"ok":true,"resubmit":false,"video_title":"영상 제목","review":"queued"}`
   - `video_title`이 오면 그 제목을 사용자에게 보여주며 맞는 영상인지 확인시켜 주세요.
   - `resubmit: true` — 같은 사이클에 이미 인증한 적이 있어 갱신된 것입니다.
 - 실패 응답 예시:
@@ -59,7 +59,7 @@ curl -sL 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfi
 
 인증이 성공하면 알려주세요.
 
-- 확인 메일이 발송됩니다.
+- 확인 메일은 **AI 영상 검토(자막 기반, 기획안 대조)를 마친 뒤 한 통으로** 발송됩니다 (보통 몇 분, 길면 수십 분).
 - 제출 현황은 https://challenge.buildnwrite.com 에 바로 반영되며, 그리드의 영상 칸을 누르면 그 영상으로 이동합니다.
 
 ---

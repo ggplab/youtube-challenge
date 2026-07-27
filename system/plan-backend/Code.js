@@ -27,7 +27,7 @@ var PROPOSAL_FIELDS = ['name', 'email', 'cycle', 'target', 'topic', 'structure',
 var VERIFY_SHEET = 'verifications';
 var VERIFY_HEADERS = [
   'created_at', 'updated_at', 'name', 'email', 'cycle',
-  'video_url', 'video_title', 'edit_token', 'submit_count'
+  'video_url', 'video_title', 'edit_token', 'submit_count', 'ai_review'
 ];
 var VERIFY_FIELDS = ['name', 'email', 'cycle', 'video_url'];
 
@@ -166,6 +166,9 @@ function verifySheet_() {
     sh = ss.insertSheet(VERIFY_SHEET);
     sh.getRange(1, 1, 1, VERIFY_HEADERS.length).setValues([VERIFY_HEADERS]).setFontWeight('bold');
     sh.setFrozenRows(1);
+  } else if (sh.getRange(1, VERIFY_HEADERS.length).getValue() !== 'ai_review') {
+    // 2026-07-27 ai_review 컬럼 추가 마이그레이션 — 기존 9열 시트에 10열 헤더를 채운다
+    sh.getRange(1, VERIFY_HEADERS.length).setValue('ai_review').setFontWeight('bold');
   }
   return sh;
 }
@@ -227,38 +230,74 @@ function handleVerifyPost_(body) {
       submitCount = (Number(existing.submit_count) || 0) + 1;
       sh.getRange(existing._row, 1, 1, VERIFY_HEADERS.length).setValues([[
         existing.created_at || now, now, row.name, row.email, row.cycle,
-        canonical, title, editToken, submitCount
+        canonical, title, editToken, submitCount, ''
       ]]);
     } else {
       editToken = Utilities.getUuid().replace(/-/g, '');
       submitCount = 1;
-      sh.appendRow([now, now, row.name, row.email, row.cycle, canonical, title, editToken, submitCount]);
+      sh.appendRow([now, now, row.name, row.email, row.cycle, canonical, title, editToken, submitCount, '']);
     }
   } finally {
     lock.releaseLock();
   }
 
-  sendVerifyConfirmMail_(row, canonical, title, submitCount);
-  return json_({ ok: true, resubmit: submitCount > 1, video_title: title });
+  // 제출 시점에는 메일을 보내지 않는다 — 워커의 영상 검토 완료 시 인증 확인+검토를 한 통으로 발송
+  return json_({ ok: true, resubmit: submitCount > 1, video_title: title, review: 'queued' });
 }
 
-function sendVerifyConfirmMail_(row, canonical, title, submitCount) {
+// ── 영상 AI 검토 저장 (맥미니 워커 전용, WORKER_TOKEN 필수) ──
+function handleVideoReviewPost_(body) {
+  if (!body.t || body.t !== workerToken_()) return json_({ ok: false, error: 'invalid token' });
+  var editToken = String(body.edit_token || '').trim();
+  var submitCount = Number(body.submit_count);
+  var aiReview = String(body.ai_review || '').trim();
+  if (!editToken) return json_({ ok: false, error: 'edit_token이 없습니다.' });
+  if (!aiReview) return json_({ ok: false, error: 'ai_review가 비어 있습니다.' });
+
+  var match = verifyRows_().filter(function (r) { return r.edit_token === editToken; })[0];
+  if (!match) return json_({ ok: false, error: 'not found' });
+  if (Number(match.submit_count) !== submitCount) return json_({ ok: true, stale: true });
+  if (String(match.ai_review || '').trim()) return json_({ ok: true, already: true });
+
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    var col = VERIFY_HEADERS.indexOf('ai_review') + 1;
+    verifySheet_().getRange(match._row, col).setValue(aiReview);
+  } finally {
+    lock.releaseLock();
+  }
+  var mailed = sendVerifyReviewMail_(match, aiReview);
+  return json_({ ok: true, stale: false, mailed: mailed });
+}
+
+/** 인증 확인 + 영상 AI 검토를 한 통으로 발송. 실패해도 저장은 유지 — Logger로만 남긴다. */
+function sendVerifyReviewMail_(match, aiReview) {
   try {
     var statusUrl = SITE + '/verify/?t=' + galleryToken_();
+    var isResubmit = Number(match.submit_count) > 1;
     var html =
       '<div style="font-family:-apple-system,\'Apple SD Gothic Neo\',\'Malgun Gothic\',sans-serif;max-width:640px;margin:0 auto;color:#1a1a1a;">'
-      + '<h2 style="margin:24px 0 4px;">' + escHtml_(row.name) + '님, 사이클 ' + escHtml_(row.cycle) + ' 영상 인증 완료 🎬</h2>'
-      + '<p style="color:#555;line-height:1.7;">' + (title ? '<b>' + escHtml_(title) + '</b><br>' : '')
-      + '<a href="' + canonical + '">' + canonical + '</a></p>'
-      + (submitCount > 1 ? '<p style="color:#777;">같은 사이클 재제출로 기록이 갱신됐습니다.</p>' : '')
+      + '<h2 style="margin:24px 0 4px;">' + escHtml_(match.name) + '님, 사이클 ' + escHtml_(match.cycle) + ' 영상 인증 완료 🎬</h2>'
+      + '<p style="color:#555;line-height:1.7;">' + (match.video_title ? '<b>' + escHtml_(match.video_title) + '</b><br>' : '')
+      + '<a href="' + escHtml_(match.video_url) + '">' + escHtml_(match.video_url) + '</a></p>'
+      + (isResubmit ? '<p style="color:#777;">같은 사이클 재제출로 기록이 갱신됐습니다.</p>' : '')
+      + '<div style="margin-top:18px;padding:18px 20px;background:#f6f5f4;border:1px solid #ddd;border-radius:10px;">'
+      + '<h3 style="margin:0 0 10px;font-size:16px;color:#1D4ED8;">AI 영상 검토</h3>'
+      + '<div style="line-height:1.75;color:#222;">' + mdToHtml_(aiReview) + '</div></div>'
       + '<p style="margin:20px 0;"><a href="' + statusUrl + '" style="display:inline-block;background:#2563EB;color:#fff;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700;">👀 전체 인증 현황 보기</a></p>'
       + '<p style="color:#999;font-size:13px;">© 2026 BuildnWrite. All rights reserved.</p></div>';
     MailApp.sendEmail({
-      to: row.email,
-      subject: '[유튜브 챌린지] 사이클 ' + row.cycle + ' 영상 인증 완료',
-      htmlBody: html
+      to: match.email,
+      subject: '[유튜브 챌린지] 사이클 ' + match.cycle + ' 영상 인증 ' + (isResubmit ? '갱신' : '완료') + ' — AI 검토 포함',
+      htmlBody: html,
+      name: 'BuildnWrite 유튜브 챌린지'
     });
-  } catch (err) { Logger.log('verify mail failed: ' + err); }
+    return true;
+  } catch (err) {
+    Logger.log('verify review mail failed: ' + String(err && err.message || err));
+    return false;
+  }
 }
 
 function doPost(e) {
@@ -272,6 +311,7 @@ function doPost(e) {
     if (body.form === 'proposal') return handleProposalPost_(body);
     if (body.form === 'verify') return handleVerifyPost_(body);
     if (body.form === 'review') return handleReviewPost_(body);
+    if (body.form === 'video-review') return handleVideoReviewPost_(body);
     var row = {};
     FIELDS.forEach(function (f) { row[f] = String(body[f] || '').trim(); });
     if (!row.name) return json_({ ok: false, error: '이름이 없습니다.' });
@@ -420,6 +460,9 @@ function doGet(e) {
     diag.review_pending = proposalRows_().filter(function (r) {
       return !String(r.ai_review || '').trim();
     }).length;
+    diag.verify_pending = verifyRows_().filter(function (r) {
+      return !String(r.ai_review || '').trim();
+    }).length;
     return json_(diag);
   }
 
@@ -454,6 +497,30 @@ function doGet(e) {
       };
     });
     return json_({ ok: true, pending: pending });
+  }
+
+  // 영상 검토 워커 전용: 미검토 인증 목록 + 같은 사이클 기획안(대조용) 조인.
+  // 조인은 이메일로 서버 안에서만 하고, 이메일 자체는 싣지 않는다.
+  if (p.action === 'verify-pending') {
+    if (!p.t || p.t !== workerToken_()) return json_({ ok: false, error: 'invalid token' });
+    var allProps = proposalRows_();
+    var vPending = verifyRows_().filter(function (r) {
+      return !String(r.ai_review || '').trim();
+    }).map(function (r) {
+      var prop = allProps.filter(function (x) {
+        return String(x.email).toLowerCase() === String(r.email).toLowerCase()
+          && String(x.cycle) === String(r.cycle);
+      })[0];
+      return {
+        name: r.name, cycle: String(r.cycle),
+        video_url: r.video_url, video_title: r.video_title,
+        edit_token: r.edit_token, submit_count: Number(r.submit_count),
+        proposal: prop
+          ? { target: prop.target, topic: prop.topic, structure: prop.structure }
+          : null
+      };
+    });
+    return json_({ ok: true, pending: vPending });
   }
 
   // 공개 대시보드용. 토큰 불요.
