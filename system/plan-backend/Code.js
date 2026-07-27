@@ -451,8 +451,8 @@ function doGet(e) {
   }
 
   // 공개 대시보드용. 토큰 불요.
-  // 내보내는 것: 이름·채널명·사이클별 제출 시각·영상 링크.
-  // 내보내지 않는 것: 이메일, 이메일 해시, 기획안 본문(타깃·주제·구성).
+  // 내보내는 것: 이름·채널명·사이클별 제출 시각·영상 링크·기획안 본문(타깃·주제·구성·링크).
+  // 내보내지 않는 것: 이메일, 이메일 해시, AI 검토(ai_review), 수정토큰.
   // 참가자 매칭은 이메일 해시로 하되 그 키는 서버 안에서만 쓰고 응답에 싣지 않는다.
   // 실명과 해시가 같이 나가면 이름 기반 대입으로 이메일이 역산되기 때문이다.
   if (p.action === 'dashboard') {
@@ -482,7 +482,8 @@ function doGet(e) {
     proposalRows_().filter(function (r) { return !/^__/.test(String(r.name)); })
       .forEach(function (r) {
         personOf(r.email, r.name, '', false).proposals.push({
-          cycle: String(r.cycle), updated_at: isoOf_(r.updated_at), submit_count: r.submit_count
+          cycle: String(r.cycle), updated_at: isoOf_(r.updated_at), submit_count: r.submit_count,
+          target: r.target, topic: r.topic, structure: r.structure, links: r.links
         });
       });
 
@@ -504,7 +505,9 @@ function doGet(e) {
         };
       })
     });
-    dCache.put('dashboard-json', dPayload, 60);
+    // 본문 포함으로 payload가 커졌다 — CacheService 100KB 한도 초과 시 put이 던지므로
+    // 캐시 실패는 무시하고 응답은 반드시 반환한다.
+    try { dCache.put('dashboard-json', dPayload, 60); } catch (cErr) {}
     return ContentService.createTextOutput(dPayload).setMimeType(ContentService.MimeType.JSON);
   }
 

@@ -8,7 +8,7 @@ Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서�
 |------|-----|
 | 스크립트 | https://script.google.com/d/10d4YebiJYUwxn1qujzg32b5fz0smXjxLBLEcvSdYxNXRJY1cQjkQZQ4Y/edit |
 | 데이터 시트 (비공개) | https://drive.google.com/open?id=1R8oCmjfn-TeMinl6Hyhm0kMbGxPTTpDxYwSnA8eKtxs |
-| 웹앱 배포 ID | `AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs` (@8) |
+| 웹앱 배포 ID | `AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfiNGNAbXnbPMRRZIUATeRY91tyWPyhcQ5KBdpGs` (@10) |
 | 웹앱 URL | `https://script.google.com/macros/s/<배포ID>/exec` |
 | 실행 계정 | jayjunglim@gmail.com (MailApp 발신, 일 100통 한도) |
 
@@ -37,7 +37,7 @@ Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서�
 
 ### `action=dashboard`가 내보내지 않는 것
 
-이메일, **이메일 해시**, 기획안 본문(`target`·`topic`·`structure`), 수정토큰. 시트 3탭에 흩어진 같은 사람을 묶는 join key는 `joinKey_()`(정규화 후 SHA-256)로 만들지만 **응답에 싣지 않는다** — 실명과 해시가 한 줄에 같이 나가면 이름 기반 대입으로 이메일이 역산되기 때문이다. 그래서 매칭을 서버 안에서 끝내고 참가자 객체에 제출 내역을 중첩시킨다. 표시 이름은 `plans`(채널 기획서)의 것을 canonical로 쓴다 — 폼마다 표기가 달라도 흔들리지 않게.
+이메일, **이메일 해시**, AI 검토(`ai_review`), 수정토큰. 기획안 본문(`target`·`topic`·`structure`·`links`)은 **2026-07-27부터 공개로 전환**했다 — 대시보드에서 기획 칸을 눌러 세부를 볼 수 있게 하기 위함이며, 운영자 결정 사항이다. AI 검토는 제출자 본인 메일에만 간다. 시트 3탭에 흩어진 같은 사람을 묶는 join key는 `joinKey_()`(정규화 후 SHA-256)로 만들지만 **응답에 싣지 않는다** — 실명과 해시가 한 줄에 같이 나가면 이름 기반 대입으로 이메일이 역산되기 때문이다. 그래서 매칭을 서버 안에서 끝내고 참가자 객체에 제출 내역을 중첩시킨다. 표시 이름은 `plans`(채널 기획서)의 것을 canonical로 쓴다 — 폼마다 표기가 달라도 흔들리지 않게.
 
 ## ⚠️ UrlFetchApp 스코프 (2026-07-25 트러블슈팅)
 
