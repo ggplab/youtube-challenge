@@ -1,6 +1,6 @@
 # plan-backend — 기획서·사이클 기획안 백엔드
 
-Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서와 `/submit/`의 격주 사이클 기획안을 저장하고 확인 이메일을 발송한다. 사이클 기획안은 Gemini 검토도 함께 제공한다.
+Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서와 `/submit/`의 격주 사이클 기획안을 저장하고 확인 이메일을 발송한다. 사이클 기획안의 AI 검토는 맥미니 claude 워커가 비동기로 처리한다(`../review-worker/README.md`).
 
 ## 구성
 
@@ -21,12 +21,15 @@ Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서�
 | 기존 | `POST /exec` | 채널 한 장 기획서를 email 기준 upsert하고 확인 메일 발송 | `{ok, resubmit}` |
 | 기존 | `GET /exec?action=gallery&t=<공유토큰>` | plans 참여자 갤러리. email·수정토큰 제외, `__` 접두 이름 필터 | `{ok, plans}` |
 | 기존 | `GET /exec?action=mine&edit=<개인토큰>` | plans 본인 제출분 반환(재제출 프리필) | `{ok, plan}` |
-| 추가 | `POST /exec` + body `form: "proposal"` | email+cycle 기준 기획안 upsert, Gemini 검토 저장, 확인 메일 발송 | `{ok, resubmit, ai_reviewed}` |
+| 추가 | `POST /exec` + body `form: "proposal"` | email+cycle 기준 기획안 upsert, 확인 메일 발송. AI 검토는 워커가 비동기 처리 | `{ok, resubmit, review:"queued"}` |
+| 워커 | `GET /exec?action=review-pending&t=<워커토큰>` | 미검토 기획안 목록(edit_token 포함, 이메일 제외, `__` 행 포함). **갤러리 토큰으로는 열리지 않는다** | `{ok, pending}` |
+| 워커 | `POST /exec` + body `form: "review", t:<워커토큰>` | ai_review 저장(빈 값 거부, submit_count 불일치 시 stale 스킵) + 검토 메일 발송 | `{ok, stale, mailed}` |
+| 워커 | `GET /exec?action=worker-token-mail&t=<공유토큰>` | WORKER_TOKEN을 운영자 메일로만 발송 (부트스트랩) | `{ok, mailed_to_operator}` |
 | 추가 | `GET /exec?action=proposals&t=<공유토큰>` | 사이클 기획안 전체 목록. email·수정토큰 제외, cycle 포함 | `{ok, proposals}` |
 | 추가 | `GET /exec?action=proposal-mine&edit=<개인토큰>` | 해당 수정토큰의 기획안 반환(재제출 프리필) | `{ok, proposal}` |
 | 인증 | `POST /exec` + body `form: "verify"` | email+cycle 기준 영상 인증 upsert. 쇼츠·비유튜브 URL 거부, oEmbed 제목 수집, 확인 메일 발송 | `{ok, resubmit, video_title}` |
 | 인증 | `GET /exec?action=verifications&t=<공유토큰>` | 인증 현황 목록. email·수정토큰 제외 | `{ok, verifications}` |
-| 진단 | `GET /exec?action=diag&t=<공유토큰>` | 외부 호출 계통 자가진단 — Gemini 키 등록 여부, oEmbed·Gemini 실제 호출 결과 | `{ok, gemini_key_set, oembed, gemini}` |
+| 진단 | `GET /exec?action=diag&t=<공유토큰>` | 자가진단 — oEmbed 호출 결과, 미검토 기획안 건수 | `{ok, oembed, review_pending}` |
 | 공개 | `GET /exec?action=dashboard` | **토큰 불요.** 메인 대시보드용. 참가자별로 제출 내역을 중첩해 반환 | `{ok, participants:[{name, channel_name, proposals[], verifications[]}]}` |
 
 ### 두 번째 통로 (CLI)
@@ -60,7 +63,7 @@ Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서�
 | 7 | `topic` | 영상 주제 |
 | 8 | `structure` | 구성 개요 |
 | 9 | `links` | 참고 링크(선택) |
-| 10 | `ai_review` | Gemini 검토 결과. 호출 실패 시 빈 값 |
+| 10 | `ai_review` | AI 검토 결과 (맥미니 claude 워커가 비동기 기입). 미검토면 빈 값 |
 | 11 | `edit_token` | 행 최초 생성 시 발급되는 개인 수정토큰. 재제출 시 유지 |
 | 12 | `submit_count` | 같은 email+cycle의 누적 제출 횟수 |
 
@@ -69,18 +72,13 @@ Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서�
 - 갤러리 공유토큰: Script Properties `GALLERY_TOKEN` (확인 이메일의 갤러리 링크에도 포함)
 - 개인 수정토큰: 시트 `edit_token` 컬럼 (확인 이메일의 수정 링크)
 
-## Gemini API 키 등록
+## AI 검토 워커 (Gemini → claude 이관, 2026-07-27)
 
-키는 코드나 HTML에 넣지 않고 Apps Script의 Script Properties에만 등록한다.
-
-| 단계 | 작업 |
-|------|------|
-| 1 | Apps Script 편집기에서 **프로젝트 설정**(톱니바퀴)을 연다. |
-| 2 | **스크립트 속성**에서 **스크립트 속성 추가**를 누른다. |
-| 3 | 속성 이름에 `GEMINI_API_KEY`, 값에 발급받은 Gemini API 키를 입력하고 저장한다. |
-| 4 | 필요하면 `setup()`을 한 번 실행해 `plans`, `proposals` 시트와 `GALLERY_TOKEN` 생성을 확인한다. |
-
-`GEMINI_API_KEY`가 없거나 Gemini 요청이 실패해도 기획안 저장과 확인 메일 발송은 계속된다. 이때 `ai_review`는 빈 값이고 메일에는 "AI 검토는 잠시 후 다시 시도됩니다"가 표시된다.
+Gemini 동기 검토는 GCP 월 지출 한도 초과(429)로 폐기했다. 현재 검토는 맥미니 launchd 잡
+`com.ggplab.ytc-review`가 `claude -p`로 비동기 처리한다 — 구조·프로비저닝·보안 설계는
+`../review-worker/README.md` (SSOT). `WORKER_TOKEN`은 Script Properties에 자동 생성되며
+`action=worker-token-mail`로 운영자 메일로만 전달된다. **갤러리 토큰과 절대 겸용하지 말 것** —
+갤러리 토큰은 참가자 전원에게 배포되는 값이다.
 
 ## 코드 수정 → 재배포
 

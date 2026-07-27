@@ -49,8 +49,6 @@ function authorize() {
     { muteHttpExceptions: true });
   Logger.log('oEmbed HTTP ' + res.getResponseCode());
   Logger.log('title: ' + String(JSON.parse(res.getContentText() || '{}').title || '(none)'));
-  Logger.log('GEMINI_API_KEY set: '
-    + !!PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY'));
 }
 
 // 시트·토큰은 첫 요청 때 lazy 초기화 — 에디터에서 별도 실행 없이 배포만으로 동작
@@ -82,6 +80,22 @@ function galleryToken_() {
   if (!t) {
     t = Utilities.getUuid().replace(/-/g, '');
     props.setProperty('GALLERY_TOKEN', t);
+  }
+  return t;
+}
+
+/**
+ * AI 검토 워커(맥미니) 전용 토큰. 갤러리 토큰과 반드시 분리한다 —
+ * 갤러리 토큰은 참가자 전원의 접수 메일에 배포되는 값이라, 그걸로 review 계열을
+ * 보호하면 참가자가 타인 edit_token·검토 위조에 접근할 수 있다.
+ * 이 토큰은 운영자 메일로만 전달되고(action=worker-token-mail) 맥미니 env에만 산다.
+ */
+function workerToken_() {
+  var props = PropertiesService.getScriptProperties();
+  var t = props.getProperty('WORKER_TOKEN');
+  if (!t) {
+    t = Utilities.getUuid().replace(/-/g, '');
+    props.setProperty('WORKER_TOKEN', t);
   }
   return t;
 }
@@ -257,6 +271,7 @@ function doPost(e) {
     var body = JSON.parse(e.postData.contents);
     if (body.form === 'proposal') return handleProposalPost_(body);
     if (body.form === 'verify') return handleVerifyPost_(body);
+    if (body.form === 'review') return handleReviewPost_(body);
     var row = {};
     FIELDS.forEach(function (f) { row[f] = String(body[f] || '').trim(); });
     if (!row.name) return json_({ ok: false, error: '이름이 없습니다.' });
@@ -339,59 +354,31 @@ function handleProposalPost_(body) {
     lock.releaseLock();
   }
 
-  // 저장을 먼저 끝낸 뒤 AI를 호출한다. AI 실패는 빈 검토로 처리하고 메일 발송을 계속한다.
-  var aiReview = reviewProposalWithGemini_(row);
-  if (aiReview) saveProposalReview_(editToken, submitCount, aiReview);
-
-  sendProposalConfirmMail_(row, aiReview, editToken, submitCount);
-  return json_({ ok: true, resubmit: submitCount > 1, ai_reviewed: !!aiReview });
+  // AI 검토는 동기 호출하지 않는다 — 맥미니 워커가 review-pending을 폴링해
+  // claude로 검토를 생성하고 form:"review"로 저장하면 그때 검토 메일이 별도 발송된다.
+  sendProposalConfirmMail_(row, editToken, submitCount);
+  return json_({ ok: true, resubmit: submitCount > 1, review: 'queued' });
 }
 
-function reviewProposalWithGemini_(row) {
-  try {
-    var apiKey = PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY');
-    if (!apiKey) {
-      Logger.log('Proposal AI review skipped: GEMINI_API_KEY is not set.');
-      return '';
-    }
+// ── AI 검토 저장 (맥미니 워커 전용, WORKER_TOKEN 필수) ──
+function handleReviewPost_(body) {
+  if (!body.t || body.t !== workerToken_()) return json_({ ok: false, error: 'invalid token' });
+  var editToken = String(body.edit_token || '').trim();
+  var submitCount = Number(body.submit_count);
+  var aiReview = String(body.ai_review || '').trim();
+  if (!editToken) return json_({ ok: false, error: 'edit_token이 없습니다.' });
+  // 빈 검토는 저장하지 않는다 — 저장되는 순간 pending에서 빠져 영구 미검토가 된다.
+  if (!aiReview) return json_({ ok: false, error: 'ai_review가 비어 있습니다.' });
 
-    var prompt = [
-      '다음은 유튜브 챌린지에 제출된 사이클 기획안입니다.',
-      '',
-      '[타깃 시청자]', row.target,
-      '',
-      '[영상 주제]', row.topic,
-      '',
-      '[구성 개요]', row.structure,
-      '',
-      '이 기획안을 한국어로 검토해 주세요.',
-      '① 후킹 ② 타깃 적합성 ③ 구성의 세 관점에서 각각 2~3문장으로 구체적으로 검토하고,',
-      '마지막에 가장 중요한 개선 제안 1개를 명확하게 제시해 주세요.'
-    ].join('\n');
-    var endpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='
-      + encodeURIComponent(apiKey);
-    var response = UrlFetchApp.fetch(endpoint, {
-      method: 'post',
-      contentType: 'application/json',
-      payload: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.4 }
-      }),
-      muteHttpExceptions: true
-    });
-    var status = response.getResponseCode();
-    if (status < 200 || status >= 300) {
-      throw new Error('Gemini HTTP ' + status + ': ' + response.getContentText().slice(0, 300));
-    }
-    var data = JSON.parse(response.getContentText());
-    var parts = data.candidates && data.candidates[0]
-      && data.candidates[0].content && data.candidates[0].content.parts;
-    if (!parts || !parts.length) throw new Error('Gemini 응답에 검토 내용이 없습니다.');
-    return parts.map(function (part) { return part.text || ''; }).join('\n').trim();
-  } catch (err) {
-    Logger.log('Proposal AI review failed: ' + String(err && err.message || err));
-    return '';
-  }
+  var match = proposalRows_().filter(function (r) { return r.edit_token === editToken; })[0];
+  if (!match) return json_({ ok: false, error: 'not found' });
+  // 검토 생성 중에 재제출이 일어났으면 낡은 검토를 버린다. 새 버전은 다음 폴링이 줍는다.
+  if (Number(match.submit_count) !== submitCount) return json_({ ok: true, stale: true });
+  if (String(match.ai_review || '').trim()) return json_({ ok: true, already: true });
+
+  saveProposalReview_(editToken, submitCount, aiReview);
+  var mailed = sendReviewMail_(match, aiReview, editToken);
+  return json_({ ok: true, stale: false, mailed: mailed });
 }
 
 function saveProposalReview_(editToken, submitCount, aiReview) {
@@ -418,8 +405,7 @@ function doGet(e) {
     if (!p.t || p.t !== galleryToken_()) {
       return json_({ ok: false, error: 'invalid token' });
     }
-    var diag = { ok: true, gemini_key_set: false, oembed: '', gemini: '' };
-    diag.gemini_key_set = !!PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY');
+    var diag = { ok: true, oembed: '', review_pending: 0 };
     try {
       var oeRes = UrlFetchApp.fetch(
         'https://www.youtube.com/oembed?format=json&url='
@@ -430,24 +416,44 @@ function doGet(e) {
     } catch (oeErr) {
       diag.oembed = 'ERROR ' + String(oeErr && oeErr.message || oeErr).slice(0, 160);
     }
-    if (!diag.gemini_key_set) {
-      diag.gemini = 'skipped (GEMINI_API_KEY not set)';
-    } else {
-      try {
-        var gRes = UrlFetchApp.fetch(
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key='
-          + encodeURIComponent(PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY')),
-          {
-            method: 'post', contentType: 'application/json',
-            payload: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: 'ping' }] }] }),
-            muteHttpExceptions: true
-          });
-        diag.gemini = 'HTTP ' + gRes.getResponseCode() + ' ' + gRes.getContentText().slice(0, 120);
-      } catch (gErr) {
-        diag.gemini = 'ERROR ' + String(gErr && gErr.message || gErr).slice(0, 160);
-      }
-    }
+    // AI 검토는 Gemini에서 맥미니 claude 워커로 이관(2026-07-27) — 미검토 건수만 노출
+    diag.review_pending = proposalRows_().filter(function (r) {
+      return !String(r.ai_review || '').trim();
+    }).length;
     return json_(diag);
+  }
+
+  // 워커 토큰 부트스트랩: 토큰 값을 운영자(배포 계정) 메일로만 보낸다.
+  // 갤러리 토큰 보유자(=참가자)가 호출해도 얻는 것은 없다 — 메일은 운영자에게만 간다.
+  if (p.action === 'worker-token-mail') {
+    if (!p.t || p.t !== galleryToken_()) return json_({ ok: false, error: 'invalid token' });
+    // Session.getEffectiveUser()는 userinfo.email 스코프를 요구(=브라우저 재승인 함정)라 쓰지 않는다.
+    // 이 주소는 MailApp 발신 계정과 동일 — 참가자 메일에 이미 노출되는 값이라 하드코딩해도 새 정보가 아니다.
+    MailApp.sendEmail({
+      to: 'jayjunglim@gmail.com',
+      subject: '[유튜브 챌린지] AI 검토 워커 토큰',
+      htmlBody: '<p>WORKER_TOKEN: <code>' + workerToken_()
+        + '</code></p><p>맥미니 ~/.config/ytc-review/env 의 YTC_WORKER_TOKEN 에 넣는 값입니다. 외부 공유 금지.</p>'
+    });
+    try { PropertiesService.getScriptProperties().deleteProperty('GEMINI_API_KEY'); } catch (gpErr) {}
+    return json_({ ok: true, mailed_to_operator: true });
+  }
+
+  // AI 검토 워커 전용: 미검토 기획안 목록. WORKER_TOKEN 필수 (갤러리 토큰으로는 열리지 않는다 —
+  // edit_token이 실리므로 참가자 배포 토큰과 절대 섞지 말 것). 이메일은 싣지 않는다.
+  // __ 테스트 행도 포함한다 — e2e 검증 경로 확보 목적.
+  if (p.action === 'review-pending') {
+    if (!p.t || p.t !== workerToken_()) return json_({ ok: false, error: 'invalid token' });
+    var pending = proposalRows_().filter(function (r) {
+      return !String(r.ai_review || '').trim();
+    }).map(function (r) {
+      return {
+        name: r.name, cycle: String(r.cycle), target: r.target, topic: r.topic,
+        structure: r.structure, links: r.links,
+        edit_token: r.edit_token, submit_count: Number(r.submit_count)
+      };
+    });
+    return json_({ ok: true, pending: pending });
   }
 
   // 공개 대시보드용. 토큰 불요.
@@ -631,7 +637,7 @@ function sendConfirmMail_(row, editToken, submitCount) {
   });
 }
 
-function sendProposalConfirmMail_(row, aiReview, editToken, submitCount) {
+function sendProposalConfirmMail_(row, editToken, submitCount) {
   var galleryUrl = SITE + '/submit/gallery/?t=' + galleryToken_();
   var editUrl = SITE + '/submit/?edit=' + editToken;
   var isResubmit = submitCount > 1;
@@ -647,21 +653,16 @@ function sendProposalConfirmMail_(row, aiReview, editToken, submitCount) {
     return '<tr><td style="padding:10px 12px;border-bottom:1px solid #eee;vertical-align:top;width:150px;font-weight:700;color:#334;">'
       + pair[0] + '</td><td style="padding:10px 12px;border-bottom:1px solid #eee;color:#222;">' + val + '</td></tr>';
   }).join('');
-  var reviewHtml = aiReview
-    ? '<div style="line-height:1.75;color:#222;">' + mdToHtml_(aiReview) + '</div>'
-    : '<p style="margin:0;color:#777;">AI 검토는 잠시 후 다시 시도됩니다</p>';
 
   var html =
     '<div style="font-family:-apple-system,\'Apple SD Gothic Neo\',\'Malgun Gothic\',sans-serif;max-width:640px;margin:0 auto;color:#1a1a1a;">'
     + '<h2 style="margin:24px 0 4px;">' + escHtml_(row.name) + '님, 사이클 ' + escHtml_(row.cycle) + ' 기획안이 ' + (isResubmit ? '다시 ' : '') + '접수됐습니다 📮</h2>'
-    + '<p style="color:#555;line-height:1.7;">아래는 제출하신 내용 전문과 AI 검토 결과입니다.<br>수정 링크에서 같은 사이클 기획안을 얼마든지 다듬어 다시 제출할 수 있어요.</p>'
+    + '<p style="color:#555;line-height:1.7;">아래는 제출하신 내용 전문입니다. <b>AI 검토는 별도 메일로 순차 발송됩니다.</b><br>수정 링크에서 같은 사이클 기획안을 얼마든지 다듬어 다시 제출할 수 있어요.</p>'
     + '<div style="margin:20px 0;">'
     + '<a href="' + galleryUrl + '" style="display:inline-block;background:#2563EB;color:#fff;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700;margin-right:8px;">👀 기획안 갤러리 보기</a>'
     + '<a href="' + editUrl + '" style="display:inline-block;background:#f1f5f9;color:#2563EB;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700;">✏️ 내 기획안 수정하기</a>'
     + '</div>'
     + '<table style="border-collapse:collapse;width:100%;border:1px solid #eee;border-radius:8px;">' + itemsHtml + '</table>'
-    + '<div style="margin-top:22px;padding:18px 20px;background:#f6f5f4;border:1px solid #ddd;border-radius:10px;">'
-    + '<h3 style="margin:0 0 10px;font-size:16px;color:#1D4ED8;">AI 기획안 검토</h3>' + reviewHtml + '</div>'
     + '<p style="color:#888;font-size:13px;line-height:1.7;margin-top:20px;">갤러리와 수정 링크는 챌린지 참여자 전용입니다. 외부에 공유하지 말아주세요.</p>'
     + '<p style="color:#bbb;font-size:12px;margin-top:28px;">© 2026 BuildnWrite. All rights reserved.</p>'
     + '</div>';
@@ -672,6 +673,38 @@ function sendProposalConfirmMail_(row, aiReview, editToken, submitCount) {
     htmlBody: html,
     name: 'BuildnWrite 유튜브 챌린지'
   });
+}
+
+/** 검토 저장 직후 제출자 본인에게만 발송. 실패해도 저장은 유지 — Logger로만 남긴다. */
+function sendReviewMail_(match, aiReview, editToken) {
+  try {
+    var editUrl = SITE + '/submit/?edit=' + editToken;
+    var galleryUrl = SITE + '/submit/gallery/?t=' + galleryToken_();
+    var html =
+      '<div style="font-family:-apple-system,\'Apple SD Gothic Neo\',\'Malgun Gothic\',sans-serif;max-width:640px;margin:0 auto;color:#1a1a1a;">'
+      + '<h2 style="margin:24px 0 4px;">' + escHtml_(match.name) + '님, 사이클 ' + escHtml_(match.cycle) + ' 기획안 AI 검토가 도착했습니다 🔎</h2>'
+      + '<p style="color:#555;line-height:1.7;">제출하신 <b>' + escHtml_(match.topic || '기획안') + '</b>에 대한 검토입니다.<br>'
+      + '반영해서 마감 전까지 얼마든지 다시 제출할 수 있어요.</p>'
+      + '<div style="margin-top:18px;padding:18px 20px;background:#f6f5f4;border:1px solid #ddd;border-radius:10px;">'
+      + '<h3 style="margin:0 0 10px;font-size:16px;color:#1D4ED8;">AI 기획안 검토</h3>'
+      + '<div style="line-height:1.75;color:#222;">' + mdToHtml_(aiReview) + '</div></div>'
+      + '<div style="margin:20px 0;">'
+      + '<a href="' + editUrl + '" style="display:inline-block;background:#2563EB;color:#fff;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700;margin-right:8px;">✏️ 기획안 다듬어 재제출</a>'
+      + '<a href="' + galleryUrl + '" style="display:inline-block;background:#f1f5f9;color:#2563EB;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700;">👀 기획안 갤러리</a>'
+      + '</div>'
+      + '<p style="color:#888;font-size:13px;line-height:1.7;">갤러리와 수정 링크는 챌린지 참여자 전용입니다. 외부에 공유하지 말아주세요.</p>'
+      + '<p style="color:#bbb;font-size:12px;margin-top:28px;">© 2026 BuildnWrite. All rights reserved.</p></div>';
+    MailApp.sendEmail({
+      to: match.email,
+      subject: '[유튜브 챌린지] 사이클 ' + match.cycle + ' 기획안 AI 검토 도착',
+      htmlBody: html,
+      name: 'BuildnWrite 유튜브 챌린지'
+    });
+    return true;
+  } catch (err) {
+    Logger.log('review mail failed: ' + String(err && err.message || err));
+    return false;
+  }
 }
 
 // Gemini 응답은 마크다운으로 온다. 메일에서 기호가 그대로 보이지 않도록 최소 변환한다.
