@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.ggplab.ytc-review</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/bin/zsh</string>
+		<string>-lc</string>
+		<string>exec /Users/mac_mini/Projects/youtube-challenge/system/review-worker/review-worker.sh</string>
+	</array>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>HOME</key>
+		<string>/Users/mac_mini</string>
+		<key>PATH</key>
+		<string>/Users/mac_mini/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+	</dict>
+	<key>StartInterval</key>
+	<integer>600</integer>
+	<key>StandardOutPath</key>
+	<string>/Users/mac_mini/.config/ytc-review/launchd.out.log</string>
+	<key>StandardErrorPath</key>
+	<string>/Users/mac_mini/.config/ytc-review/launchd.err.log</string>
+</dict>
+</plist>
