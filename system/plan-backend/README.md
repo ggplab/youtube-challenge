@@ -21,9 +21,9 @@ Google Apps Script Web App + 구글시트. `/plan/`의 채널 한 장 기획서�
 | 기존 | `POST /exec` | 채널 한 장 기획서를 email 기준 upsert하고 확인 메일 발송 | `{ok, resubmit}` |
 | 기존 | `GET /exec?action=gallery&t=<공유토큰>` | plans 참여자 갤러리. email·수정토큰 제외, `__` 접두 이름 필터 | `{ok, plans}` |
 | 기존 | `GET /exec?action=mine&edit=<개인토큰>` | plans 본인 제출분 반환(재제출 프리필) | `{ok, plan}` |
-| 추가 | `POST /exec` + body `form: "proposal"` | email+cycle 기준 기획안 upsert, 확인 메일 발송. AI 검토는 워커가 비동기 처리 | `{ok, resubmit, review:"queued"}` |
+| 추가 | `POST /exec` + body `form: "proposal"` | email+cycle 기준 기획안 upsert. **제출 시점 메일 없음** — 워커의 검토 완료 시 접수 전문+AI 검토를 한 통으로 발송 | `{ok, resubmit, review:"queued"}` |
 | 워커 | `GET /exec?action=review-pending&t=<워커토큰>` | 미검토 기획안 목록(edit_token 포함, 이메일 제외, `__` 행 포함). **갤러리 토큰으로는 열리지 않는다** | `{ok, pending}` |
-| 워커 | `POST /exec` + body `form: "review", t:<워커토큰>` | ai_review 저장(빈 값 거부, submit_count 불일치 시 stale 스킵) + 검토 메일 발송 | `{ok, stale, mailed}` |
+| 워커 | `POST /exec` + body `form: "review", t:<워커토큰>` | ai_review 저장(빈 값 거부, submit_count 불일치 시 stale 스킵) + **접수 전문+검토 통합 확인 메일** 발송 | `{ok, stale, mailed}` |
 | 워커 | `GET /exec?action=worker-token-mail&t=<공유토큰>` | WORKER_TOKEN을 운영자 메일로만 발송 (부트스트랩) | `{ok, mailed_to_operator}` |
 | 추가 | `GET /exec?action=proposals&t=<공유토큰>` | 사이클 기획안 전체 목록. email·수정토큰 제외, cycle 포함 | `{ok, proposals}` |
 | 추가 | `GET /exec?action=proposal-mine&edit=<개인토큰>` | 해당 수정토큰의 기획안 반환(재제출 프리필) | `{ok, proposal}` |

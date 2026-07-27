@@ -73,14 +73,14 @@ curl -sL 'https://script.google.com/macros/s/AKfycbwKhHRacGbizn9nDf4go0yWjuj4tfi
 - JSON 안에 줄바꿈이 필요하면 `\n`으로 이스케이프하세요.
 - 성공 응답: `{"ok":true,"resubmit":false,"review":"queued"}`
   - `resubmit: true` — 같은 사이클에 이미 낸 적이 있어 갱신된 것입니다.
-  - `review: "queued"` — AI 검토는 접수 메일과 별도로, 몇 분~몇십 분 내 다른 메일로 발송됩니다.
+  - `review: "queued"` — 확인 메일은 AI 검토를 마친 뒤 한 통으로 발송됩니다 (보통 몇 분, 길면 수십 분).
 - 실패 응답: `{"ok":false,"error":"...")` — 오류 메시지를 사용자에게 그대로 전하세요.
 
 ## STEP 6. 마무리
 
 제출이 성공하면 사용자에게 알려주세요.
 
-- 입력한 이메일로 **제출 내용 전문 · 수정 링크 · 갤러리 링크**가 발송되고, **AI 검토 결과는 별도 메일로 순차 도착**합니다.
+- 입력한 이메일로 **제출 내용 전문 · AI 검토 결과 · 수정 링크 · 갤러리 링크**가 담긴 확인 메일이 **한 통으로** 도착합니다 (AI 검토 완료 후 발송 — 보통 몇 분, 길면 수십 분).
 - 제출 현황은 https://challenge.buildnwrite.com 에서 바로 확인됩니다.
 - 마감 전까지 같은 사이클로 몇 번이든 다시 제출할 수 있습니다.
 

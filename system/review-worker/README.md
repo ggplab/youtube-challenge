@@ -6,13 +6,14 @@
 ## 흐름
 
 ```
-참가자 제출 → GAS: 저장 + 접수 메일("AI 검토는 별도 메일로 순차 발송")
+참가자 제출 → GAS: 저장만 (제출 시점 메일 없음)
 맥미니 launchd(10분 주기) → GET action=review-pending&t=<WORKER_TOKEN>
   → 건별 claude -p --model sonnet (빈 스크래치 cwd + 전 툴 차단)
-  → POST form:"review" → GAS: ai_review 저장 + 검토 메일 발송
+  → POST form:"review" → GAS: ai_review 저장 + 접수 전문+검토 통합 확인 메일 발송
 ```
 
 실패(claude 비정상 종료·빈 출력·재제출 경합 stale)는 **저장하지 않고 다음 주기에 자동 재시도**된다.
+주의: 확인 메일이 검토에 묶여 있으므로, 검토가 계속 실패하면 참가자는 메일을 못 받는다 — `action=diag`의 `review_pending`이 감시 지표.
 
 ## 파일
 

@@ -354,9 +354,9 @@ function handleProposalPost_(body) {
     lock.releaseLock();
   }
 
-  // AI 검토는 동기 호출하지 않는다 — 맥미니 워커가 review-pending을 폴링해
-  // claude로 검토를 생성하고 form:"review"로 저장하면 그때 검토 메일이 별도 발송된다.
-  sendProposalConfirmMail_(row, editToken, submitCount);
+  // 제출 시점에는 메일을 보내지 않는다 — 맥미니 워커가 review-pending을 폴링해
+  // claude로 검토를 생성·저장하면, 그때 접수 전문 + AI 검토를 한 통으로 발송한다.
+  // (검토가 계속 실패하면 메일도 밀린다 — 미검토 건수는 action=diag의 review_pending으로 감시)
   return json_({ ok: true, resubmit: submitCount > 1, review: 'queued' });
 }
 
@@ -637,66 +637,47 @@ function sendConfirmMail_(row, editToken, submitCount) {
   });
 }
 
-function sendProposalConfirmMail_(row, editToken, submitCount) {
-  var galleryUrl = SITE + '/submit/gallery/?t=' + galleryToken_();
-  var editUrl = SITE + '/submit/?edit=' + editToken;
-  var isResubmit = submitCount > 1;
-
-  var itemsHtml = [
-    ['사이클', '사이클 ' + row.cycle],
-    ['타깃 시청자', row.target],
-    ['영상 주제', row.topic],
-    ['구성 개요', row.structure],
-    ['참고 링크', row.links]
-  ].map(function (pair) {
-    var val = pair[1] ? escHtml_(pair[1]).replace(/\n/g, '<br>') : '<span style="color:#999">(미작성)</span>';
-    return '<tr><td style="padding:10px 12px;border-bottom:1px solid #eee;vertical-align:top;width:150px;font-weight:700;color:#334;">'
-      + pair[0] + '</td><td style="padding:10px 12px;border-bottom:1px solid #eee;color:#222;">' + val + '</td></tr>';
-  }).join('');
-
-  var html =
-    '<div style="font-family:-apple-system,\'Apple SD Gothic Neo\',\'Malgun Gothic\',sans-serif;max-width:640px;margin:0 auto;color:#1a1a1a;">'
-    + '<h2 style="margin:24px 0 4px;">' + escHtml_(row.name) + '님, 사이클 ' + escHtml_(row.cycle) + ' 기획안이 ' + (isResubmit ? '다시 ' : '') + '접수됐습니다 📮</h2>'
-    + '<p style="color:#555;line-height:1.7;">아래는 제출하신 내용 전문입니다. <b>AI 검토는 별도 메일로 순차 발송됩니다.</b><br>수정 링크에서 같은 사이클 기획안을 얼마든지 다듬어 다시 제출할 수 있어요.</p>'
-    + '<div style="margin:20px 0;">'
-    + '<a href="' + galleryUrl + '" style="display:inline-block;background:#2563EB;color:#fff;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700;margin-right:8px;">👀 기획안 갤러리 보기</a>'
-    + '<a href="' + editUrl + '" style="display:inline-block;background:#f1f5f9;color:#2563EB;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700;">✏️ 내 기획안 수정하기</a>'
-    + '</div>'
-    + '<table style="border-collapse:collapse;width:100%;border:1px solid #eee;border-radius:8px;">' + itemsHtml + '</table>'
-    + '<p style="color:#888;font-size:13px;line-height:1.7;margin-top:20px;">갤러리와 수정 링크는 챌린지 참여자 전용입니다. 외부에 공유하지 말아주세요.</p>'
-    + '<p style="color:#bbb;font-size:12px;margin-top:28px;">© 2026 BuildnWrite. All rights reserved.</p>'
-    + '</div>';
-
-  MailApp.sendEmail({
-    to: row.email,
-    subject: '[유튜브 챌린지] 사이클 ' + row.cycle + ' 기획안 ' + (isResubmit ? '재' : '') + '접수',
-    htmlBody: html,
-    name: 'BuildnWrite 유튜브 챌린지'
-  });
-}
-
-/** 검토 저장 직후 제출자 본인에게만 발송. 실패해도 저장은 유지 — Logger로만 남긴다. */
+/**
+ * 접수 전문 + AI 검토를 한 통으로 발송 (검토 저장 직후, 제출자 본인에게만).
+ * 제출 시점에는 메일이 없으므로 이 메일이 유일한 확인 메일이다.
+ * 실패해도 저장은 유지 — Logger로만 남긴다.
+ */
 function sendReviewMail_(match, aiReview, editToken) {
   try {
     var editUrl = SITE + '/submit/?edit=' + editToken;
     var galleryUrl = SITE + '/submit/gallery/?t=' + galleryToken_();
+    var isResubmit = Number(match.submit_count) > 1;
+
+    var itemsHtml = [
+      ['사이클', '사이클 ' + match.cycle],
+      ['타깃 시청자', match.target],
+      ['영상 주제', match.topic],
+      ['구성 개요', match.structure],
+      ['참고 링크', match.links]
+    ].map(function (pair) {
+      var val = pair[1] ? escHtml_(pair[1]).replace(/\n/g, '<br>') : '<span style="color:#999">(미작성)</span>';
+      return '<tr><td style="padding:10px 12px;border-bottom:1px solid #eee;vertical-align:top;width:150px;font-weight:700;color:#334;">'
+        + pair[0] + '</td><td style="padding:10px 12px;border-bottom:1px solid #eee;color:#222;">' + val + '</td></tr>';
+    }).join('');
+
     var html =
       '<div style="font-family:-apple-system,\'Apple SD Gothic Neo\',\'Malgun Gothic\',sans-serif;max-width:640px;margin:0 auto;color:#1a1a1a;">'
-      + '<h2 style="margin:24px 0 4px;">' + escHtml_(match.name) + '님, 사이클 ' + escHtml_(match.cycle) + ' 기획안 AI 검토가 도착했습니다 🔎</h2>'
-      + '<p style="color:#555;line-height:1.7;">제출하신 <b>' + escHtml_(match.topic || '기획안') + '</b>에 대한 검토입니다.<br>'
-      + '반영해서 마감 전까지 얼마든지 다시 제출할 수 있어요.</p>'
-      + '<div style="margin-top:18px;padding:18px 20px;background:#f6f5f4;border:1px solid #ddd;border-radius:10px;">'
-      + '<h3 style="margin:0 0 10px;font-size:16px;color:#1D4ED8;">AI 기획안 검토</h3>'
-      + '<div style="line-height:1.75;color:#222;">' + mdToHtml_(aiReview) + '</div></div>'
+      + '<h2 style="margin:24px 0 4px;">' + escHtml_(match.name) + '님, 사이클 ' + escHtml_(match.cycle) + ' 기획안이 ' + (isResubmit ? '다시 ' : '') + '접수됐습니다 📮</h2>'
+      + '<p style="color:#555;line-height:1.7;">아래는 제출하신 내용 전문과 AI 검토 결과입니다.<br>'
+      + '반영해서 마감 전까지 얼마든지 다듬어 다시 제출할 수 있어요.</p>'
       + '<div style="margin:20px 0;">'
       + '<a href="' + editUrl + '" style="display:inline-block;background:#2563EB;color:#fff;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700;margin-right:8px;">✏️ 기획안 다듬어 재제출</a>'
       + '<a href="' + galleryUrl + '" style="display:inline-block;background:#f1f5f9;color:#2563EB;text-decoration:none;padding:11px 18px;border-radius:8px;font-weight:700;">👀 기획안 갤러리</a>'
       + '</div>'
-      + '<p style="color:#888;font-size:13px;line-height:1.7;">갤러리와 수정 링크는 챌린지 참여자 전용입니다. 외부에 공유하지 말아주세요.</p>'
+      + '<table style="border-collapse:collapse;width:100%;border:1px solid #eee;border-radius:8px;">' + itemsHtml + '</table>'
+      + '<div style="margin-top:22px;padding:18px 20px;background:#f6f5f4;border:1px solid #ddd;border-radius:10px;">'
+      + '<h3 style="margin:0 0 10px;font-size:16px;color:#1D4ED8;">AI 기획안 검토</h3>'
+      + '<div style="line-height:1.75;color:#222;">' + mdToHtml_(aiReview) + '</div></div>'
+      + '<p style="color:#888;font-size:13px;line-height:1.7;margin-top:20px;">갤러리와 수정 링크는 챌린지 참여자 전용입니다. 외부에 공유하지 말아주세요.</p>'
       + '<p style="color:#bbb;font-size:12px;margin-top:28px;">© 2026 BuildnWrite. All rights reserved.</p></div>';
     MailApp.sendEmail({
       to: match.email,
-      subject: '[유튜브 챌린지] 사이클 ' + match.cycle + ' 기획안 AI 검토 도착',
+      subject: '[유튜브 챌린지] 사이클 ' + match.cycle + ' 기획안 ' + (isResubmit ? '재' : '') + '접수 — AI 검토 포함',
       htmlBody: html,
       name: 'BuildnWrite 유튜브 챌린지'
     });
